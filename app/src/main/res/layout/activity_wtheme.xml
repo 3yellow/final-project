@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Wtheme">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="100dp">
+
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="1000dp"
+            android:layout_height="70dp"
+            android:text="文字"
+            android:background="#2190c5"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.381" />
+
+        <Button
+            android:id="@+id/btn_function"
+            android:layout_width="1000dp"
+            android:layout_height="70dp"
+            android:background="#70b9dc"
+            android:onClick="function"
+            android:text="壹.腎臟功能簡介"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btn_reason"
+            android:layout_width="1000dp"
+            android:layout_height="70dp"
+            android:background="#70b9dc"
+            android:onClick="rea"
+            android:text="貳.腎衰竭原因"
+            android:textSize="30sp" />
+        <Button
+            android:id="@+id/btn_treatment"
+            android:layout_width="1000dp"
+            android:layout_height="70dp"
+            android:background="#70b9dc"
+            android:text="參.腎功能衰竭的治療方式"
+            android:textSize="30sp" />
+        <Button
+            android:id="@+id/btn_protection"
+            android:layout_width="1000dp"
+            android:layout_height="70dp"
+            android:background="#70b9dc"
+            android:text="肆.血液透析治療照護"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/button11"
+            android:layout_width="1000dp"
+            android:layout_height="70dp"
+            android:onClick="V"
+            android:text="影片"
+            android:background="#2190c5"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.586" />
+    </LinearLayout>
+</ScrollView>

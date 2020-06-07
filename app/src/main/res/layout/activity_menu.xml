@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="10dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="150dp">
+
+        <EditText
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:textSize="35dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:onClick="nwedata"
+            android:text="新增"
+            android:textSize="35dp" />
+
+        <TextView
+            android:id="@+id/tex_nurse_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="600dp"
+            android:onClick="onclick"
+            android:text="登入中"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="999dp"
+        android:layout_height="1997dp"
+        android:orientation="vertical"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="150dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="684dp"
+                android:layout_height="58dp"
+                android:text="   姓名\t\t\t\t\t\t\t\t身分證\t\t\t\t\t\t\t\目前狀趟"
+                android:textSize="35dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="\t\t\t\t\t變更資料  "
+                android:textSize="35dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="700dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="1000dp"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="999dp"
+                    android:layout_height="1500dp"
+                    android:layout_marginTop="20dp"
+                    android:shrinkColumns="0"
+                    android:stretchColumns="1"
+                    android:id="@+id/tbl">
+                    <TableRow
+                        android:id="@+id/tbr">
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <!-- 版本不同，七樓的版本要加這個
+     <AlertDialog
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textSize="30dp"/> -->
+</LinearLayout>
