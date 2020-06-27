@@ -91,7 +91,8 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         eId=edt_id.getText().toString();
         eId=eId.toUpperCase();
 
-        iId=vreifyId(eId);
+        //iId=vreifyId(eId);
+        iId = Boolean.TRUE;
         iAge=isInteger(edt_age.getText().toString());
         flag=searchData(edt_id.getText().toString(),flag);
 
