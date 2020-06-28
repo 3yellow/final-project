@@ -48,7 +48,8 @@ public class nurse_modify extends AppCompatActivity {
         flag=pas1.compareTo(edt_pas2.getText().toString());
         eId=edt_id.getText().toString();
         eId=eId.toUpperCase();
-        iId=vreifyId(eId);
+        iId=Boolean.TRUE;
+//        iId=vreifyId(eId);
         if (flag!=0) {
             textView7.setText("兩個密碼輸入同");
         }
