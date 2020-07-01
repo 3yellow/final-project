@@ -69,8 +69,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     public void onDay(View v){
 
         // c = new Calendar.getInstance();
-        mYear=cal.get(Calendar.YEAR);
-        mMonth=cal.get(Calendar.MONTH);
+        //mYear=cal.get(Calendar.YEAR);
         mDay=cal.get(Calendar.DAY_OF_MONTH);
         new DatePickerDialog(Newdata.this, new DatePickerDialog.OnDateSetListener() {
             @Override
