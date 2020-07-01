@@ -76,13 +76,14 @@
             android:layout_width="999dp"
             android:layout_height="58dp"
             android:orientation="horizontal">
-        <Button
-            android:id="@+id/id_theme1"
-            android:layout_width="433dp"
-            android:layout_height="58dp"
-            android:text="   主題1   "
-            android:textSize="35dp"
-            android:onClick="theme_1"/>
+
+            <Button
+                android:id="@+id/id_theme1"
+                android:layout_width="433dp"
+                android:layout_height="58dp"
+                android:onClick="tofronttest"
+                android:text="   主題1   "
+                android:textSize="35dp" />
 
         <TextView
             android:layout_marginLeft="80dp"
@@ -102,10 +103,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/id_theme2"
                 android:layout_width="433dp"
                 android:layout_height="58dp"
+                android:onClick="tofronttest"
                 android:text="   主題2   "
                 android:textSize="35dp" />
 
