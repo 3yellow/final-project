@@ -22,21 +22,19 @@ public class fronttest4 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fronttest4);
-        TextView Que=(TextView)findViewById(R.id.Question);
-        final TextView YAns=(TextView)findViewById(R.id.YourAns);
-        final TextView Als=(TextView)findViewById(R.id.Analysis);
-        final RadioGroup ans=(RadioGroup)findViewById(R.id.Ans);
-        final ScrollView scroll=(ScrollView)findViewById(R.id.roll);
-        final Button next=(Button)findViewById(R.id.button12);
+        TextView Que = (TextView) findViewById(R.id.Question);
+        final TextView YAns = (TextView) findViewById(R.id.YourAns);
+        final TextView Als = (TextView) findViewById(R.id.Analysis);
+        final RadioGroup ans = (RadioGroup) findViewById(R.id.Ans);
+        final ScrollView scroll = (ScrollView) findViewById(R.id.roll);
+        final Button next = (Button) findViewById(R.id.button12);
         Button dialog = (Button) findViewById(R.id.button);
 
 
+        Que.setText("4.血液透析室使用的消毒藥械、一次性醫療器械和器具應當符合國家有關規定。一次性使用的醫療器械、器具_____");
+        final String[] Choi = {"A.不得重複使用", "B.可以重複使用", "C.部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌", "D.應進行可回收利用", "A.不得重複使用"};
 
-        Que.setText("4.血液透析急性并发征不包括：");
-        final String[] Choi={"A.发热","B.肌肉痉挛","C.失衡综合征","D.透析性骨病","D.透析性骨病"};
-
-        for(int i=0; i<4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             RadioButton tempButton = new RadioButton(this);
             tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
             tempButton.setText(Choi[i]);
@@ -47,17 +45,20 @@ public class fronttest4 extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // TODO Auto-generated method stub
-                RadioButton tempButton = (RadioButton)findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
+                RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
                 // 以下就可以对这个RadioButton进行处理了
-                YAns.setText("您的答案："+tempButton.getText());
-                if(tempButton.getText()==Choi[4])
-                    result=true;
+                YAns.setText("您的答案：" + tempButton.getText());
+                YAns.setVisibility(View.VISIBLE);
+                next.setVisibility(View.VISIBLE);
+                if (tempButton.getText() == Choi[4])
+                    result = true;
                 else
-                    result=false;
+                    result = false;
             }
         });
+    }
 
-        Als.setText("正確答案："+Choi[4]+"\n"+
+        /*Als.setText("正確答案："+Choi[4]+"\n"+
                 "急性并发症分為：\n"+
                 "    透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。\n" +
                 "\n"+
@@ -82,11 +83,7 @@ public class fronttest4 extends AppCompatActivity {
 
 
     private void showDialog(){
-        /* @setIcon 设置对话框图标
-         * @setTitle 设置对话框标题
-         * @setMessage 设置对话框消息提示
-         * setXXX方法返回Dialog对象，因此可以链式设置属性
-         */
+
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(fronttest4.this);
         normalDialog.setIcon(R.drawable.ic_launcher_background);
@@ -111,7 +108,7 @@ public class fronttest4 extends AppCompatActivity {
                 });
         // 显示
         normalDialog.show();
-    }
+    }*/
     public void tofronttest5(View v){
         Intent i=new Intent(fronttest4.this,fronttest5.class);
         startActivity(i);

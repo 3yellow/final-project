@@ -13,8 +13,8 @@ public class choose_education extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_education);
     }
-    public void theme_1(View v){
-        Intent i =new Intent(this,Wtheme.class);
+    public void tofronttest(View v){
+        Intent i =new Intent(this,fronttest.class);
         startActivity(i);
     }
 }
