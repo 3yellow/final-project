@@ -161,5 +161,6 @@ public class mainview extends View{
     public void onclear()
     {
         mCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
     }
 }
