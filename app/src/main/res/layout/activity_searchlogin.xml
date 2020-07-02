@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edt_search"
                 android:layout_width="129dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -40,6 +40,7 @@
                 android:layout_width="42dp"
                 android:layout_height="54dp"
                 android:background="#00ffffff"
+                android:onClick="search"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/searchicon" />
         </LinearLayout>
@@ -137,4 +138,4 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>
