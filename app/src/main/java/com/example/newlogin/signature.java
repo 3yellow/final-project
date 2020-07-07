@@ -24,7 +24,7 @@ public class signature extends AppCompatActivity {
         mainV.onclear();
     }
     public void W(View v){
-        Intent i=new Intent(signature.this,Wtheme.class);
+        Intent i=new Intent(signature.this,choose_education.class);
         startActivity(i);
         finish();
     }

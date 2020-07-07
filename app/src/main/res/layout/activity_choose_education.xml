@@ -3,128 +3,139 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    >
+    android:background="@drawable/wave1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:orientation="horizontal"></LinearLayout>
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
-            <TableRow
-                android:layout_width="match_parent"
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="133dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50sp"
+                android:text="姓名"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tex_nurse_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50sp"
-                    android:text="姓名"
-                    android:textSize="30sp" />
-
-                <TextView
-                    android:id="@+id/tex_nurse_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="800dp"
-                    android:text="登入中"
-                    android:textSize="25sp" />
-            </TableRow>
+                android:layout_marginLeft="800dp"
+                android:text="登入中"
+                android:textSize="25sp" />
+        </TableRow>
 
     </TableLayout>
+
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
         android:orientation="horizontal">
-        <TableRow
-            android:layout_width="999dp"
-            android:layout_height="58dp"
-            android:orientation="horizontal">
-                <TextView
-                    android:layout_width="433dp"
-                    android:layout_height="58dp"
-                    android:text="   衛教主題   "
-                    android:textSize="35dp" />
 
-                <TextView
-                    android:layout_width="313dp"
-                    android:layout_height="58dp"
-                    android:text="   日期   "
-                    android:textSize="35dp" />
-
-                <TextView
-                    android:layout_width="253dp"
-                    android:layout_height="58dp"
-                    android:text="   測驗分數   "
-                    android:textSize="35dp" />
-            </TableRow>
-
-    </TableLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="1578dp"
-        android:layout_marginLeft="50dp">
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:orientation="horizontal">
         <TableRow
             android:layout_width="999dp"
             android:layout_height="58dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/id_theme1"
+            <TextView
                 android:layout_width="433dp"
                 android:layout_height="58dp"
-                android:onClick="tofronttest"
-                android:text="   主題1   "
-                android:textSize="35dp" />
-
-        <TextView
-            android:layout_marginLeft="80dp"
-            android:layout_width="313dp"
-            android:layout_height="58dp"
-            android:text=" 20200415 "
-            android:textSize="35dp" />
-
-        <TextView
-            android:layout_width="253dp"
-            android:layout_height="58dp"
-            android:text="   80   "
-            android:textSize="35dp" />
-    </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/id_theme2"
-                android:layout_width="433dp"
-                android:layout_height="58dp"
-                android:onClick="tofronttest"
-                android:text="   主題2   "
+                android:text="   衛教主題   "
                 android:textSize="35dp" />
 
             <TextView
                 android:layout_width="313dp"
                 android:layout_height="58dp"
-                android:text=" 20200215 "
-                android:layout_marginLeft="80dp"
+                android:text="   日期   "
                 android:textSize="35dp" />
 
             <TextView
                 android:layout_width="253dp"
                 android:layout_height="58dp"
-                android:text="   100  "
+                android:text="   測驗分數   "
                 android:textSize="35dp" />
         </TableRow>
+
+    </TableLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp">
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal">
+
+            <TableRow
+                android:layout_width="999dp"
+                android:layout_height="58dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/id_theme1"
+                    android:layout_width="433dp"
+                    android:layout_height="58dp"
+                    android:onClick="tofronttest"
+                    android:text="   主題1   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:layout_width="313dp"
+                    android:layout_height="58dp"
+                    android:layout_marginLeft="80dp"
+                    android:text=" 20200415 "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:layout_width="253dp"
+                    android:layout_height="58dp"
+                    android:text="   80   "
+                    android:textSize="35dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/id_theme2"
+                    android:layout_width="433dp"
+                    android:layout_height="58dp"
+                    android:onClick="tofronttest"
+                    android:text="   主題2   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:layout_width="313dp"
+                    android:layout_height="58dp"
+                    android:layout_marginLeft="80dp"
+                    android:text=" 20200215 "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:layout_width="253dp"
+                    android:layout_height="58dp"
+                    android:text="   100  "
+                    android:textSize="35dp" />
+            </TableRow>
         </TableLayout>
     </ScrollView>
 </LinearLayout>

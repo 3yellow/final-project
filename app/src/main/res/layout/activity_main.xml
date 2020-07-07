@@ -9,82 +9,89 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login"
-        android:orientation="vertical">
+        android:background="@drawable/mainbg"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="78dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="horizontal"></LinearLayout>
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="171dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="290dp">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="300dp"
+            android:layout_height="151dp"
+            android:layout_marginTop="290dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="帳號："
-                android:textSize="36sp" />
+                android:layout_marginRight="300dp"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="126dp"
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="207dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="帳號："
+                    android:textSize="36sp" />
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="75dp"
+                    android:layout_height="50dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:textSize="24sp" />
+                android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="75dp"
-                android:layout_height="50dp" />
-        </TableRow>
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="207dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="密碼："
+                    android:textSize="36sp" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/editText2"
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="密碼："
-                android:textSize="36sp" />
-
-            <EditText
-                android:id="@+id/editText2"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:textSize="24sp" />
-
-            <ImageButton
-                android:id="@+id/change"
-                android:layout_width="74dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                android:scaleType="fitStart"
-                app:srcCompat="@drawable/eye" />
-        </TableRow>
+                <ImageButton
+                    android:id="@+id/change"
+                    android:layout_width="178dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#00FFFFFF"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/eye" />
+            </TableRow>
         </TableLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="101dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"></LinearLayout>
 
         <LinearLayout
@@ -93,8 +100,8 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="138dp"
-                android:layout_height="match_parent"
+                android:layout_width="337dp"
+                android:layout_height="43dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"></LinearLayout>
 
@@ -103,13 +110,13 @@
                 android:layout_width="135dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/shape"
+                android:background="@drawable/shape2"
                 android:onClick="back"
                 android:text="後臺管理"
                 android:textSize="30sp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="65dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal"></LinearLayout>
@@ -119,13 +126,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/shape"
+                android:background="@drawable/shape2"
                 android:onClick="choicepatient"
                 android:text="病人管理"
                 android:textSize="30sp" />
 
             <LinearLayout
-                android:layout_width="272dp"
+                android:layout_width="322dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal"></LinearLayout>
