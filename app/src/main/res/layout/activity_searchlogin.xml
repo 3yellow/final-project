@@ -17,13 +17,13 @@
             android:orientation="vertical"></LinearLayout>
 
         <LinearLayout
-            android:layout_width="129dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/edt_search"
-                android:layout_width="129dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -46,8 +46,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -57,12 +57,12 @@
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="69dp"
-                android:layout_height="36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/shape"
                 android:onClick="insertpaient"
                 android:text="新增"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:typeface="sans" />
         </LinearLayout>
 
@@ -127,8 +127,8 @@
                 <TableLayout
                     android:id="@+id/tbl"
                     android:layout_width="999dp"
-                    android:layout_height="1500dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="800dp"
+
                     android:shrinkColumns="0"
                     android:stretchColumns="1">
 

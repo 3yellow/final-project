@@ -112,6 +112,9 @@ public class fronttest4 extends AppCompatActivity {
     }*/
     public void tofronttest5(View v){
         Intent i=new Intent(fronttest4.this,fronttest5.class);
+        int flag=0;
+        flag=i.getIntExtra("flag",0);
+        i.putExtra("flag",flag);
         startActivity(i);
         finish();
     }

@@ -111,7 +111,15 @@ public class fronttest5 extends AppCompatActivity {
         normalDialog.show();
     }*/
     public void toreaddata(View v){
-        Intent i=new Intent(fronttest5.this,readpdf.class);
+        Intent i=new Intent();
+        int flag=0;
+        flag=i.getIntExtra("flag",0);
+        if (flag==1){
+            i=new Intent(fronttest5.this,kindney_function.class);
+        }
+        else {
+            i=new Intent(fronttest5.this,kidney_reason.class);
+        }
         startActivity(i);
         finish();
     }

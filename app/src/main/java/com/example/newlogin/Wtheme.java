@@ -18,11 +18,13 @@ public class Wtheme extends AppCompatActivity {
         startActivity(i);
     }
     public void function(View v){
-        Intent i=new Intent(Wtheme.this,kindney_function.class);
+        Intent i=new Intent(Wtheme.this,fronttest.class);
+        i.putExtra("flag", 1);
         startActivity(i);
     }
     public void rea(View v){
-        Intent i=new Intent(Wtheme.this,kidney_reason.class);
+        Intent i=new Intent(Wtheme.this,fronttest.class);
+        i.putExtra("flag", 2);
         startActivity(i);
     }
 }
