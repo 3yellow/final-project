@@ -111,6 +111,9 @@ public class fronttest2 extends AppCompatActivity {
     }*/
     public void tofronttest3(View v){
         Intent i=new Intent(fronttest2.this,fronttest3.class);
+        int flag=0;
+        flag=i.getIntExtra("flag",0);
+        i.putExtra("flag",flag);
         startActivity(i);
         finish();
     }

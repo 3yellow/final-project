@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/wave1"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,15 +93,15 @@
     <LinearLayout
         android:layout_width="999dp"
         android:layout_height="1997dp"
-        android:layout_marginLeft="150dp"
+        android:orientation="vertical"
         android:layout_marginTop="80dp"
-        android:orientation="vertical">
+        android:layout_marginLeft="150dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:orientation="horizontal">
-
+            android:orientation="horizontal"
+            >
             <TextView
                 android:layout_width="684dp"
                 android:layout_height="58dp"
@@ -128,7 +129,7 @@
                     android:id="@+id/tbl"
                     android:layout_width="999dp"
                     android:layout_height="800dp"
-
+                    android:layout_marginTop="20dp"
                     android:shrinkColumns="0"
                     android:stretchColumns="1">
 

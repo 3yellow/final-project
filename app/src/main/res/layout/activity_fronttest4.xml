@@ -87,8 +87,8 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="801dp"
-                android:layout_height="match_parent"
+                android:layout_width="921dp"
+                android:layout_height="73dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 

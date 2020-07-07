@@ -59,6 +59,7 @@
                     android:layout_width="233dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="tofronttest2"
                     android:text="確認"
                     android:textSize="24sp" />
             </LinearLayout>
@@ -73,7 +74,7 @@
                     android:id="@+id/button12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="tobacktest2"
+                    android:onClick="tofronttest2"
                     android:text="下一題"
                     android:textSize="24sp"
                     android:visibility="invisible" />
