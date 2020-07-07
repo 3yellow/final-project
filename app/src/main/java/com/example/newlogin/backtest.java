@@ -113,7 +113,7 @@ public class backtest extends AppCompatActivity {
         // 显示
         normalDialog.show();
     }
-    public void tobacktest3(View v){
+    public void tobacktest2(View v){
         Intent i=new Intent(backtest.this,backtest2.class);
         startActivity(i);
         finish();
