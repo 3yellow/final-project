@@ -38,6 +38,7 @@ public class backtest3 extends AppCompatActivity {
             RadioButton tempButton = new RadioButton(this);
             tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
             tempButton.setText(Choi[i]);
+            tempButton.setTextSize(1,30);
             ans.addView(tempButton, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         }
         ans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
