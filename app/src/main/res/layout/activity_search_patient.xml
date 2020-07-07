@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="92dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edt_search"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="42dp"
+                android:layout_height="54dp"
+                android:background="#00ffffff"
+                android:onClick="search"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/searchicon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="13dp"
+                android:orientation="horizontal"></LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape"
+                android:onClick="insertpaient"
+                android:text="新增"
+                android:textSize="20sp"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="191dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+
+                android:layout_width="233dp"
+                android:layout_height="59dp"
+                android:gravity="center|right|center_horizontal"
+                android:onClick="onclick"
+                android:text="登入"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="999dp"
+        android:layout_height="1997dp"
+        android:orientation="vertical"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="150dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="684dp"
+                android:layout_height="58dp"
+                android:text="   姓名\t\t\t\t\t\t\t\t身分證\t\t\t\t\t\t\t\收案日期"
+                android:textSize="35dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:text="\t\t\t\t\t變更資料  "
+                android:textSize="35dp" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="700dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="1000dp"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:id="@+id/tbl"
+                    android:layout_width="999dp"
+                    android:layout_height="1000dp"
+                    android:layout_marginTop="20dp"
+                    android:shrinkColumns="0"
+                    android:stretchColumns="1">
+
+                    <TableRow android:id="@+id/tbr"></TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>
