@@ -13,8 +13,12 @@ public class choose_education extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_education);
     }
-    public void tofronttest(View v){
-        Intent i =new Intent(this,fronttest.class);
+    public void function(View v){
+       Intent   i=new Intent( this,kindney_function.class);
+       startActivity(i);
+    }
+    public void reason(View v){
+        Intent i=new Intent( this,kidney_reason.class);
         startActivity(i);
     }
 }

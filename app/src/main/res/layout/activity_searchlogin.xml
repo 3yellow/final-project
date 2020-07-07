@@ -117,7 +117,7 @@
 
         <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="700dp">
+            android:layout_height="400dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -127,8 +127,7 @@
                 <TableLayout
                     android:id="@+id/tbl"
                     android:layout_width="999dp"
-                    android:layout_height="800dp"
-
+                    android:layout_height="470dp"
                     android:shrinkColumns="0"
                     android:stretchColumns="1">
 

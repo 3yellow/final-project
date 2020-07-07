@@ -92,7 +92,7 @@
                     android:id="@+id/id_theme1"
                     android:layout_width="433dp"
                     android:layout_height="58dp"
-                    android:onClick="tofronttest"
+                    android:onClick="function"
                     android:text="   主題1   "
                     android:textSize="35dp" />
 
@@ -119,7 +119,7 @@
                     android:id="@+id/id_theme2"
                     android:layout_width="433dp"
                     android:layout_height="58dp"
-                    android:onClick="tofronttest"
+                    android:onClick="reason"
                     android:text="   主題2   "
                     android:textSize="35dp" />
 
