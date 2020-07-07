@@ -74,7 +74,7 @@
                     android:id="@+id/button12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="tofronttest2"
+                    android:onClick="tobacktest4"
                     android:text="下一題"
                     android:textSize="24sp"
                     android:visibility="invisible" />

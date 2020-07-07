@@ -62,57 +62,57 @@ public class Search_patient extends AppCompatActivity {
             //收尋病人使用 身分證
             String sql = "SELECT * FROM Patient WHERE patient_id = '"+str+"'";
             cu=dbs.rawQuery(sql,null);
+            if (cu.getCount() > 0) {
+                cu.moveToFirst();
+                do {
+                    String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + cu.getString(3);
+                    id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                    String namee = cu.getString(0);
+                    String idd = cu.getString(1);
+                    String agee = cu.getString(2);
+                    final Button button = new Button(this);//final Button
+                    final Button btn_modify = new Button(this);//final Button
+                    TableRow r = new TableRow(this);//final TableRow
+                    //  final ScrollView sc=new ScrollView(this);
+                    // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
+                    r.setLayoutParams(new TableRow.LayoutParams(1520, 80));
+                    button.setLayoutParams(new TableRow.LayoutParams(684, 80));
 
+                    btn_modify.setLayoutParams(new TableRow.LayoutParams(120, 80));
+
+                    button.setTextSize(35);
+                    button.setText(text);
+                    // la.addView(layout2);
+                    btn_modify.setTextSize(35);
+                    btn_modify.setText("修改");
+                    r.addView(button);//yout
+                    r.addView(btn_modify);//yout2
+                    layout2.addView(r);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            Intent i = new Intent(Search_patient.this, choose_education.class);
+                            dbs.close();
+                            startActivity(i);
+                        }
+                    });
+                    btn_modify.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int tmp = btn_modify.getId();
+                            String id_tmp = id_array.get(tmp).toString();
+                            int flag = 1;
+                            Intent intent = new Intent(Search_patient.this, Newdata.class);
+                            intent.putExtra("id", id_tmp);
+                            intent.putExtra("flag", flag);
+                            dbs.close();
+                            startActivity(intent);
+                        }
+                    });
+                } while (cu.moveToNext());
+            }
         }
 
-        if (cu.getCount() > 0) {
-            cu.moveToFirst();
-            do {
-                String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + cu.getString(3);
-                id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
-                String namee = cu.getString(0);
-                String idd = cu.getString(1);
-                String agee = cu.getString(2);
-                final Button button = new Button(this);//final Button
-                final Button btn_modify = new Button(this);//final Button
-                TableRow r = new TableRow(this);//final TableRow
-                //  final ScrollView sc=new ScrollView(this);
-                // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
-                r.setLayoutParams(new TableRow.LayoutParams(1520, 80));
-                button.setLayoutParams(new TableRow.LayoutParams(684, 80));
 
-                btn_modify.setLayoutParams(new TableRow.LayoutParams(120, 80));
-
-                button.setTextSize(35);
-                button.setText(text);
-                // la.addView(layout2);
-                btn_modify.setTextSize(35);
-                btn_modify.setText("修改");
-                r.addView(button);//yout
-                r.addView(btn_modify);//yout2
-                layout2.addView(r);
-                button.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent i = new Intent(Search_patient.this, choose_education.class);
-                        dbs.close();
-                        startActivity(i);
-                    }
-                });
-                btn_modify.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int tmp = btn_modify.getId();
-                        String id_tmp = id_array.get(tmp).toString();
-                        int flag = 1;
-                        Intent intent = new Intent(Search_patient.this, Newdata.class);
-                        intent.putExtra("id", id_tmp);
-                        intent.putExtra("flag", flag);
-                        dbs.close();
-                        startActivity(intent);
-                    }
-                });
-            } while (cu.moveToNext());
-        }
         else {
             final Button button = new Button(this);
             button.setText("沒有找到資料");

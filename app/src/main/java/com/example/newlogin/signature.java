@@ -25,6 +25,7 @@ public class signature extends AppCompatActivity {
     }
     public void W(View v){
         Intent i=new Intent(signature.this,choose_education.class);
+        i.putExtra("flag",1);//要前側
         startActivity(i);
         finish();
     }

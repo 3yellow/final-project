@@ -96,14 +96,14 @@ public class backtest2 extends AppCompatActivity {
             normalDialog.setMessage("恭喜你！回答正確！");
         else
             normalDialog.setMessage("選錯了！快來看看正確答案吧！");
-        normalDialog.setPositiveButton("确定",
+        normalDialog.setPositiveButton("確定",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                     }
                 });
-        normalDialog.setNegativeButton("关闭",
+        normalDialog.setNegativeButton("關閉",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

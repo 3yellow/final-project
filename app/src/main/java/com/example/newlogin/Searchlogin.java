@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -95,6 +96,12 @@ public class Searchlogin extends AppCompatActivity {
     public void search(View v){
         //收尋病人時會轉換頁面
         edt_search = findViewById(R.id.edt_search);
+        for(int x = 0;x<=i;x++)
+        {
+            ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
+            View command = layout.findViewById(x);
+            layout.removeView(command);
+        }
         String s_p = edt_search.getText().toString().trim();
         if (s_p.length()>0)//判斷是否有輸入東西  但還沒改好
         {
@@ -145,6 +152,7 @@ public class Searchlogin extends AppCompatActivity {
                     public void onClick(View v)
                     {
                         Intent i=new Intent(Searchlogin.this,choose_education.class);
+                        i.putExtra("flag",0);//要前側
                         db.close();
                         startActivity(i);
                     }
@@ -158,6 +166,7 @@ public class Searchlogin extends AppCompatActivity {
                         Intent intent=new Intent(Searchlogin.this,Newdata.class);
                         intent.putExtra("id",id_tmp);
                         intent.putExtra("flag",flag);
+
                         db.close();
                         startActivity(intent);
                     }

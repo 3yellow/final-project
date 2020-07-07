@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 public class Wtheme extends AppCompatActivity {
+    Intent i=this.getIntent();
+    int flag=i.getIntExtra("flag",0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,9 @@ public class Wtheme extends AppCompatActivity {
         startActivity(i);
     }
     public void function(View v){
+        if (flag==1){
+            Intent i=new Intent(Wtheme.this,fronttest.class);
+        }
         Intent i=new Intent(Wtheme.this,fronttest.class);
         i.putExtra("flag", 1);
         startActivity(i);

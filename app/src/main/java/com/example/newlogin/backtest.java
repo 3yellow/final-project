@@ -21,7 +21,7 @@ public class backtest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backtest2);
+        setContentView(R.layout.activity_backtest);
         TextView Que=(TextView)findViewById(R.id.Question);
         final TextView YAns=(TextView)findViewById(R.id.YourAns);
         final TextView Als=(TextView)findViewById(R.id.Analysis);
@@ -96,14 +96,14 @@ public class backtest extends AppCompatActivity {
             normalDialog.setMessage("恭喜你！回答正確！");
         else
             normalDialog.setMessage("選錯了！快來看看正確答案吧！");
-        normalDialog.setPositiveButton("确定",
+        normalDialog.setPositiveButton("確定",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //...To-do
                     }
                 });
-        normalDialog.setNegativeButton("关闭",
+        normalDialog.setNegativeButton("關閉",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -113,7 +113,7 @@ public class backtest extends AppCompatActivity {
         // 显示
         normalDialog.show();
     }
-    public void tobacktest3(View v){
+    public void tobacktest2(View v){
         Intent i=new Intent(backtest.this,backtest2.class);
         startActivity(i);
         finish();

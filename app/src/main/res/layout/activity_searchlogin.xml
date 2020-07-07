@@ -40,10 +40,13 @@
                 android:layout_width="42dp"
                 android:layout_height="54dp"
                 android:background="#00ffffff"
-                android:onClick="search"
                 android:scaleType="fitCenter"
+                android:onClick="search"
                 app:srcCompat="@drawable/searchicon" />
         </LinearLayout>
+               <!--
+               !-->
+
 
         <LinearLayout
             android:layout_width="200dp"
