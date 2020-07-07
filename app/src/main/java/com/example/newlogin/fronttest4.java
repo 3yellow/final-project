@@ -48,7 +48,7 @@ public class fronttest4 extends AppCompatActivity {
                 RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
                 // 以下就可以对这个RadioButton进行处理了
                 YAns.setText("您的答案：" + tempButton.getText());
-                YAns.setVisibility(View.VISIBLE);
+              //  YAns.setVisibility(View.VISIBLE);
                 next.setVisibility(View.VISIBLE);
                 if (tempButton.getText() == Choi[4])
                     result = true;

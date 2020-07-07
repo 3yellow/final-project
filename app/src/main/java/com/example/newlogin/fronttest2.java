@@ -31,7 +31,7 @@ public class fronttest2 extends AppCompatActivity {
         Button dialog = (Button) findViewById(R.id.button);
 
 
-        Que.setText("2.血液透析室應當根據設備要求"+"\n"+"定期對水處理系統進行沖洗消毒，"+"\n"+"並定期進行水質檢測。每次沖洗消"+"\n"+"毒後均應_____，確保安全。");
+        Que.setText("2.血液透析室應當根據設備要求定期對水處理系統進行沖洗消毒，並定期進行水質檢測。每次沖洗消毒後均應_____，確保安全。");
         final String[] Choi = {"A.監測水中細菌量","B.測定管路中消毒液殘留量", "C.測定管路壓力", "D.不需要測定任何專案","B.測定管路中消毒液殘留量"};
 
         for (int i = 0; i < 4; i++) {
@@ -48,7 +48,7 @@ public class fronttest2 extends AppCompatActivity {
                 RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
                 // 以下就可以对这个RadioButton进行处理了
                 YAns.setText("您的答案：" + tempButton.getText());
-                YAns.setVisibility(View.VISIBLE);
+               // YAns.setVisibility(View.VISIBLE);
                 next.setVisibility(View.VISIBLE);
                 if (tempButton.getText() == Choi[4])
                     result = true;

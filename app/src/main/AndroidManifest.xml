@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".choose_education"></activity>
+
+
+        <activity android:name=".choose_education" />
         <activity
             android:name=".Backstage_main"
             android:screenOrientation="landscape"

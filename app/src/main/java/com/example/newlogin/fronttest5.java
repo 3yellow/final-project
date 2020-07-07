@@ -31,7 +31,7 @@ public class fronttest5 extends AppCompatActivity {
         Button dialog = (Button) findViewById(R.id.button);
 
 
-        Que.setText("5.血液透析複用用水的常規內毒素檢測應_____至少1次");
+        Que.setText("5.血液透析複用用水的常規內毒素檢測應_____"+"\n"+"至少一次。");
         final String[] Choi = {"A.每天", "B.每週", "C.每月", "D.每季", "D.每季"};
 
         for (int i = 0; i < 4; i++) {
@@ -48,7 +48,7 @@ public class fronttest5 extends AppCompatActivity {
                 RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
                 // 以下就可以对这个RadioButton进行处理了
                 YAns.setText("您的答案：" + tempButton.getText());
-                YAns.setVisibility(View.VISIBLE);
+              //  YAns.setVisibility(View.VISIBLE);
                 next.setVisibility(View.VISIBLE);
                 if (tempButton.getText() == Choi[4])
                     result = true;
