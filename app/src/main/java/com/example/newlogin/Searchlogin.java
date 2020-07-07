@@ -94,22 +94,133 @@ public class Searchlogin extends AppCompatActivity {
     }
 
     public void search(View v){
-        //收尋病人時會轉換頁面
+        Cursor cu=null;
         edt_search = findViewById(R.id.edt_search);
-        for(int x = 0;x<=i;x++)
-        {
-            ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
-            View command = layout.findViewById(x);
-            layout.removeView(command);
-        }
         String s_p = edt_search.getText().toString().trim();
         if (s_p.length()>0)//判斷是否有輸入東西  但還沒改好
         {
-            Intent intent=new Intent(Searchlogin.this,Search_patient.class);
-            intent.putExtra("s_p",s_p);
-            intent.putExtra("flag",1);//這是用來分是按收尋病人的還是一打開頁面就要自動產生按鈕
-            db.close();
-            startActivity(intent);
+            for(int x = 0;x<=i;x++)
+            {
+                ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
+                View command = layout.findViewById(x);
+                layout.removeView(command);
+            }
+            if (s_p.length()==10)//收尋病人使用 身分證
+            {
+                i=0;
+                String sql = "SELECT * FROM Patient WHERE patient_id = '"+s_p+"'";
+                cu=db.rawQuery(sql,null);
+                if (cu.getCount() > 0) {
+                    cu.moveToFirst();
+                    do {
+                        i++;
+                        String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + cu.getString(3);
+                        id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                        String namee = cu.getString(0);
+                        String idd = cu.getString(1);
+                        String agee = cu.getString(2);
+                        final Button button = new Button(this);//final Button
+                        final Button btn_modify = new Button(this);//final Button
+                        TableRow r = new TableRow(this);//final TableRow
+                        //  final ScrollView sc=new ScrollView(this);
+                        // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
+                        r.setLayoutParams(new TableRow.LayoutParams(1520, 80));
+                        button.setLayoutParams(new TableRow.LayoutParams(684, 80));
+
+                        btn_modify.setLayoutParams(new TableRow.LayoutParams(120, 80));
+                        btn_modify.setId(i);
+                        button.setId(i);
+                        r.setId(i);
+                        button.setTextSize(35);
+                        button.setText(text);
+                        // la.addView(layout2);
+                        btn_modify.setTextSize(35);
+                        btn_modify.setText("修改");
+                        r.addView(button);//yout
+                        r.addView(btn_modify);//yout2
+                        layout2.addView(r);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent i = new Intent(Searchlogin.this, choose_education.class);
+                                db.close();
+                                startActivity(i);
+                            }
+                        });
+                        btn_modify.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int tmp = btn_modify.getId();
+                                String id_tmp = id_array.get(tmp).toString();
+                                int flag = 1;
+                                Intent intent = new Intent(Searchlogin.this, Newdata.class);
+                                intent.putExtra("id", id_tmp);
+                                intent.putExtra("flag", flag);
+                                db.close();
+                                startActivity(intent);
+                            }
+                        });
+                    } while (cu.moveToNext());
+                }
+            }
+            else //收尋病人名
+            {
+                i=0;
+                //String sql = "SELECT * FROM Patient  WHERE patient_name = '"+s_p+"'";  收尋名字時 只能找到輸入全名
+                String sql = "SELECT * FROM Patient  WHERE patient_name LIKE '"+s_p+"%'";
+                cu=db.rawQuery(sql,null);
+                if (cu.getCount() > 0) {
+                    cu.moveToFirst();
+                    do {
+                        String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + cu.getString(3);
+                        id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                        String namee = cu.getString(0);
+                        String idd = cu.getString(1);
+                        String agee = cu.getString(2);
+                        final Button button = new Button(this);//final Button
+                        final Button btn_modify = new Button(this);//final Button
+                        TableRow r = new TableRow(this);//final TableRow
+                        //  final ScrollView sc=new ScrollView(this);
+                        // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
+                        r.setLayoutParams(new TableRow.LayoutParams(1520, 80));
+                        button.setLayoutParams(new TableRow.LayoutParams(684, 80));
+
+                        btn_modify.setLayoutParams(new TableRow.LayoutParams(120, 80));
+
+                        button.setTextSize(35);
+                        button.setText(text);
+                        // la.addView(layout2);
+                        btn_modify.setId(i);
+                        button.setId(i);
+                        r.setId(i);
+                        i++;
+                        btn_modify.setTextSize(35);
+                        btn_modify.setText("修改");
+                        r.addView(button);//yout
+                        r.addView(btn_modify);//yout2
+                        layout2.addView(r);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent i = new Intent(Searchlogin.this, choose_education.class);
+                                db.close();
+                                startActivity(i);
+                            }
+                        });
+                        btn_modify.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int tmp = btn_modify.getId();
+                                String id_tmp = id_array.get(tmp).toString();
+                                int flag = 1;
+                                Intent intent = new Intent(Searchlogin.this, Newdata.class);
+                                intent.putExtra("id", id_tmp);
+                                intent.putExtra("flag", flag);
+                                db.close();
+                                startActivity(intent);
+                            }
+                        });
+                    } while (cu.moveToNext());
+                }
+            }
         }
 
     }
