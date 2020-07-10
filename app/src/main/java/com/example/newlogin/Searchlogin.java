@@ -97,14 +97,14 @@ public class Searchlogin extends AppCompatActivity {
         Cursor cu=null;
         edt_search = findViewById(R.id.edt_search);
         String s_p = edt_search.getText().toString().trim();
-        if (s_p.length()>0)//判斷是否有輸入東西  但還沒改好
+        //if (s_p.length()>0)//判斷是否有輸入東西  但還沒改好
+        //{
+        for(int x = 0;x<=i;x++)
         {
-            for(int x = 0;x<=i;x++)
-            {
-                ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
-                View command = layout.findViewById(x);
-                layout.removeView(command);
-            }
+            ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
+            View command = layout.findViewById(x);
+            layout.removeView(command);
+        }
             if (s_p.length()==10)//收尋病人使用 身分證
             {
                 i=0;
@@ -162,8 +162,9 @@ public class Searchlogin extends AppCompatActivity {
                     } while (cu.moveToNext());
                 }
             }
-            else //收尋病人名
+            else if(s_p.length() > 0) //收尋病人名
             {
+
                 i=0;
                 //String sql = "SELECT * FROM Patient  WHERE patient_name = '"+s_p+"'";  收尋名字時 只能找到輸入全名
                 String sql = "SELECT * FROM Patient  WHERE patient_name LIKE '"+s_p+"%'";
@@ -221,7 +222,9 @@ public class Searchlogin extends AppCompatActivity {
                     } while (cu.moveToNext());
                 }
             }
-        }
+            else
+                read();
+        //}
 
     }
 
