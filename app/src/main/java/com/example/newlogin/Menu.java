@@ -12,107 +12,255 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class Menu extends AppCompatActivity {
-    TableLayout layout,layout2;
-    TableRow row;
-    TextView txv;
-    SQLiteDatabase db;
+    static final String Nurse="nurse"; //database table name
 
+    ArrayList id_array= new ArrayList();
+    EditText edt_search;
+    Button btn_search;
+    String namee=null;
+    String idd=null;
+    String agee=null;
+    Intent intent = new Intent();
+    TableLayout layout2;
+    TableRow row;
+    SQLiteDatabase db;
+    int flag=0,i = 0;
+    private TableRow r;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        db = openOrCreateDatabase("dbs", Context.MODE_PRIVATE, null);//創建資料庫
+        btn_search = findViewById(R.id.btn_birth);
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
+        TextView user=(TextView)findViewById(R.id.textView);
+        //   String name=getIntent().getStringExtra("name").toString();
+        user.setText("登入中...");
+
+
+        // db = openOrCreateDatabase("dbs", Context.MODE_PRIVATE, null);
         layout2=findViewById(R.id.tbl);
-        row=findViewById(R.id.tbr);
-        createNurse();
+        // row=findViewById(R.id.tbr);
         read();
     }
 
-    private void createNurse()
-    {
-        String[] nurseid = {"admin","001","222","333"};
-        String[] name = {"Admin","Yumi","222","333"};
-        String[] pass = {"admin","001","222","333"};
-        String sql = "CREATE TABLE IF NOT EXISTS NurseDB ( NurseId TEXT PRIMARY KEY, Name TEXT , Password TEXT , Status INT )";
-        db.execSQL(sql);
-        ContentValues cv = new ContentValues(4);
-
-        Cursor cu = db.rawQuery("SELECT * FROM NurseDB",null);
-        if(!cu.moveToFirst())
-        {
-            for(int i=0 ; i<4 ; i++)
-            {
-                cv.put("NurseId",nurseid[i]);
-                cv.put("Name",name[i]);
-                cv.put("Password",pass[i]);
-                cv.put("Status",1);
-                db.insert("NurseDB",null,cv);
-            }
-        }
-    }
 
     public void read()
     {
-        String sql = "SELECT * FROM NurseDB";
-        Cursor cu = db.rawQuery("SELECT * FROM NurseDB",null);
-        //Cursor cu = db.rawQuery(sql,null);
-        int i=0;
-        if(cu.moveToFirst()) {
+        i=0;//計數有幾筆資料
+        Cursor cu = db.rawQuery("SELECT * FROM "+Nurse,null);
+        if(cu.getCount()>0) {
+            cu.moveToFirst();
             do {
-                //txv.append(cu.getString(1));
-                final Button button = new Button(this);
-                final Button btn_modify=new Button(this);
-                final TableRow r=new TableRow(this);
+                String staue=null;
+                int a=cu.getInt(3);
+                if (a==1){
+                    staue="在職中";
+                }
+                else {
+                    staue="離職";
+
+                }
+                String text=cu.getString(1)+"\t\t"+cu.getString((0))+"\t\t\t"+staue;
+                id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                namee=cu.getString(0);
+                idd=cu.getString(1);
+                agee=cu.getString(2);
+                final Button button = new Button(this);//final Button
+                final Button btn_modify = new Button(this);//final Button
+                TableRow r = new TableRow(this);//final TableRow
                 //  final ScrollView sc=new ScrollView(this);
                 // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
                 r.setLayoutParams(new TableRow.LayoutParams(1520,80));
                 button.setLayoutParams(new TableRow.LayoutParams(684,80));
+
                 btn_modify.setLayoutParams(new TableRow.LayoutParams(120,80));
+                btn_modify.setId(i);
                 button.setId(i);
-                btn_modify.setId(i+i);
+                r.setId(i);
+                i++;
                 button.setTextSize(35);
-                button.setText("B"+i);
+                button.setText(text);
                 // la.addView(layout2);
                 btn_modify.setTextSize(35);
                 btn_modify.setText("修改");
-
                 r.addView(button);//yout
                 r.addView(btn_modify);//yout2
                 layout2.addView(r);
-                button.setOnClickListener(new View.OnClickListener()
-                {
-                    public void onClick(View v)
-                    {
-                       // txv.setText(" "+button.getId());
-                    }
-                });
                 btn_modify.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i=new Intent(Menu.this,nurse_modify.class);
-                        startActivity(i);
+                        int tmp=btn_modify.getId();
+                        String id_tmp=id_array.get(tmp).toString();
+                        flag=1;
+                        Intent intent=new Intent(Menu.this,nurse_modify.class);
+                        intent.putExtra("id",id_tmp);
+                        intent.putExtra("flag",flag);
+
+                        db.close();
+                        startActivity(intent);
                     }
                 });
-                i++;
             }while(cu.moveToNext());
-        }
+    }
     }
 
     public void nwedata(View v){
         Intent i=new Intent(Menu.this,Nurse_Newdata.class);
         startActivity(i);
     }
-    public void test(View v){
-        Intent i=new Intent(Menu.this,Test.class);
-        startActivity(i);
+    public void search(View v){
+        Cursor cu=null;
+        edt_search = findViewById(R.id.edt_search);
+        String s_p = edt_search.getText().toString().trim();
+        if (s_p.length()>0)//判斷是否有輸入東西  但還沒改好
+        {
+            for(int x = 0;x<=i;x++)
+            {
+                ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
+                View command = layout.findViewById(x);
+                layout.removeView(command);
+            }
+            if (s_p.length()==10)//收尋病人使用 身分證
+            {
+                i=0;
+                String sql = "SELECT * FROM Nurse WHERE nurse_id = '"+s_p+"'";
+                cu=db.rawQuery(sql,null);
+                if (cu.getCount() > 0) {
+                    cu.moveToFirst();
+                    do {
+                        i++;
+                        String staue=null;
+                        if (cu.getInt(3)==1){
+                            staue="在職中";
+                        }
+                        else {
+                            staue="離職";
+
+                        }
+                        String text=cu.getString(1)+"\t\t"+cu.getString((0))+"\t\t\t"+staue;
+                        id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                        String namee = cu.getString(0);
+                        String idd = cu.getString(1);
+                        String agee = cu.getString(2);
+                        final Button button = new Button(this);//final Button
+                        final Button btn_modify = new Button(this);//final Button
+                        TableRow r = new TableRow(this);//final TableRow
+                        //  final ScrollView sc=new ScrollView(this);
+                        // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
+                        r.setLayoutParams(new TableRow.LayoutParams(1520, 80));
+                        button.setLayoutParams(new TableRow.LayoutParams(684, 80));
+
+                        btn_modify.setLayoutParams(new TableRow.LayoutParams(120, 80));
+                        btn_modify.setId(i);
+                        button.setId(i);
+                        r.setId(i);
+                        button.setTextSize(35);
+                        button.setText(text);
+                        // la.addView(layout2);
+                        btn_modify.setTextSize(35);
+                        btn_modify.setText("修改");
+                        r.addView(button);//yout
+                        r.addView(btn_modify);//yout2
+                        layout2.addView(r);
+
+                        btn_modify.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int tmp = btn_modify.getId();
+                                String id_tmp = id_array.get(tmp).toString();
+                                int flag = 1;
+                                Intent intent = new Intent(Menu.this, nurse_modify.class);
+                                intent.putExtra("id", id_tmp);
+                                intent.putExtra("flag", flag);
+                                db.close();
+                                startActivity(intent);
+                            }
+                        });
+                    } while (cu.moveToNext());
+                }
+            }
+            else //收尋病人名
+            {
+                i=0;
+                //String sql = "SELECT * FROM Patient  WHERE patient_name = '"+s_p+"'";  收尋名字時 只能找到輸入全名
+                String sql = "SELECT * FROM Nurse  WHERE nurse_name LIKE '"+s_p+"%'";
+                cu=db.rawQuery(sql,null);
+                if (cu.getCount() > 0) {
+                    cu.moveToFirst();
+                    do {
+                        String staue=null;
+                        if (cu.getInt(3)==1){
+                            staue="在職中";
+                        }
+                        else {
+                            staue="離職";
+
+                        }
+                        String text=cu.getString(1)+"\t\t"+cu.getString((0))+"\t\t\t"+staue;
+                        id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                        String namee = cu.getString(0);
+                        String idd = cu.getString(1);
+                        String agee = cu.getString(2);
+                        final Button button = new Button(this);//final Button
+                        final Button btn_modify = new Button(this);//final Button
+                        TableRow r = new TableRow(this);//final TableRow
+                        //  final ScrollView sc=new ScrollView(this);
+                        // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
+                        r.setLayoutParams(new TableRow.LayoutParams(1520, 80));
+                        button.setLayoutParams(new TableRow.LayoutParams(684, 80));
+
+                        btn_modify.setLayoutParams(new TableRow.LayoutParams(120, 80));
+
+                        button.setTextSize(35);
+                        button.setText(text);
+                        // la.addView(layout2);
+                        btn_modify.setId(i);
+                        button.setId(i);
+                        r.setId(i);
+                        i++;
+                        btn_modify.setTextSize(35);
+                        btn_modify.setText("修改");
+                        r.addView(button);//yout
+                        r.addView(btn_modify);//yout2
+                        layout2.addView(r);
+                        btn_modify.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int tmp = btn_modify.getId();
+                                String id_tmp = id_array.get(tmp).toString();
+                                int flag = 1;
+                                Intent intent = new Intent(Menu.this, nurse_modify.class);
+                                intent.putExtra("id", id_tmp);
+                                intent.putExtra("flag", flag);
+                                db.close();
+                                startActivity(intent);
+                            }
+                        });
+                    } while (cu.moveToNext());
+                }
+            }
+        }
+        else {
+            for(int x = 0;x<=i;x++)
+            {
+                ViewGroup layout = (ViewGroup) findViewById(R.id.tbl);
+                View command = layout.findViewById(x);
+                layout.removeView(command);
+            }
+            read();
+        }
+
     }
 
     public void onclick(View v){

@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Nurse_Newdata extends AppCompatActivity {
     static final String db_nurse="nurseDB"; //database name;
-    static final String tb_nurse="nurse"; //database table name
+    static final String Nurse="nurse"; //database table name
     SQLiteDatabase db;
     String createTable;
 
@@ -24,8 +28,7 @@ public class Nurse_Newdata extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nurse__newdata);
-        db =openOrCreateDatabase(db_nurse, Context.MODE_PRIVATE,null);
-        createTable="CREATE TABLE IF NOT EXISTS "+db_nurse+"(name VARCHAR(10),"+"id VARCHAR(10),"+"pas VARCHAR(20),"+"staue VARCHAR(3))";
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         edt_name=findViewById(R.id.edt_name);
         edt_id=findViewById(R.id.edt_id);
         edt_pas1=findViewById(R.id.edt_pas1);
@@ -45,19 +48,21 @@ public class Nurse_Newdata extends AppCompatActivity {
 
         eId=edt_id.getText().toString();
         eId=eId.toUpperCase();
-        iId=vreifyId(eId);
+        int flag_2=0;
+        flag_2=searchData(eId, flag_2);
         if (flag!=0) {
             textView7.setText("兩個密碼輸入同");
+        }
+        if (flag_2==2 ){
+            textView7.setText("已有此資料");
         }
         else if (pas1==null){
             //判別是不是空
             textView7.setText("密碼必須數入");
         }
-        else if (!iId) {
-            textView7.setText("請輸入正確的身分證格式(A123456789)");
-        }
-        else if(flag==0&iId){
-            addData(edt_name.getText().toString(),eId,pas1,"在職");
+
+        else if(flag==0&&flag_2!=2 ){
+            addData(edt_name.getText().toString(),eId,pas1,1);
             db.close();
             Intent i=new Intent(this,Menu.class);
             startActivity(i);
@@ -66,13 +71,25 @@ public class Nurse_Newdata extends AppCompatActivity {
 
     }
 
-    private void addData(String name,String id,String pas,String staue) {
+    private int searchData(String str1,int flag) //判別是否已經有此資料了
+    {
+        Cursor c;
+        c=db.rawQuery("SELECT nurse_id FROM Nurse  WHERE nurse_id='"+str1+"'",null);
+        if (c.moveToFirst()) {
+            flag = 2;
+        }
+        else {
+            flag =1;
+        }
+        return flag;
+    }
+    private void addData(String name,String id,String pas,int staue) {
         ContentValues cv=new ContentValues(5);
-        cv.put("name",name);
-        cv.put("id",id);
-        cv.put("pas",pas);
-        cv.put("staue",staue);//1:表示有正常 0:保釋停權
-        db.insert(tb_nurse,null,cv);
+        cv.put("nurse_name",name);
+        cv.put("nurse_id",id);
+        cv.put("nurse_password",pas);
+        cv.put("nurse_authority",staue);//1:表示有正常 0:保釋停權
+        db.insert(Nurse,null,cv);
     }
 
     public Boolean  vreifyId(String id){

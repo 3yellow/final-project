@@ -79,6 +79,8 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
                 Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
             }
             else {
+                edt_id.setFocusable(false);
+                edt_id.setFocusableInTouchMode(false);
                 geender = cu.getInt(0);//性別的預設值
                 if (geender==1){
                     malee.setChecked(true);

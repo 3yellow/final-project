@@ -5,33 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class nurse_modify extends AppCompatActivity {
-    RadioGroup work;
-    String w_stause="";
-    static final String db_nurse="nurseDB"; //database name;
-    static final String tb_nurse="nurse"; //database table name
-    SQLiteDatabase db;
-    String createTable;
 
+    RadioButton malee,femalee;
+    static final String db_nurse="nurseDB"; //database name;
+    static final String Nurse="nurse"; //database table name
+    SQLiteDatabase db;
+    String idd;
     EditText edt_id,edt_name,edt_pas1,edt_pas2;
     TextView textView7;
-
+    RadioGroup work;
+    int w_stause=0;
     int flag=0;//判別是不是已經有資料;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nurse_modify);
-        db =openOrCreateDatabase(db_nurse, Context.MODE_PRIVATE,null);
-        createTable="CREATE TABLE IF NOT EXISTS "+db_nurse+"(name VARCHAR(10),"+"id VARCHAR(10),"+"pas VARCHAR(20),"+"staue VARCHAR(3))";
-        db.execSQL(createTable);
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         ContentValues cv = new ContentValues(4);
         edt_name=findViewById(R.id.edt_name);
         edt_id=findViewById(R.id.edt_id);
@@ -39,8 +39,52 @@ public class nurse_modify extends AppCompatActivity {
         edt_pas2=findViewById(R.id.edt_pas2);
         textView7=findViewById(R.id.textView7);
         work=findViewById(R.id.radioGroup);
-        //work.setOnCheckedChangeListener();
+      //  work.setOnCheckedChangeListener(work,w_stause);
+        Intent i=this.getIntent();
+        idd=i.getStringExtra("id").toString();
+        work=findViewById(R.id.radioGroup);
+        malee = findViewById(R.id.malee);
+        femalee = findViewById(R.id.femalee);
+        read(idd);
+        String sql = "SELECT * FROM Nurse WHERE nurse_id = '"+ idd +"'";
+        Cursor cu = db.rawQuery( sql,null );
+
+        if (!cu.moveToFirst()){
+            Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            int w = cu.getInt(3);//性別的預設值
+            if (w==1){
+                //w_stause=1;
+                work.check(R.id.male);
+
+            }
+            else {
+                //w_stause=2;
+                work.check(R.id.femalee);
+                 
+                //femalee.setChecked(true);
+            }
+        }
+        work.setOnCheckedChangeListener(radGrpRegionOnCheckedChange);
+
     }
+    private RadioGroup.OnCheckedChangeListener radGrpRegionOnCheckedChange = new RadioGroup.OnCheckedChangeListener()
+    {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (work.getCheckedRadioButtonId()) {
+                case R.id.malee:
+                    //  Toast.makeText(this, "在職", Toast.LENGTH_LONG).show();
+                    w_stause = 1;
+                    break;
+                case R.id.femalee:
+                    //Toast.makeText(this, "離職", Toast.LENGTH_LONG).show();
+                    w_stause = 2;
+                    break;
+            }
+        }
+    };
     public void onclick(View v){
         Boolean iId;
         String pas1,eId;
@@ -56,25 +100,64 @@ public class nurse_modify extends AppCompatActivity {
         else if (!iId) {
             textView7.setText("請輸入正確的身分證格式(A123456789)");
         }
-        else if(w_stause==null){
+        else if(w_stause==0){
             textView7.setText("工作狀態還沒選");
         }
         else if(flag==0&iId){
-            addData(edt_name.getText().toString(),eId,pas1,w_stause);
+            modify_nurse(edt_name.getText().toString(),eId,pas1,w_stause);
             db.close();
             Intent i=new Intent(this,Menu.class);
             startActivity(i);
             finish();
         }
     }
+    public void read(String id_tmp){
+        String sql = "SELECT * FROM Nurse WHERE nurse_id = '"+ id_tmp +"'";
+        Cursor cu = db.rawQuery( sql,null );
 
-    private void addData(String name,String id,String pas,String stause) {
+        if (!cu.moveToFirst()){
+            Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            edt_id.setFocusable(false);
+            edt_id.setFocusableInTouchMode(false);
+            String anamee = cu.getString(1);
+            String pa=cu.getString(2);
+            edt_name.setText(anamee);
+            edt_id.setText(idd);
+            edt_pas1.setText(pa);
+            edt_pas2.setText(pa);
+            int w = cu.getInt(3);//性別的預設值
+            if (w==1){
+                //w_stause=1;
+                malee.setChecked(true);
+            }
+            else {
+                //w_stause=2;
+                femalee.setChecked(true);
+            }
+        }
+    }
+
+    /*private void addData(String name,String id,String pas,int staue) {
         ContentValues cv=new ContentValues(5);
-        cv.put("name",name);
-        cv.put("id",id);
-        cv.put("pas",pas);
-        cv.put("staue",stause);//1:表示有正常 0:保釋停權
-        db.insert(tb_nurse,null,cv);
+        cv.put("nurse_name",name);
+        cv.put("nurse_id",id);
+        cv.put("nurse_password",pas);
+        cv.put("nurse_authority",staue);//1:表示有正常 0:保釋停權
+        db.insert(Nurse,null,cv);
+    }*/
+    private void modify_nurse(String name,String id,String pas,int staue){
+        ContentValues cv = new ContentValues(7);
+        cv.put("nurse_id", id);
+        cv.put("nurse_name", name);
+        cv.put("nurse_password", pas);
+        cv.put("nurse_authority", staue);
+        //如果是修改
+        String whereClause = "nurse_id = ?";
+        String whereArgs[] = {id};
+        db.update("Nurse", cv, whereClause, whereArgs);
+        Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
     }
 
     public Boolean vreifyId(String id){
@@ -124,16 +207,5 @@ public class nurse_modify extends AppCompatActivity {
         return false;
     }
 
-    public void setOnCheckedChangeListener(RadioGroup group, int checkedId) {
-        switch (work.getCheckedRadioButtonId()){
-            case R.id.male:
-                Toast.makeText(this,"在職",Toast.LENGTH_LONG).show();
-                w_stause="在職";
-                break;
-            case R.id.female:
-                Toast.makeText(this,"離職",Toast.LENGTH_LONG).show();
-                w_stause="離職";
-                break;
-        }
-    }
+
 }
