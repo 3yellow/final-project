@@ -4,59 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
+    android:background="@drawable/fronttestbp"
     tools:context=".Backstage_main">
 
     <Button
-        android:id="@+id/button12"
-        android:layout_width="210dp"
-        android:layout_height="82dp"
+        android:id="@+id/button4"
+        android:layout_width="355dp"
+        android:layout_height="108dp"
         android:text="備份資料"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.836"
+        app:layout_constraintHorizontal_bias="0.837"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.741" />
+        app:layout_constraintVertical_bias="0.528" />
 
     <Button
-        android:id="@+id/button13"
-        android:layout_width="210dp"
-        android:layout_height="82dp"
+        android:id="@+id/button8"
+        android:layout_width="355dp"
+        android:layout_height="108dp"
         android:text="統計"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintHorizontal_bias="0.368"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintVertical_bias="0.528" />
 
     <Button
-        android:id="@+id/button14"
-        android:layout_width="210dp"
-        android:layout_height="82dp"
-        android:text="題目管理"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.836"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.306" />
-
-    <Button
-        android:id="@+id/button15"
-        android:layout_width="210dp"
-        android:layout_height="82dp"
+        android:id="@+id/button9"
+        android:layout_width="355dp"
+        android:layout_height="108dp"
         android:onClick="nurse"
         android:text="護理人員管理"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.306" />
+        app:layout_constraintVertical_bias="0.197" />
+
+    <Button
+        android:id="@+id/button15"
+        android:layout_width="355dp"
+        android:layout_height="108dp"
+        android:text="題目管理"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.829"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.197" />
 </androidx.constraintlayout.widget.ConstraintLayout>
