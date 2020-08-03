@@ -32,7 +32,7 @@ public class fronttest5 extends AppCompatActivity {
 
 
         Que.setText("5.血液透析複用用水的常規內毒素檢測應_____"+"\n"+"至少一次。");
-        final String[] Choi = {"A.每天", "B.每週", "C.每月", "D.每季", "D.每季"};
+        final String[] Choi = {"A.不得重複使用", "B.可以重複使用", "C.部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌", "D.每季", "D.每季"};
 
         for (int i = 0; i < 4; i++) {
             RadioButton tempButton = new RadioButton(this);

@@ -2,13 +2,17 @@ package com.example.newlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -43,48 +47,48 @@ public class nurse_modify extends AppCompatActivity {
         Intent i=this.getIntent();
         idd=i.getStringExtra("id").toString();
         work=findViewById(R.id.radioGroup);
-        malee = findViewById(R.id.malee);
-        femalee = findViewById(R.id.femalee);
-        read(idd);
+        //sex=findViewById(R.id.radioGroup);
+       // work.setOnCheckedChangeListener(this);
+        malee = findViewById(R.id.male);
+        femalee = findViewById(R.id.female);
+
         String sql = "SELECT * FROM Nurse WHERE nurse_id = '"+ idd +"'";
         Cursor cu = db.rawQuery( sql,null );
 
         if (!cu.moveToFirst()){
             Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
         }
-        else{
+        else if(w_stause==0){
             int w = cu.getInt(3);//性別的預設值
             if (w==1){
-                //w_stause=1;
-                work.check(R.id.male);
-
+                malee.setChecked(true);
+                w_stause = 1;
             }
             else {
-                //w_stause=2;
-                work.check(R.id.femalee);
-                 
-                //femalee.setChecked(true);
+                femalee.setChecked(true);
+                w_stause = 2;
             }
         }
-        work.setOnCheckedChangeListener(radGrpRegionOnCheckedChange);
+        read(idd);
+        //work.setOnCheckedChangeListener(radGrpRegionOnCheckedChange);
 
     }
-    private RadioGroup.OnCheckedChangeListener radGrpRegionOnCheckedChange = new RadioGroup.OnCheckedChangeListener()
+
+
+    public void on(View v)//RadioGroup group, int checkedId
     {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (work.getCheckedRadioButtonId()) {
-                case R.id.malee:
-                    //  Toast.makeText(this, "在職", Toast.LENGTH_LONG).show();
-                    w_stause = 1;
-                    break;
-                case R.id.femalee:
-                    //Toast.makeText(this, "離職", Toast.LENGTH_LONG).show();
-                    w_stause = 2;
-                    break;
-            }
+        switch (work.getCheckedRadioButtonId()) {
+            case R.id.male:
+                //  Toast.makeText(this, "在職", Toast.LENGTH_LONG).show();
+                w_stause = 1;
+                break;
+            case R.id.female:
+                //Toast.makeText(this, "離職", Toast.LENGTH_LONG).show();
+                w_stause = 2;
+                break;
         }
-    };
+    }
+
     public void onclick(View v){
         Boolean iId;
         String pas1,eId;
@@ -104,7 +108,25 @@ public class nurse_modify extends AppCompatActivity {
             textView7.setText("工作狀態還沒選");
         }
         else if(flag==0&iId){
+            pas1=pas1.toLowerCase();//讓密碼統一都是小寫
             modify_nurse(edt_name.getText().toString(),eId,pas1,w_stause);
+            String sql = "SELECT * FROM Nurse WHERE nurse_id = '"+ eId +"'";
+            Cursor cu = db.rawQuery( sql,null );
+
+            if(cu.getCount()>0) {
+                cu.moveToFirst();
+
+                String staue1 = null;
+                int a = cu.getInt(3);
+                if (a == 1) {
+                    staue1 = "在職中";
+                } else {
+                    staue1 = "離職";
+
+                }
+                String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + staue1;
+
+            }
             db.close();
             Intent i=new Intent(this,Menu.class);
             startActivity(i);
@@ -126,6 +148,10 @@ public class nurse_modify extends AppCompatActivity {
             edt_name.setText(anamee);
             edt_id.setText(idd);
             edt_pas1.setText(pa);
+
+            //以下兩行是不要讓密碼顯示出來
+          //  edt_pas1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+           // edt_pas2.setTransformationMethod(PasswordTransformationMethod.getInstance());
             edt_pas2.setText(pa);
             int w = cu.getInt(3);//性別的預設值
             if (w==1){
@@ -158,6 +184,8 @@ public class nurse_modify extends AppCompatActivity {
         String whereArgs[] = {id};
         db.update("Nurse", cv, whereClause, whereArgs);
         Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
+
+
     }
 
     public Boolean vreifyId(String id){

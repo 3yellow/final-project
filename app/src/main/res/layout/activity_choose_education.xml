@@ -13,7 +13,7 @@
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,7 +23,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="133dp"
+                android:id="@+id/tex_patient_name"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="50sp"
                 android:text="姓名"
@@ -34,6 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="800dp"
+                android:onClick="onclick"
                 android:text="登入中"
                 android:textSize="25sp" />
         </TableRow>

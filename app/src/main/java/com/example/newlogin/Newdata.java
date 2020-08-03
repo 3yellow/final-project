@@ -70,9 +70,8 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         //修改資料
         Intent i=this.getIntent();
         flag1=i.getIntExtra("flag",0);
-
         if (flag1 == 1) {
-            idd=i.getStringExtra("id").toString();
+            idd=i.getStringExtra("id");
             String sql = "SELECT  patient_gender  FROM Patient WHERE patient_id = '"+ idd +"'";
             Cursor cu = DBS.rawQuery( sql,null );
             if (!cu.moveToFirst()){
@@ -102,14 +101,14 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     }
 
     public void read(String id_tmp){
-        String sql = "SELECT patient_name,patient_gender,patient_register,patient_birth FROM Patient WHERE patient_id = '"+ id_tmp +"'";
+        String sql = "SELECT *FROM Patient WHERE patient_id = '"+ id_tmp +"'";
         Cursor cu = DBS.rawQuery( sql,null );
 
         if (!cu.moveToFirst()){
             Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
         }
         else{
-            String anamee = cu.getString(0);
+            String anamee = cu.getString(1);
             String date_register=cu.getString(2);
             String bi=cu.getString(3);
             edt_name.setText(anamee);
@@ -168,8 +167,9 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         eId=edt_id.getText().toString().trim();//trim去除多餘空白
         eId=eId.toUpperCase();
         String ename=edt_name.getText().toString().trim();
-
-        flag=searchData(eId,flag);
+        Intent i=this.getIntent();
+        String nurseID=i.getStringExtra("nurse_name");
+        flag=searchData(eId);
         if (flag==2&&flag1!=1){
             textView7.setText("已有此資料");
         }
@@ -190,7 +190,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         else if (flag1==1){
             modify_patient(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString());
             DBS.close();
-            Intent i=new Intent(Newdata.this,Searchlogin.class);
+             i=new Intent(Newdata.this,Searchlogin.class);
             startActivity(i);
             finish();
         }
@@ -198,7 +198,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
             addData(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString());
             //(String name,String id,String age,int gender,String date,String birth_date)
             DBS.close();
-            Intent i=new Intent(Newdata.this,consent.class);
+              i=new Intent(Newdata.this,consent.class);
             startActivity(i);
             finish();
         }
@@ -250,9 +250,9 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         }
         return false;
     }*/
-    private int searchData(String str1,int flag) //判別是否已經有此資料了
+    private int searchData(String str1) //判別是否已經有此資料了
     {
-        c=DBS.rawQuery("SELECT patient_id FROM Patient  WHERE patient_id='"+str1+"'",null);
+        c=DBS.rawQuery("SELECT * FROM Patient  WHERE patient_id='"+str1+"'",null);
         if (c.moveToFirst()) {
             flag = 2;
         }
@@ -269,6 +269,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         cv.put("patient_gender",gender);
         cv.put("patient_register",date);
         cv.put("patient_birth",birth_date);
+        //cv.put("nurse_id", nurseId);
         cv.put("patient_incharge","admin");//目前沒有護理師的資料，護理師的資料是從登入那抓取id，一直傳
         DBS.insert("Patient", null, cv);
 
@@ -278,13 +279,15 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         }
     }
 
-    private void modify_patient(String name,String id ,int gender,String date,String birth_date){
+    private void modify_patient(String name,String id ,int gender,String date,String birth_date ){
         ContentValues cv = new ContentValues(7);
         cv.put("patient_id", id);
         cv.put("patient_name", name);
         cv.put("patient_gender", gender);
         cv.put("patient_register", date);
         cv.put("patient_birth", birth_date);
+
+
         //如果是修改
         String whereClause = "patient_id = ?";
         String whereArgs[] = {id};

@@ -62,6 +62,7 @@ public class Nurse_Newdata extends AppCompatActivity {
         }
 
         else if(flag==0&&flag_2!=2 ){
+            pas1=pas1.toLowerCase();//讓密碼統一都是小寫
             addData(edt_name.getText().toString(),eId,pas1,1);
             db.close();
             Intent i=new Intent(this,Menu.class);

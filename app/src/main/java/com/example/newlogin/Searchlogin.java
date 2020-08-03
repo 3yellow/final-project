@@ -30,7 +30,7 @@ import java.util.List;
 
 
 public class Searchlogin extends AppCompatActivity {
-
+    static final String Nurse="nurse"; //database table name
     static final String Patient="patient"; //database table name
 
     ArrayList id_array= new ArrayList();
@@ -39,13 +39,13 @@ public class Searchlogin extends AppCompatActivity {
     String namee=null;
     String idd=null;
     String agee=null;
-    Intent intent = new Intent();
     TableLayout layout2;
     TableRow row;
     SQLiteDatabase db;
     int flag=0,i = 0;
-    private Button button,btn_modify;
+   // private Button button,btn_modify;
     private TableRow r;
+    String nurseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +54,14 @@ public class Searchlogin extends AppCompatActivity {
         btn_search = findViewById(R.id.btn_birth);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         TextView user=(TextView)findViewById(R.id.textView);
-        //   String name=getIntent().getStringExtra("name").toString();
-        user.setText("登入中...");
+        Intent i=this.getIntent();
+        nurseID=i.getStringExtra("nurse");
+        Cursor cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id='"+nurseID+"' ",null);
+        if(cu.getCount()>0) {
+            cu.moveToFirst();
+            String nurse_name=cu.getString(1);
+            user.setText(nurse_name+" _登入中...");
+        }
 
 
         // db = openOrCreateDatabase("dbs", Context.MODE_PRIVATE, null);
@@ -239,8 +245,8 @@ public class Searchlogin extends AppCompatActivity {
                 namee=cu.getString(0);
                 idd=cu.getString(1);
                 agee=cu.getString(2);
-                button = new Button(this);//final Button
-                btn_modify=new Button(this);//final Button
+                final Button button = new Button(this);//final Button
+                final Button btn_modify=new Button(this);//final Button
                 r=new TableRow(this);//final TableRow
                 //  final ScrollView sc=new ScrollView(this);
                 // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
@@ -264,8 +270,12 @@ public class Searchlogin extends AppCompatActivity {
                 {
                     public void onClick(View v)
                     {
+                        int tmp=button.getId();
+                        String id_tmp=id_array.get(tmp).toString();
                         Intent i=new Intent(Searchlogin.this,choose_education.class);
                         i.putExtra("flag",0);//要前側
+                        i.putExtra("nurse_name",nurseID);
+                        i.putExtra("id",id_tmp);
                         db.close();
                         startActivity(i);
                     }
@@ -278,8 +288,8 @@ public class Searchlogin extends AppCompatActivity {
                         flag=1;
                         Intent intent=new Intent(Searchlogin.this,Newdata.class);
                         intent.putExtra("id",id_tmp);
+                        intent.putExtra("nurse_name",nurseID);
                         intent.putExtra("flag",flag);
-
                         db.close();
                         startActivity(intent);
                     }
@@ -289,6 +299,7 @@ public class Searchlogin extends AppCompatActivity {
     }
 
     public void insertpaient(View v){
+        Intent intent = new Intent();
         intent.setClass(this,Newdata.class);
         startActivity(intent);
     }

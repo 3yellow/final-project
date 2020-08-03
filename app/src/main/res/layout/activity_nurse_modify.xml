@@ -177,14 +177,16 @@
         app:layout_constraintVertical_bias="0.846">
 
         <RadioButton
-            android:id="@+id/malee"
+            android:id="@+id/male"
+            android:onClick="on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="在職中"
             android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/femalee"
+            android:id="@+id/female"
+            android:onClick="on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="離職"
