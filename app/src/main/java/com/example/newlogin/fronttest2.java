@@ -115,6 +115,10 @@ public class fronttest2 extends AppCompatActivity {
         int flag=0;
         flag=i.getIntExtra("flag",0);
         i.putExtra("flag",flag);
+        String nurseID=i.getStringExtra("nurseID");
+        String id=i.getStringExtra("eid");
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
         startActivity(i);
         finish();
     }

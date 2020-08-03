@@ -24,7 +24,12 @@ public class signature extends AppCompatActivity {
         mainV.onclear();
     }
     public void W(View v){
-        Intent i=new Intent(signature.this,choose_education.class);
+        Intent i=this.getIntent();
+        String nurseID =i.getStringExtra("nurseID");
+        String id=i.getStringExtra("id");
+        i=new Intent(signature.this,choose_education.class);
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
         i.putExtra("flag",1);//要前側
         startActivity(i);
         finish();

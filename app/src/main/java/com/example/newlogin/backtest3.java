@@ -114,7 +114,12 @@ public class backtest3 extends AppCompatActivity {
         normalDialog.show();
     }
     public void tobacktest4(View v){
-        Intent i=new Intent(backtest3.this,backtest4.class);
+        Intent i=this.getIntent();
+        String nurseID=i.getStringExtra("nurseID");
+        String id=i.getStringExtra("id");
+        i=new Intent(backtest3.this,backtest4.class);
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
         startActivity(i);
         finish();
     }

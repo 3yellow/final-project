@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -113,8 +114,23 @@ public class backtest2 extends AppCompatActivity {
         // 显示
         normalDialog.show();
     }
+    //不能返回
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return true;
+    }
     public void tobacktest3(View v){
-        Intent i=new Intent(backtest2.this,backtest3.class);
+        Intent i=this.getIntent();
+        String nurseID=i.getStringExtra("nurseID");
+        String id=i.getStringExtra("id");
+        i=new Intent(backtest2.this,backtest3.class);
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
         startActivity(i);
         finish();
     }

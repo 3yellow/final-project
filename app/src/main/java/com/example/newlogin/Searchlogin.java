@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,32 +31,39 @@ import java.util.List;
 
 
 public class Searchlogin extends AppCompatActivity {
-
+    static final String Nurse="nurse"; //database table name
     static final String Patient="patient"; //database table name
 
     ArrayList id_array= new ArrayList();
+    ArrayList id_array_search= new ArrayList();
     EditText edt_search;
     Button btn_search;
     String namee=null;
     String idd=null;
     String agee=null;
-    Intent intent = new Intent();
     TableLayout layout2;
     TableRow row;
     SQLiteDatabase db;
     int flag=0,i = 0;
-    private Button button,btn_modify;
+   // private Button button,btn_modify;
     private TableRow r;
+    String nurseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchlogin);
-        btn_search = findViewById(R.id.btn_birth);
+       // btn_search = findViewById(R.id.btn_birth);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         TextView user=(TextView)findViewById(R.id.textView);
-        //   String name=getIntent().getStringExtra("name").toString();
-        user.setText("登入中...");
+        Intent i=this.getIntent();
+        nurseID=i.getStringExtra("nurseID");
+        Cursor cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id='"+nurseID+"' ",null);
+        if(cu.getCount()>0) {
+            cu.moveToFirst();
+            String nurse_name=cu.getString(1);
+            user.setText(nurse_name+" _登入中...");
+        }
 
 
         // db = openOrCreateDatabase("dbs", Context.MODE_PRIVATE, null);
@@ -92,6 +100,16 @@ public class Searchlogin extends AppCompatActivity {
         });*/
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return true;
+    }
+
     public void search(View v){
         Cursor cu=null;
         edt_search = findViewById(R.id.edt_search);
@@ -114,7 +132,7 @@ public class Searchlogin extends AppCompatActivity {
                     do {
                         i++;
                         String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + cu.getString(3);
-                        id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                        id_array_search.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
                         String namee = cu.getString(0);
                         String idd = cu.getString(1);
                         String agee = cu.getString(2);
@@ -140,22 +158,32 @@ public class Searchlogin extends AppCompatActivity {
                         layout2.addView(r);
                         button.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
+                                int tmp = button.getId();
+                                String id_tmp = id_array_search.get(tmp).toString();
                                 Intent i = new Intent(Searchlogin.this, choose_education.class);
+                                i.putExtra("flag",0);//要前側
+                                i.putExtra("nurseID",nurseID);
+                                i.putExtra("id",id_tmp);
                                 db.close();
                                 startActivity(i);
+                                finish();
                             }
                         });
                         btn_modify.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 int tmp = btn_modify.getId();
-                                String id_tmp = id_array.get(tmp).toString();
+                                String id_tmp = id_array_search.get(tmp).toString();
                                 int flag = 1;
                                 Intent intent = new Intent(Searchlogin.this, Newdata.class);
-                                intent.putExtra("id", id_tmp);
-                                intent.putExtra("flag", flag);
+                                intent.putExtra("id",id_tmp);
+                                intent.putExtra("nurseID",nurseID);
+                                intent.putExtra("flag",flag);
+                                // intent.putExtra("id", id_tmp);
+                                // intent.putExtra("flag", flag);
                                 db.close();
                                 startActivity(intent);
+                                finish();
                             }
                         });
                     } while (cu.moveToNext());
@@ -172,7 +200,7 @@ public class Searchlogin extends AppCompatActivity {
                     cu.moveToFirst();
                     do {
                         String text = cu.getString(1) + "\t\t" + cu.getString((0)) + "\t\t\t" + cu.getString(3);
-                        id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
+                        id_array_search.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
                         String namee = cu.getString(0);
                         String idd = cu.getString(1);
                         String agee = cu.getString(2);
@@ -200,7 +228,12 @@ public class Searchlogin extends AppCompatActivity {
                         layout2.addView(r);
                         button.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
+                                int tmp = button.getId();
+                                String id_tmp = id_array_search.get(tmp).toString();
                                 Intent i = new Intent(Searchlogin.this, choose_education.class);
+                                i.putExtra("flag",0);//要前側
+                                i.putExtra("nurseID",nurseID);
+                                i.putExtra("id",id_tmp);
                                 db.close();
                                 startActivity(i);
                             }
@@ -209,11 +242,14 @@ public class Searchlogin extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 int tmp = btn_modify.getId();
-                                String id_tmp = id_array.get(tmp).toString();
+                                String id_tmp = id_array_search.get(tmp).toString();
                                 int flag = 1;
                                 Intent intent = new Intent(Searchlogin.this, Newdata.class);
-                                intent.putExtra("id", id_tmp);
-                                intent.putExtra("flag", flag);
+                                intent.putExtra("id",id_tmp);
+                                intent.putExtra("nurseID",nurseID);
+                                intent.putExtra("flag",flag);
+                               // intent.putExtra("id", id_tmp);
+                                //intent.putExtra("flag", flag);
                                 db.close();
                                 startActivity(intent);
                             }
@@ -239,8 +275,8 @@ public class Searchlogin extends AppCompatActivity {
                 namee=cu.getString(0);
                 idd=cu.getString(1);
                 agee=cu.getString(2);
-                button = new Button(this);//final Button
-                btn_modify=new Button(this);//final Button
+                final Button button = new Button(this);//final Button
+                final Button btn_modify=new Button(this);//final Button
                 r=new TableRow(this);//final TableRow
                 //  final ScrollView sc=new ScrollView(this);
                 // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
@@ -264,10 +300,15 @@ public class Searchlogin extends AppCompatActivity {
                 {
                     public void onClick(View v)
                     {
+                        int tmp=button.getId();
+                        String id_tmp=id_array.get(tmp).toString();
                         Intent i=new Intent(Searchlogin.this,choose_education.class);
                         i.putExtra("flag",0);//要前側
+                        i.putExtra("nurseID",nurseID);
+                        i.putExtra("id",id_tmp);
                         db.close();
                         startActivity(i);
+                        finish();
                     }
                 });
                 btn_modify.setOnClickListener(new View.OnClickListener() {
@@ -278,10 +319,11 @@ public class Searchlogin extends AppCompatActivity {
                         flag=1;
                         Intent intent=new Intent(Searchlogin.this,Newdata.class);
                         intent.putExtra("id",id_tmp);
+                        intent.putExtra("nurseID",nurseID);
                         intent.putExtra("flag",flag);
-
                         db.close();
                         startActivity(intent);
+                        finish();
                     }
                 });
             }while(cu.moveToNext());
@@ -289,8 +331,11 @@ public class Searchlogin extends AppCompatActivity {
     }
 
     public void insertpaient(View v){
+        Intent intent = new Intent();
         intent.setClass(this,Newdata.class);
+        intent.putExtra("nurseID",nurseID);
         startActivity(intent);
+        finish();
     }
 
     public void onclick(View v){
@@ -300,6 +345,7 @@ public class Searchlogin extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(Searchlogin.this,MainActivity.class);
+                        finish();
                         startActivity(i);
                     }
                 }).setNegativeButton("取消",null).create();
