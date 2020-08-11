@@ -171,7 +171,12 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         eId=edt_id.getText().toString().trim();//trim去除多餘空白
         eId=eId.toUpperCase();
         String ename=edt_name.getText().toString().trim();
+<<<<<<< HEAD
 
+=======
+        Intent i=this.getIntent();
+        String nurseID=i.getStringExtra("nurse_name");
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
         flag=searchData(eId);
         if (flag==2&&flag1!=1){
             textView7.setText("已有此資料");
@@ -193,8 +198,12 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         else if (flag1==1){
             modify_patient(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString());
             DBS.close();
+<<<<<<< HEAD
             Intent i=new Intent(Newdata.this,Searchlogin.class);
             i.putExtra("nurseID",nurseID);
+=======
+             i=new Intent(Newdata.this,Searchlogin.class);
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
             startActivity(i);
             finish();
         }
@@ -202,9 +211,13 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
             addData(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString(),nurseID);
             //(String name,String id,String age,int gender,String date,String birth_date)
             DBS.close();
+<<<<<<< HEAD
             Intent i=new Intent(Newdata.this,consent.class);
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",eId);
+=======
+              i=new Intent(Newdata.this,consent.class);
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
             startActivity(i);
             finish();
         }
@@ -275,8 +288,13 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         cv.put("patient_gender",gender);
         cv.put("patient_register",date);
         cv.put("patient_birth",birth_date);
+<<<<<<< HEAD
         //cv.put("nurse_id", nurseID);
         cv.put("patient_incharge",nurseID);//目前沒有護理師的資料，護理師的資料是從登入那抓取id，一直傳
+=======
+        //cv.put("nurse_id", nurseId);
+        cv.put("patient_incharge","admin");//目前沒有護理師的資料，護理師的資料是從登入那抓取id，一直傳
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
         DBS.insert("Patient", null, cv);
 
         Cursor cu = DBS.rawQuery("SELECT * FROM Patient",null);

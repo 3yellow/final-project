@@ -11,7 +11,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+<<<<<<< HEAD
 import android.view.KeyEvent;
+=======
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,6 +75,7 @@ public class nurse_modify extends AppCompatActivity {
         }
         read(idd);
         //work.setOnCheckedChangeListener(radGrpRegionOnCheckedChange);
+<<<<<<< HEAD
 
     }
 
@@ -85,6 +89,8 @@ public class nurse_modify extends AppCompatActivity {
         }
         return true;
     }
+=======
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
 
     public void back(View v){
         Intent i=new Intent(this,Backstage_main.class);
@@ -92,6 +98,10 @@ public class nurse_modify extends AppCompatActivity {
         finish();
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
     public void on(View v)//RadioGroup group, int checkedId
     {
         switch (work.getCheckedRadioButtonId()) {
