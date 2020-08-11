@@ -137,7 +137,11 @@ public class MainActivity extends AppCompatActivity {
                         int flag_staue=cu.getInt(3);
                         if (password.equals(pas) && flag_staue==1){
                             intent.setClass(this, Searchlogin.class);
+<<<<<<< HEAD
                             intent.putExtra("nurseID",str);
+=======
+                            intent.putExtra("nurse",str);
+>>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
                             // intent.putExtra("name", Account.getText().toString());
                             startActivity(intent);
                             finish();
