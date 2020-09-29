@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-
+        <activity android:name=".tbacktest5"></activity>
+        <activity android:name=".tbacktest4" />
+        <activity android:name=".tbacktest3" />
+        <activity android:name=".tbacktest2" />
+        <activity android:name=".tbacktest" />
+        <activity android:name=".backtestanalysis" />
         <activity android:name=".choose_education" />
         <activity
             android:name=".Backstage_main"
@@ -38,10 +42,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".backtest3"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".backtest2"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden" />
         <activity

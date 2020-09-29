@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,13 +30,21 @@ public class backtest extends AppCompatActivity {
         final ScrollView scroll=(ScrollView)findViewById(R.id.roll);
         final Button next=(Button)findViewById(R.id.button12);
         Button dialog = (Button) findViewById(R.id.button);
+        RadioButton item1=(RadioButton)findViewById(R.id.radioButton5);
+        RadioButton item2=(RadioButton)findViewById(R.id.radioButton6);
+        RadioButton item3=(RadioButton)findViewById(R.id.radioButton7);
+        RadioButton item4=(RadioButton)findViewById(R.id.radioButton8);
 
 
 
-        Que.setText("1.血液透析急性并发征不包括：");
-        final String[] Choi={"A.发热","B.肌肉痉挛","C.失衡综合征","D.透析性骨病","D.透析性骨病"};
 
-        for(int i=0; i<4; i++)
+        Que.setText("2.血液透析室應當根據設備要求定期對水處理系統進行沖洗消毒，並定期進行水質檢測。每次沖洗消毒後均應_____，確保安全。");
+        final String[] Choi = {"A.監測水中細菌量","B.測定管路中消毒液殘留量", "C.測定管路壓力", "D.不需要測定任何專案","B.測定管路中消毒液殘留量"};
+        item1.setText("\t"+Choi[0]);
+        item2.setText("\t"+Choi[1]);
+        item3.setText("\t"+Choi[2]);
+        item4.setText("\t"+Choi[3]);
+        /*for(int i=0; i<4; i++)
         {
             RadioButton tempButton = new RadioButton(this);
             tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
@@ -56,7 +65,7 @@ public class backtest extends AppCompatActivity {
                 else
                     result=false;
             }
-        });
+        });*/
 
         Als.setText("正確答案："+Choi[4]+"\n"+
                 "急性并发症分為：\n"+
@@ -71,10 +80,12 @@ public class backtest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog();
+
                 YAns.setVisibility(View.VISIBLE);
                 scroll.setVisibility(View.VISIBLE);
                 Als.setVisibility(View.VISIBLE);
                 next.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -114,9 +125,18 @@ public class backtest extends AppCompatActivity {
         normalDialog.show();
     }
     public void tobacktest2(View v){
-        Intent i=new Intent(backtest.this,backtest2.class);
+        Intent i=new Intent(backtest.this,tbacktest2.class);
+       /* TextView Que=(TextView)findViewById(R.id.Question);
+        RadioButton item1=(RadioButton)findViewById(R.id.radioButton9);
+        RadioButton item2=(RadioButton)findViewById(R.id.radioButton10);
+        RadioButton item3=(RadioButton)findViewById(R.id.radioButton11);
+        RadioButton item4=(RadioButton)findViewById(R.id.radioButton12);
+        i.putExtra("question",Que.getText().toString());
+        i.putExtra("itemA",item1.getText().toString());
+        i.putExtra("itemB",item2.getText().toString());
+        i.putExtra("itemC",item3.getText().toString());
+        i.putExtra("itemD",item4.getText().toString());*/
         startActivity(i);
-        finish();
     }
 }
 

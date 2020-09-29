@@ -114,7 +114,7 @@ public class backtest5 extends AppCompatActivity {
         normalDialog.show();
     }
     public void AnsAnalysis(View v){
-        Intent i=new Intent(backtest5.this,ansanalysis.class);
+        Intent i=new Intent(backtest5.this,Searchlogin.class);
         startActivity(i);
         finish();
     }

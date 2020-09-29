@@ -18,7 +18,7 @@ public class kindney_function extends AppCompatActivity {
         pdf.fromAsset("壹．腎臟功能簡介.doc.pdf").load();
     }
     public void tofronttest(View v){
-        Intent i=new Intent(kindney_function.this,backtest.class);
+        Intent i=new Intent(kindney_function.this,tbacktest.class);
         startActivity(i);
         finish();
     }

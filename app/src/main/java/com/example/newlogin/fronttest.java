@@ -1,39 +1,87 @@
 package com.example.newlogin;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.Queue;
+
 public class fronttest extends AppCompatActivity {
 
     boolean result;//判斷答案對錯
+    SQLiteDatabase db;
+    int i=0;
+    int Q[];//控制哪幾題被選到
+    TextView Que = (TextView) findViewById(R.id.Question);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fronttest);
-        TextView Que = (TextView) findViewById(R.id.Question);
+
+       // TextView Que = (TextView) findViewById(R.id.Question);
         final TextView YAns = (TextView) findViewById(R.id.YourAns);
         final TextView Als = (TextView) findViewById(R.id.Analysis);
         final RadioGroup ans = (RadioGroup) findViewById(R.id.Ans);
         final ScrollView scroll = (ScrollView) findViewById(R.id.roll);
         final Button next = (Button) findViewById(R.id.button12);
         Button dialog = (Button) findViewById(R.id.button);
+        RadioButton item1=(RadioButton)findViewById(R.id.radioButton1);
+        RadioButton item2=(RadioButton)findViewById(R.id.radioButton2);
+        RadioButton item3=(RadioButton)findViewById(R.id.radioButton3);
+        RadioButton item4=(RadioButton)findViewById(R.id.radioButton4);
+
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
+        Cursor c = db.rawQuery("SELECT * FROM Question ", null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            int j=c.getCount();
+            Q=new int [j];
+            for (int k=0;k<5;k++){
+                //隨機產生五個數字，用來抓題目
+                //題目id是1 2 3 4...
+                int x=0;
+                while (x==0){
+                    x=(int)(Math.random()*j+1);
+                    for (int b=0;b<k;b++){
+                        if (Q[b]==x){
+                            x=0;
+                        }
+                    }
+                    Q[k]=x;
+                }
+            }
+            c.close();
+            String s1=String.valueOf(Q[0]);
+            c = db.rawQuery("SELECT * FROM Question WHERE question_id='"+s1+"'", null);
+            if(c.getCount()>0) {
+                c.moveToFirst();
+                String s = "1"+c.getString(1) + "\n" + c.getString(3) + "\n" + c.getString(4) + "\n" + c.getString(5) + "\n" + c.getString(6) + "\n";
+                Que.setTextSize(30);
+                Que.setText(s);//題目
+            }
+        }
 
 
-        Que.setText("1.血液透析急性併發征不包括：");
-        final String[] Choi = {"A.發熱", "B.肌肉痙攣", "C.失衡綜合征", "D.透析性骨病", "D.透析性骨病"};
 
+        //Que.setText("1.血液透析急性併發征不包括：");
+        /*final String[] Choi = {"A.發熱", "B.肌肉痙攣", "C.失衡綜合征", "D.透析性骨病", "D.透析性骨病"};
+
+        item1.setText("\t"+Choi[0]);
+        item2.setText("\t"+Choi[1]);
+        item3.setText("\t"+Choi[2]);
+        item4.setText("\t"+Choi[3]);
         for (int i = 0; i < 4; i++) {
             RadioButton tempButton = new RadioButton(this);
             tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
@@ -56,7 +104,7 @@ public class fronttest extends AppCompatActivity {
                 else
                     result = false;
             }
-        });
+        });*/
     }
 
         /*Als.setText("正確答案："+Choi[4]+"\n"+
@@ -115,12 +163,27 @@ public class fronttest extends AppCompatActivity {
         normalDialog.show();
     }*/
         public void tofronttest2 (View v){
-            Intent i = new Intent(fronttest.this, fronttest2.class);
-            int flag=0;
-            flag=i.getIntExtra("flag",0);
-            i.putExtra("flag",flag);
-            startActivity(i);
-            finish();
+            Cursor c;
+            if (i<5){
+                String s1=String.valueOf(Q[i]);
+                c= db.rawQuery("SELECT * FROM Question  WHERE question_id='"+s1+"'", null);
+                if(c.getCount()>0) {
+                    c.moveToFirst();
+                    String s=i+1+c.getString(1)+"\n"+c.getString(3)+"\n"+c.getString(4)+"\n"+c.getString(5)+"\n"+c.getString(6)+"\n";
+                    Que.setTextSize(30);
+                    Que.setText(s);//題目
+                    i++;
+                }
+            }
+            else {
+                db.close();
+                Intent i = new Intent(fronttest.this, readpdf.class);
+                int flag=0;
+                flag=i.getIntExtra("flag",0);
+                i.putExtra("flag",flag);
+                startActivity(i);
+                finish();
+            }
         }
     }
 
