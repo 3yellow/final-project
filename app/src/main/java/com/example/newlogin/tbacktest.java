@@ -4,15 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class tbacktest extends AppCompatActivity {
 
     Intent intent = new Intent();
+    boolean result;//判斷答案對錯
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +25,12 @@ public class tbacktest extends AppCompatActivity {
 
         TextView Que=(TextView)findViewById(R.id.Question);
         final TextView Als=(TextView)findViewById(R.id.Analysis);
+        RadioGroup mRG=(RadioGroup)findViewById(R.id.Mrg);
         RadioButton item1=(RadioButton)findViewById(R.id.icho1);
         RadioButton item2=(RadioButton)findViewById(R.id.icho2);
         RadioButton item3=(RadioButton)findViewById(R.id.icho3);
         RadioButton item4=(RadioButton)findViewById(R.id.icho4);
+        final Button check=(Button)findViewById(R.id.button19);
 
         Que.setText("1.血液透析室應當根據設備要求定期對水處理系統進行沖洗消毒，並定期進行水質檢測。每次沖洗消毒後均應_____，確保安全。");
         final String[] Choi = {"A.監測水中細菌量","B.測定管路中消毒液殘留量", "C.測定管路壓力", "D.不需要測定任何專案","B.測定管路中消毒液殘留量"};
@@ -32,6 +38,21 @@ public class tbacktest extends AppCompatActivity {
         item2.setText("\t"+Choi[1]);
         item3.setText("\t"+Choi[2]);
         item4.setText("\t"+Choi[3]);
+
+
+        mRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton tempButton = (RadioButton) findViewById(checkedId);
+                if (tempButton.getText() == Choi[4]) {
+                    result=true;
+                    MyToast("正確答案："+tempButton.getText()+"，恭喜你，回答正確");
+                } else {
+                    result=false;
+                    MyToast("回答錯誤！");
+                }
+            }
+        });
 
 
         Als.setText("正確答案："+Choi[4]+"\n"+
@@ -42,6 +63,14 @@ public class tbacktest extends AppCompatActivity {
                 "\n"+
                 "    血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。\n" +
                 "    还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。");
+    }
+
+
+    private void MyToast(String str)
+    {
+        Toast mtoast = Toast.makeText(this,str,Toast.LENGTH_SHORT);
+        mtoast.setGravity(Gravity.TOP,0,400);
+        mtoast.show();
     }
 
     public void CHECK(View v) {

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +37,7 @@ public class Nurse_Newdata extends AppCompatActivity {
         textView7=findViewById(R.id.textView7);
     }
     public void back(View v){
-        Intent i=new Intent(this,Backstage_main.class);
+        Intent i=new Intent(this,Menu.class);
         startActivity(i);
         finish();
     }
@@ -62,6 +63,7 @@ public class Nurse_Newdata extends AppCompatActivity {
         }
 
         else if(flag==0&&flag_2!=2 ){
+            pas1=pas1.toLowerCase();//讓密碼統一都是小寫
             addData(edt_name.getText().toString(),eId,pas1,1);
             db.close();
             Intent i=new Intent(this,Menu.class);
@@ -70,6 +72,18 @@ public class Nurse_Newdata extends AppCompatActivity {
         }
 
     }
+
+    //不能返回
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return true;
+    }
+
 
     private int searchData(String str1,int flag) //判別是否已經有此資料了
     {

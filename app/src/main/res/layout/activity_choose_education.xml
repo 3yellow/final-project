@@ -6,14 +6,14 @@
     android:background="@drawable/wave1"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="39dp"
+        android:layout_height="20dp"
         android:orientation="horizontal"></LinearLayout>
-
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,21 +21,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginTop="4dp"
+                android:background="#00000000"
+                android:onClick="back"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.035"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.032"
+                app:srcCompat="@drawable/backkey" />
             <TextView
-                android:layout_width="133dp"
+                android:id="@+id/tex_patient_name"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="50sp"
                 android:text="姓名"
-                android:textSize="30sp" />
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/tex_nurse_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="800dp"
+                android:layout_marginLeft="600dp"
+                android:onClick="onclick"
                 android:text="登入中"
-                android:textSize="25sp" />
+                android:textSize="35sp" />
         </TableRow>
 
     </TableLayout>

@@ -3,6 +3,7 @@ package com.example.newlogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -41,11 +44,11 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        btn_search = findViewById(R.id.btn_birth);
+        //btn_search = findViewById(R.id.btn_birth);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         TextView user=(TextView)findViewById(R.id.textView);
         //   String name=getIntent().getStringExtra("name").toString();
-        user.setText("登入中...");
+        user.setText("登出");
 
 
         // db = openOrCreateDatabase("dbs", Context.MODE_PRIVATE, null);
@@ -54,7 +57,59 @@ public class Menu extends AppCompatActivity {
         read();
     }
 
-
+    public void on_dialog(String str){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Menu.this);
+        View v1 = getLayoutInflater().inflate(R.layout.dialog_signin,null);
+        alertDialog.setView(v1);
+        Button btn=v1.findViewById(R.id.btn_right);
+        Button btn_cancle=v1.findViewById(R.id.btn_left);
+        final TextView username=v1.findViewById(R.id.username);
+        final EditText password=v1.findViewById(R.id.password);
+        username.setText(str);
+        final AlertDialog dialog = alertDialog.create();
+        dialog.show();
+        btn_cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s=username.getText().toString().trim();
+                String pas=password.getText().toString().trim();
+                Cursor cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id = '"+ s +"'",null);
+                if (!cu.moveToFirst()){
+                    Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String password1=cu.getString(2);
+                    if (password1.equals(pas) )//輸入正確帳號密碼
+                    {
+                        flag=1;
+                        Intent intent=new Intent(Menu.this,nurse_modify.class);
+                        intent.putExtra("id",s);
+                        intent.putExtra("flag",flag);
+                        dialog.cancel();
+                        db.close();
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "輸入錯誤!!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                /*
+                Intent i=new Intent(Menu.this,Nurse_Newdata.class);
+                i.putExtra("aa",s);
+                TextView v11=findViewById(R.id.textView);
+                v11.setText(s);
+                startActivity(i);
+                */
+            }
+        });
+    }
     public void read()
     {
         i=0;//計數有幾筆資料
@@ -102,13 +157,7 @@ public class Menu extends AppCompatActivity {
                     public void onClick(View v) {
                         int tmp=btn_modify.getId();
                         String id_tmp=id_array.get(tmp).toString();
-                        flag=1;
-                        Intent intent=new Intent(Menu.this,nurse_modify.class);
-                        intent.putExtra("id",id_tmp);
-                        intent.putExtra("flag",flag);
-
-                        db.close();
-                        startActivity(intent);
+                        on_dialog(id_tmp);
                     }
                 });
             }while(cu.moveToNext());
@@ -118,6 +167,7 @@ public class Menu extends AppCompatActivity {
     public void nwedata(View v){
         Intent i=new Intent(Menu.this,Nurse_Newdata.class);
         startActivity(i);
+        finish();
     }
     public void search(View v){
         Cursor cu=null;
@@ -177,14 +227,9 @@ public class Menu extends AppCompatActivity {
                         btn_modify.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                int tmp = btn_modify.getId();
-                                String id_tmp = id_array.get(tmp).toString();
-                                int flag = 1;
-                                Intent intent = new Intent(Menu.this, nurse_modify.class);
-                                intent.putExtra("id", id_tmp);
-                                intent.putExtra("flag", flag);
-                                db.close();
-                                startActivity(intent);
+                                int tmp=btn_modify.getId();
+                                String id_tmp=id_array.get(tmp).toString();
+                                on_dialog(id_tmp);
                             }
                         });
                     } while (cu.moveToNext());
@@ -237,14 +282,9 @@ public class Menu extends AppCompatActivity {
                         btn_modify.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                int tmp = btn_modify.getId();
-                                String id_tmp = id_array.get(tmp).toString();
-                                int flag = 1;
-                                Intent intent = new Intent(Menu.this, nurse_modify.class);
-                                intent.putExtra("id", id_tmp);
-                                intent.putExtra("flag", flag);
-                                db.close();
-                                startActivity(intent);
+                                int tmp=btn_modify.getId();
+                                String id_tmp=id_array.get(tmp).toString();
+                                on_dialog(id_tmp);
                             }
                         });
                     } while (cu.moveToNext());
@@ -263,6 +303,17 @@ public class Menu extends AppCompatActivity {
 
     }
 
+    //不能返回
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return true;
+    }
+
     public void onclick(View v){
         AlertDialog dialog=new AlertDialog.Builder(Menu.this)
                 .setTitle("確定要登出?")
@@ -271,6 +322,7 @@ public class Menu extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(Menu.this,MainActivity.class);
                         startActivity(i);
+                        finish();
                     }
                 }).setNegativeButton("取消",null).create();
         dialog.show();
@@ -294,5 +346,10 @@ public class Menu extends AppCompatActivity {
         } catch (NoSuchFieldException e2) {
             e2.printStackTrace();
         }
+    }
+    public void back(View v){
+        Intent i=new Intent(this,Backstage_main.class);
+        startActivity(i);
+        finish();
     }
 }

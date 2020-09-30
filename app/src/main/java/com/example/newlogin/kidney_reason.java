@@ -17,7 +17,14 @@ public class kidney_reason extends AppCompatActivity {
         pdf.fromAsset("貳．腎衰竭的原因.doc.pdf").load();
     }
     public void onClick(View v){
-        Intent i=new Intent(kidney_reason.this,tbacktest.class);
+        Intent i=this.getIntent();
+        String nurseID=i.getStringExtra("nurseID");
+        String id=i.getStringExtra("id");
+
+
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
+        i=new Intent(kidney_reason.this,tbacktest.class);
         startActivity(i);
         finish();
     }

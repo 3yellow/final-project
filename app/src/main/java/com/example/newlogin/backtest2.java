@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,14 +15,14 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class backtest3 extends AppCompatActivity {
+public class backtest2 extends AppCompatActivity {
 
     boolean result;//判斷答案對錯
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backtest3);
+        setContentView(R.layout.activity_backtest2);
         TextView Que=(TextView)findViewById(R.id.Question);
         final TextView YAns=(TextView)findViewById(R.id.YourAns);
         final TextView Als=(TextView)findViewById(R.id.Analysis);
@@ -32,7 +33,7 @@ public class backtest3 extends AppCompatActivity {
 
 
 
-        Que.setText("3.血液透析急性并发征不包括：");
+        Que.setText("2.血液透析急性并发征不包括：");
         final String[] Choi={"A.发热","B.肌肉痉挛","C.失衡综合征","D.透析性骨病","D.透析性骨病"};
 
         for(int i=0; i<4; i++)
@@ -89,7 +90,7 @@ public class backtest3 extends AppCompatActivity {
          * setXXX方法返回Dialog对象，因此可以链式设置属性
          */
         final AlertDialog.Builder normalDialog =
-                new AlertDialog.Builder(backtest3.this);
+                new AlertDialog.Builder(backtest2.this);
         normalDialog.setIcon(R.drawable.ic_launcher_background);
         normalDialog.setTitle("公佈答案");
         if(result==true)
@@ -113,11 +114,21 @@ public class backtest3 extends AppCompatActivity {
         // 显示
         normalDialog.show();
     }
-    public void tobacktest4(View v){
+    //不能返回
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return true;
+    }
+    public void tobacktest3(View v){
         Intent i=this.getIntent();
         String nurseID=i.getStringExtra("nurseID");
         String id=i.getStringExtra("id");
-        i=new Intent(backtest3.this,backtest4.class);
+        i=new Intent(backtest2.this,backtest3.class);
         i.putExtra("nurseID",nurseID);
         i.putExtra("id",id);
         startActivity(i);

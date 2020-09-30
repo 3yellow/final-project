@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -46,6 +47,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     String idd=null;
     int flag1=0;//判斷是要修改的還是新增。 1為修改
 
+    String nurseID;
     int flag=0;//判別是不是已經有資料;
     int mYear_b,mMonth_b,mDay_b;
     RadioButton malee,femalee;
@@ -56,6 +58,8 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         setContentView(R.layout.activity_newdata);
         DBS = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
 
+        Intent i=this.getIntent();
+        nurseID=i.getStringExtra("nurseID");
         cal =  Calendar.getInstance();
         ca2 =  Calendar.getInstance();
         textView7=findViewById(R.id.textView7);
@@ -68,11 +72,10 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         femalee = findViewById(R.id.female);
 
         //修改資料
-        Intent i=this.getIntent();
+     //   Intent i=this.getIntent();
         flag1=i.getIntExtra("flag",0);
-
         if (flag1 == 1) {
-            idd=i.getStringExtra("id").toString();
+            idd=i.getStringExtra("id");
             String sql = "SELECT  patient_gender  FROM Patient WHERE patient_id = '"+ idd +"'";
             Cursor cu = DBS.rawQuery( sql,null );
             if (!cu.moveToFirst()){
@@ -102,14 +105,14 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     }
 
     public void read(String id_tmp){
-        String sql = "SELECT patient_name,patient_gender,patient_register,patient_birth FROM Patient WHERE patient_id = '"+ id_tmp +"'";
+        String sql = "SELECT *FROM Patient WHERE patient_id = '"+ id_tmp +"'";
         Cursor cu = DBS.rawQuery( sql,null );
 
         if (!cu.moveToFirst()){
             Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
         }
         else{
-            String anamee = cu.getString(0);
+            String anamee = cu.getString(1);
             String date_register=cu.getString(2);
             String bi=cu.getString(3);
             edt_name.setText(anamee);
@@ -126,7 +129,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
             mDay_b=Integer.valueOf(token[2]);
         }
         else {
-            mYear_b=ca2.get(Calendar.YEAR);
+            mYear_b=1970;//ca2.get(Calendar.YEAR)
             mMonth_b=ca2.get(Calendar.MONTH);
             mDay_b=ca2.get(Calendar.DAY_OF_MONTH);
         }
@@ -169,7 +172,12 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         eId=eId.toUpperCase();
         String ename=edt_name.getText().toString().trim();
 
-        flag=searchData(eId,flag);
+
+
+        Intent i=this.getIntent();
+        String nurseID=i.getStringExtra("nurse_name");
+
+        flag=searchData(eId);
         if (flag==2&&flag1!=1){
             textView7.setText("已有此資料");
         }
@@ -190,15 +198,26 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         else if (flag1==1){
             modify_patient(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString());
             DBS.close();
-            Intent i=new Intent(Newdata.this,Searchlogin.class);
+
+
+            i.putExtra("nurseID",nurseID);
+
+             i=new Intent(Newdata.this,Searchlogin.class);
+
             startActivity(i);
             finish();
         }
         else if (flag == 1) {
-            addData(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString());
+            addData(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString(),nurseID);
             //(String name,String id,String age,int gender,String date,String birth_date)
             DBS.close();
-            Intent i=new Intent(Newdata.this,consent.class);
+
+            i=new Intent(Newdata.this,consent.class);
+            i.putExtra("nurseID",nurseID);
+            i.putExtra("id",eId);
+
+
+
             startActivity(i);
             finish();
         }
@@ -250,9 +269,9 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         }
         return false;
     }*/
-    private int searchData(String str1,int flag) //判別是否已經有此資料了
+    private int searchData(String str1) //判別是否已經有此資料了
     {
-        c=DBS.rawQuery("SELECT patient_id FROM Patient  WHERE patient_id='"+str1+"'",null);
+        c=DBS.rawQuery("SELECT * FROM Patient  WHERE patient_id='"+str1+"'",null);
         if (c.moveToFirst()) {
             flag = 2;
         }
@@ -262,14 +281,20 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         return flag;
     }
 
-    private void addData(String name,String id ,int gender,String date,String birth_date) {
+    private void addData(String name,String id ,int gender,String date,String birth_date,String nurseID) {
         ContentValues cv=new ContentValues(1);
         cv.put("patient_id",id);
         cv.put("patient_name",name);
         cv.put("patient_gender",gender);
         cv.put("patient_register",date);
         cv.put("patient_birth",birth_date);
+
+        //cv.put("nurse_id", nurseID);
+        cv.put("patient_incharge",nurseID);//目前沒有護理師的資料，護理師的資料是從登入那抓取id，一直傳
+
+        //cv.put("nurse_id", nurseId);
         cv.put("patient_incharge","admin");//目前沒有護理師的資料，護理師的資料是從登入那抓取id，一直傳
+
         DBS.insert("Patient", null, cv);
 
         Cursor cu = DBS.rawQuery("SELECT * FROM Patient",null);
@@ -278,13 +303,15 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         }
     }
 
-    private void modify_patient(String name,String id ,int gender,String date,String birth_date){
+    private void modify_patient(String name,String id ,int gender,String date,String birth_date ){
         ContentValues cv = new ContentValues(7);
         cv.put("patient_id", id);
         cv.put("patient_name", name);
         cv.put("patient_gender", gender);
         cv.put("patient_register", date);
         cv.put("patient_birth", birth_date);
+
+
         //如果是修改
         String whereClause = "patient_id = ?";
         String whereArgs[] = {id};
@@ -314,7 +341,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
 
         }
         else {
-            SimpleDateFormat formatter_b=new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat formatter_b=new SimpleDateFormat("1970/MM/dd");
             if (flag==1){
                 String sql = "SELECT patient_birth FROM Patient WHERE patient_id = '"+ id_tmp +"'";
                 Cursor cu = DBS.rawQuery( sql,null );
@@ -347,6 +374,22 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+        }
+        return true;
+    }
+
+    public void back(View v){
+        Intent i=new Intent(Newdata.this,Searchlogin.class);
+        i.putExtra("nurseID",nurseID);
+        startActivity(i);
+        finish();
+    }
 
 }
 
