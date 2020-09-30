@@ -22,14 +22,18 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     static final String Nurse="nurse"; //database table name
-    Intent intent = new Intent();
     EditText editText, Account;
+    Intent intent=new Intent();
     ImageButton button;
     boolean canSee;
     SQLiteDatabase db;
+    int flag=0;
+    Cursor cu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,33 +41,100 @@ public class MainActivity extends AppCompatActivity {
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         //getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        //getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);
-        //db.setForeignKeyConstraintsEnabled(true);
-        createNurseTable();
-        createPatientTable();
-        createTopicTable();
-        createStudyTable();
-        createQuestionTable();
-        createExamTable();
-        createAnswerTable();
-        Account = (EditText) findViewById(R.id.editText);
-        editText = (EditText) findViewById(R.id.editText2);
-        button = (ImageButton) findViewById(R.id.change);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //通过全局的一个变量的设置，这个就是判断控件里面的内容是不是能被看到
-                if (canSee == false) {
-                    //如果是不能看到密码的情况下，
-                    editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    canSee = true;
-                } else {
-                    //如果是能看到密码的状态下
-                    editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    canSee = false;
-                }
-            }
-        });
+        cu = db.rawQuery("SELECT * FROM Question ",null);
+        if (cu.getCount()<0){
+            createNurseTable();
+            createPatientTable();
+            createTopicTable();
+            createStudyTable();
+            createQuestionTable();
+            createExamTable();
+            createAnswerTable();
+            insertTopic("t1","t1");
+            //db.setForeignKeyConstraintsEnabled(true);
+            String content="血液透析急性併發征不包括：";
+            String s1="發熱";
+            String s2="肌肉痙攣";
+            String s3="失衡綜合征";
+            String s4="透析性骨病";
+            String An1="透析性骨病";
+            String explain="急性并发症分為：透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。";
+            insertQuestion( "1", content, s1, s2, s3, s4, explain, "t1", An1);
+            content="血液透析室應當根據設備要求定期對水處理系統進行沖洗消毒，並定期進行水質檢測。每次沖洗消毒後均應_____，確保安全。";
+            s1="監測水中細菌量";
+            s2="測定管路中消毒液殘留量";
+            s3="測定管路壓力";
+            s4="不需要測定任何專案";
+            An1="測定管路中消毒液殘留量";
+            explain="急性并发症分為：透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。";
+            insertQuestion( "2", content, s1, s2, s3, s4, explain, "t1", An1);
+            content="血液透析室應當建立嚴格的接診制度，對所有初次透析的患者進行乙型肝炎、病毒、丙型肝炎病毒、梅毒、愛滋病病毒感染的相關檢查，每_____複查1次。";
+            s1="月";
+            s2="季度";
+            s3="半年";
+            s4="年";
+            An1="半年";
+            explain="急性并发症分為：透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。";
+            insertQuestion( "3", content, s1, s2, s3, s4, explain, "t1", An1);
+            content="血液透析室使用的消毒藥械、一次性醫療器械和器具應當符合國家有關規定。一次性使用的醫療器械、器具_____。";
+            s1="不得重複使用";
+            s2="可以重複使用";
+            s3="部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌";
+            s4="應進行可回收利用";
+            An1="部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌";
+            explain="急性并发症分為：透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。";
+            insertQuestion( "4", content, s1, s2, s3, s4, explain, "t1", An1);
+            content="血液透析複用用水的常規內毒素檢測應_____\"+\"\\n\"+\"至少一次。";
+            s1="不得重複使用";
+            s2="可以重複使用";
+            s3="部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌";
+            s4="每季";
+            An1="部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌";
+            explain="急性并发症分為：透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。";
+            insertQuestion( "5", content, s1, s2, s3, s4, explain, "t1", An1);
+        }
+
+         Account = (EditText) findViewById(R.id.editText);
+         editText = (EditText) findViewById(R.id.editText2);
+         button = (ImageButton) findViewById(R.id.change);
+         button.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                  //通过全局的一个变量的设置，这个就是判断控件里面的内容是不是能被看到
+                  if (canSee == false) {
+                      //如果是不能看到密码的情况下，
+                      editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                      canSee = true;
+                  } else {
+                      //如果是能看到密码的状态下
+                      editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                      canSee = false;
+                  }
+              }
+          });
+    }
+
+    private void insertQuestion(String question_id,String content,String s1,String s2,String s3,String s4,String explain, String topic_id,String An)
+    {
+        ContentValues cv =new ContentValues(1);//10
+        cv.put("question_id",question_id);
+        cv.put("question_content",content);
+        cv.put("question_answer",An);
+        cv.put("question_s1",s1);
+        cv.put("question_s2",s2);
+        cv.put("question_s3",s3);
+        cv.put("question_s4",s4);
+        cv.put("question_explain",explain);
+        cv.put("topic_id",topic_id);
+        db.insert("Question", null, cv);
+        Cursor c = db.rawQuery("SELECT * FROM Question",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(1) + "\\n" + c.getString(3) + "\\n" + c.getString(4) + "\\n" + c.getString(5) + "\\n" + c.getString(6) + "\\n";
+        }
     }
 
     @Override
@@ -137,11 +208,9 @@ public class MainActivity extends AppCompatActivity {
                         int flag_staue=cu.getInt(3);
                         if (password.equals(pas) && flag_staue==1){
                             intent.setClass(this, Searchlogin.class);
-<<<<<<< HEAD
+
                             intent.putExtra("nurseID",str);
-=======
                             intent.putExtra("nurse",str);
->>>>>>> 5614fa123f1a6fbda43856c96be541372165e8ed
                             // intent.putExtra("name", Account.getText().toString());
                             startActivity(intent);
                             finish();
@@ -325,26 +394,42 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
 
+    private void insertTopic(String topic_id,String topic_name )
+    {
+        ContentValues cv =new ContentValues(1);//10
+        cv.put("topic_id",topic_id);
+        cv.put("topic_name",topic_name);
+
+        db.insert("Topic", null, cv);
+        Cursor c = db.rawQuery("SELECT * FROM Topic",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(0) + "\\n" + c.getString(1) +"\\n";
+        }
+    }
+
     private void createTopicTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Topic (topic_id INT, topic_name TEXT, PRIMARY KEY(topic_id))";
+        String sql = "CREATE TABLE IF NOT EXISTS Topic (topic_id TEXT, topic_name TEXT, PRIMARY KEY(topic_id))";
         db.execSQL(sql);
     }
 
     private void createStudyTable()//閱讀紀錄
     {
-        String sql = "CREATE TABLE IF NOT EXISTS Study (study_id INT, study_date DateTime, topic_id INT, patient_id TEXT, nurse_id TEXT, PRIMARY KEY(study_id), FOREIGN KEY (topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Study (study_id TEXT, study_date DateTime, topic_id TEXT, patient_id TEXT, nurse_id TEXT, PRIMARY KEY(study_id), FOREIGN KEY (topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
 
-    private void createQuestionTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Question (question_id INT, question_content TEXT, question_answer INT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12), question_explain CHAR(40), exam_id INT, topic_id INT, PRIMARY KEY(question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+    private void createQuestionTable()
+    {
+        //String question_id,String content,String s1,String s2,String s3,String s4,String explain, String topic_id,String An
+        String sql = "CREATE TABLE IF NOT EXISTS Question (question_id TEXT, question_content TEXT, question_answer TEXT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12), question_explain CHAR(40), exam_id TEXT, topic_id TEXT, PRIMARY KEY(question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
 
     private void createExamTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Exam (exam_id INT, exam_date DateTime, exam_score INT,question_id INT, patient_id CHAR(10), nurse_id CHAR(10), PRIMARY KEY(exam_id), FOREIGN KEY(patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(question_id) REFERENCES Question(question_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Exam (exam_id TEXT, exam_date DateTime, exam_score INT, patient_id TEXT, nurse_id TEXT, PRIMARY KEY(exam_id), FOREIGN KEY(patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
@@ -354,4 +439,10 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
+
+    /*private void createAnswerTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS Answer (result INT, patient_answer TEXT, question_id TEXT, exam_id TEXT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12), PRIMARY KEY(exam_id, question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id)ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(question_id) REFERENCES Question(question_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        db.execSQL(sql);
+        db.execSQL("PRAGMA foreign_keys=ON;");
+    }*/
 }
