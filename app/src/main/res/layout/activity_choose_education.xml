@@ -9,22 +9,25 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="10dp"
         android:orientation="horizontal"></LinearLayout>
+
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:orientation="horizontal">
+
             <ImageButton
                 android:id="@+id/imageButton2"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="4dp"
                 android:background="#00000000"
                 android:onClick="back"
@@ -36,22 +39,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.032"
                 app:srcCompat="@drawable/backkey" />
+
             <TextView
                 android:id="@+id/tex_patient_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="50sp"
                 android:text="姓名"
-                android:textSize="40sp" />
+                android:textSize="33sp" />
 
             <TextView
                 android:id="@+id/tex_nurse_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="600dp"
+                android:layout_marginLeft="500dp"
                 android:onClick="onclick"
                 android:text="登入中"
-                android:textSize="35sp" />
+                android:textSize="30sp" />
         </TableRow>
 
     </TableLayout>
@@ -64,25 +68,25 @@
 
         <TableRow
             android:layout_width="999dp"
-            android:layout_height="58dp"
+            android:layout_height="62dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="433dp"
-                android:layout_height="58dp"
-                android:text="   衛教主題   "
+                android:layout_height="62dp"
+                android:text="衛教主題   "
                 android:textSize="35dp" />
 
             <TextView
                 android:layout_width="313dp"
-                android:layout_height="58dp"
-                android:text="   日期   "
+                android:layout_height="62dp"
+                android:text=" 日期   "
                 android:textSize="35dp" />
 
             <TextView
                 android:layout_width="253dp"
-                android:layout_height="58dp"
-                android:text="   測驗分數   "
+                android:layout_height="62dp"
+                android:text=" 測驗分數   "
                 android:textSize="35dp" />
         </TableRow>
 
@@ -90,40 +94,47 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="420dp"
         android:layout_marginLeft="50dp">
+
 
         <TableLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="420dp"
             android:layout_marginLeft="50dp"
             android:orientation="horizontal">
 
             <TableRow
                 android:layout_width="999dp"
-                android:layout_height="58dp"
+                android:layout_height="62dp"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/id_theme1"
-                    android:layout_width="433dp"
-                    android:layout_height="58dp"
+                    android:id="@+id/kindney_function"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
                     android:onClick="function"
-                    android:text="   主題1   "
+                    android:text="   壹.腎臟功能簡介   "
                     android:textSize="35dp" />
 
                 <TextView
-                    android:layout_width="313dp"
-                    android:layout_height="58dp"
+                    android:id="@+id/kindney_function_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
                     android:layout_marginLeft="80dp"
-                    android:text=" 20200415 "
                     android:textSize="35dp" />
 
                 <TextView
-                    android:layout_width="253dp"
-                    android:layout_height="58dp"
-                    android:text="   80   "
+                    android:id="@+id/kindney_function_grade"
+                    android:layout_width="150dp"
+                    android:layout_height="62dp"
                     android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                   />
             </TableRow>
 
             <TableRow
@@ -132,26 +143,396 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/id_theme2"
-                    android:layout_width="433dp"
-                    android:layout_height="58dp"
+                    android:id="@+id/What_is_chronic_kidney_disease"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
                     android:onClick="reason"
-                    android:text="   主題2   "
+                    android:text="   貳.甚麼是慢性腎臟病   "
                     android:textSize="35dp" />
 
                 <TextView
-                    android:layout_width="313dp"
-                    android:layout_height="58dp"
+                    android:id="@+id/What_is_chronic_kidney_disease_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
                     android:layout_marginLeft="80dp"
-                    android:text=" 20200215 "
                     android:textSize="35dp" />
 
                 <TextView
-                    android:layout_width="253dp"
-                    android:layout_height="58dp"
-                    android:text="   100  "
+                    android:id="@+id/What_is_chronic_kidney_disease_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
                     android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
             </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/How_healthy_people_protect_their_health"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   參.健康人如何保護自己健康   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/How_healthy_people_protect_their_health_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/How_healthy_people_protect_their_health_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Causes_of_kidney_failure"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   肆.腎衰竭的原因   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Causes_of_kidney_failure_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Causes_of_kidney_failure_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Causes_of_renal_failure_treatment"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   伍.腎衰竭原因治療   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Causes_of_renal_failure_treatment_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Causes_of_renal_failure_treatment_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Hemodialysis_treatment_and_care"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   陸.血液透析治療與照護   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Hemodialysis_treatment_and_care_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Hemodialysis_treatment_and_care_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/What_is_hemodialysis"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   柒.何為血液透析   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/What_is_hemodialysis_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/What_is_hemodialysis_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Arteriovenous_donkey_care"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   捌.動靜脈驢廔管照護   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Arteriovenous_donkey_care_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Arteriovenous_donkey_care_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/How_can_kidney_friends_prevent_constipation"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   玖.腎友如何預防便祕   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/How_can_kidney_friends_prevent_constipation_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/How_can_kidney_friends_prevent_constipation_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/How_to_remove_the_itchy_skin"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   拾.甚有皮膚搔癢該如何處離   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/How_to_remove_the_itchy_skin_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/How_to_remove_the_itchy_skin_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Dry_weight"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   拾壹.乾體重   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Dry_weight_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Dry_weight_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Introduction_of_vascular_access"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   拾貳.血管通路的介紹   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Introduction_of_vascular_access_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Introduction_of_vascular_access_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Essentials_of_Diet_Control"
+                    android:layout_width="400dp"
+                    android:layout_height="62dp"
+                    android:onClick="reason"
+                    android:text="   拾參.飲食控制要點   "
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Essentials_of_Diet_Control_date"
+                    android:layout_width="300dp"
+                    android:layout_height="62dp"
+                    android:layout_marginLeft="80dp"
+                    android:textSize="35dp" />
+
+                <TextView
+                    android:id="@+id/Essentials_of_Diet_Control_grade"
+                    android:layout_width="200dp"
+                    android:layout_height="62dp"
+                    android:textSize="35dp" />
+                <Button
+                    android:layout_width="99dp"
+                    android:layout_height="62dp"
+                    android:text="展開"
+                    android:textSize="35dp"
+                    />
+            </TableRow>
+
         </TableLayout>
     </ScrollView>
 </LinearLayout>

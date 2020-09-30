@@ -3,6 +3,7 @@ package com.example.newlogin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,25 +14,34 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 public class choose_education extends AppCompatActivity {
     SQLiteDatabase db;
     static final String Nurse="nurse"; //database table name
     static final String Patient="patient"; //database table name
+    TextView kindney_reason_date,kindney_reason_grade;
+    TextView kindney_function_date,kindney_function_grade;
     Cursor cu;
     String nurseID;
     String id;
+    //String exam_id="kidney_reason"+id+count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_education);
+        kindney_reason_date=findViewById(R.id.What_is_chronic_kidney_disease_date);
+        kindney_reason_grade=findViewById(R.id.What_is_chronic_kidney_disease_grade);
+
+        TextView nurse=findViewById(R.id.tex_nurse_name);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         Intent i=this.getIntent();
         nurseID=i.getStringExtra("nurseID");
-        TextView nurse=findViewById(R.id.tex_nurse_name);
         cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id='"+nurseID+"' ",null);
         if(cu.getCount()>0) {
             cu.moveToFirst();
@@ -45,6 +55,113 @@ public class choose_education extends AppCompatActivity {
             cu.moveToFirst();
             String patient_name=cu.getString(1);
             patient.setText("姓名："+patient_name);
+        }
+        show_kidney_reason( id,"kidney_reason");
+        show_kindney_function( id,"kindney_function");
+    }
+
+    public String[] choi_Q()//隨機產生5題題目
+    {
+        int [] array;
+        String []Q_array=new String[5];
+        int count=0,total_Q=0;
+        cu = db.rawQuery("SELECT * FROM Question ",null);
+        if (cu.getCount()>0){
+            cu.moveToFirst();
+            total_Q=cu.getCount();
+        }
+        array=new int [5];
+        while (count<5){
+            int num=(int)(Math.random()*(total_Q))+1;
+            boolean flag=true;
+            for (int j=0;j<5;j++){
+                if (num==array[j]){
+                    flag=false;
+                    break;
+                }
+            }
+            if (flag){
+                array[count]=num;
+                Q_array[count]=num+"";
+                count++;
+            }
+        }
+        return Q_array;
+    }
+
+    public void show_kindney_function(String id,String s_p){
+        kindney_function_date=findViewById(R.id.kindney_function_date);
+        kindney_function_grade=findViewById(R.id.kindney_function_grade);
+        //patient_name LIKE '"+s_p+"%'";
+        //String exam_id="kidney_reason"+id+count;
+        int count=0;
+        String str=s_p+id;
+        cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+str+"%'",null);
+        if(cu.getCount()>0) {
+            cu.moveToFirst();
+            count=cu.getCount();
+        }
+        count=count-1;
+        String exam_id=s_p+id+count;
+        cu=db.rawQuery("SELECT * FROM Exam WHERE exam_id='"+exam_id+"' ",null);
+        if (cu.getCount()>0){
+            cu.moveToFirst();
+            String date=cu.getString(1);
+            String grade=cu.getString(2);
+            kindney_function_date.setText("  "+date);
+            kindney_function_grade.setText(" "+grade);
+        }
+        else {
+            kindney_function_date.setText(" EORROR");
+            kindney_function_grade.setText(" EORROR");
+        }
+    }
+    public void show_kidney_reason(String id,String s_p){
+        //patient_name LIKE '"+s_p+"%'";
+        //String exam_id="kidney_reason"+id+count;
+        int count=0;
+        String str=s_p+id;
+        cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+str+"%'",null);
+        if(cu.getCount()>0) {
+            cu.moveToFirst();
+            count=cu.getCount();
+        }
+        count=count-1;
+        String exam_id=s_p+id+count;
+        cu=db.rawQuery("SELECT * FROM Exam WHERE exam_id='"+exam_id+"' ",null);
+        if (cu.getCount()>0){
+            cu.moveToFirst();
+            String date=cu.getString(1);
+            String grade=cu.getString(2);
+            kindney_reason_date.setText("  "+date);
+            kindney_reason_grade.setText(" "+grade);
+        }
+        else {
+            kindney_reason_date.setText(" ERROR!!");
+            kindney_reason_grade.setText(" ERROR!!");
+        }
+    }
+
+    private void insertExam(String exam_id ,String nurse_id,  String patient_id){
+      //  exam_id TEXT, exam_date DateTime, exam_score INT,question_id_1 TEXT,question_id_2 TEXT,question_id_3 TEXT,question_id_4 TEXT,question_id_5 TEXT, patient_id TEXT, nurse_id TEXT
+        // ==格式化
+        SimpleDateFormat nowdate = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        //==GMT標準時間往後加八小時
+        nowdate.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        //==取得目前時間
+        String exam_date = nowdate.format(new java.util.Date());
+        ContentValues cv =new ContentValues(5);
+        cv.put("exam_id",exam_id);
+        cv.put("exam_date",exam_date);
+        cv.put("exam_score",-1);
+        cv.put("patient_id",patient_id);
+        cv.put("nurse_id",nurse_id);
+        db.insert("Exam", null, cv);
+        Toast.makeText(getApplicationContext(), "成功注冊", Toast.LENGTH_SHORT).show();
+        Cursor c = db.rawQuery("SELECT * FROM Exam",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(0) + "\\n" + c.getString(1) + "\\n" + c.getString(2) + "\\n"+c.getString(3) + "\\n"+c.getString(4) + "\\n";
         }
     }
 
@@ -98,24 +215,43 @@ public class choose_education extends AppCompatActivity {
         }
     }
 
+
     public void function(View v){
-        Intent i=this.getIntent();
-        int flag=i.getIntExtra("flag",0);
-        if (flag==1){
-             i=new Intent( this,fronttest.class);
+        String Q_array[]=new String[5];
+        int count=0;//看有幾張考卷了
+        cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+"kidney_function"+id+"%'",null);
+        if (cu.getCount()>0){
+            //衛教+後側
+            cu.moveToFirst();
+            count=cu.getCount();
+            String exam_id="kindney_function"+id+count;//考卷id=衛教資料名+病友id+第幾筆
+            Q_array=choi_Q();
+            insertExam(exam_id ,nurseID, id);
+            Intent i=new Intent( this,kidney_reason.class);
             //String nurseID=i.getStringExtra("nurseID");
-          //  String id=i.getStringExtra("eid");
+            //  String id=i.getStringExtra("eid");
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",id);
-             db.close();
+            i.putExtra("exam_id",exam_id);
+            i.putExtra("Q_array",Q_array);
+            db.close();
             startActivity(i);
             finish();
         }
         else {
-             i=new Intent( this,kindney_function.class);
-          //  String id=i.getStringExtra("eid");
+            //前側
+            String exam_id="kindney_function"+id+count;
+            Q_array=choi_Q();
+            insertExam(exam_id ,nurseID, id);
+            Intent i=new Intent( this,fronttest.class);
+            //String nurseID=i.getStringExtra("nurseID");
+            // String id=i.getStringExtra("eid");
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",id);
+            i.putExtra("exam_id",exam_id);
+            i.putExtra("health_education","kindney_function");
+            i.putExtra("Q_array",Q_array);
+
             db.close();
             startActivity(i);
             finish();
@@ -123,24 +259,41 @@ public class choose_education extends AppCompatActivity {
     }
 
     public void reason(View v){
-        Intent i=this.getIntent();
-        int flag=i.getIntExtra("flag",0);
-        if (flag==1){
-            i=new Intent( this,fronttest.class);
+        String Q_array[]=new String[5];
+        int count=0;//看有幾張考卷了
+        cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+"kidney_reason"+id+"%'",null);
+        if (cu.getCount()>0){
+            //衛教+後側
+            cu.moveToFirst();
+            count=cu.getCount();
+            String exam_id="kidney_reason"+id+count;//考卷id=衛教資料名+病友id+第幾筆
+            Q_array=choi_Q();
+            insertExam(exam_id ,nurseID, id);
+            Intent i=new Intent( this,kidney_reason.class);
             //String nurseID=i.getStringExtra("nurseID");
-           // String id=i.getStringExtra("eid");
+            //  String id=i.getStringExtra("eid");
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",id);
+            i.putExtra("exam_id",exam_id);
+            i.putExtra("Q_array",Q_array);
             db.close();
             startActivity(i);
             finish();
         }
         else {
-            i=new Intent( this,kidney_reason.class);
+            //前側
+            String exam_id="kidney_reason"+id+count;
+            Q_array=choi_Q();
+            insertExam(exam_id ,nurseID, id);
+            Intent i=new Intent( this,fronttest.class);
             //String nurseID=i.getStringExtra("nurseID");
-          //  String id=i.getStringExtra("eid");
+            // String id=i.getStringExtra("eid");
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",id);
+            i.putExtra("exam_id",exam_id);
+            i.putExtra("health_education","kidney_reason");
+            i.putExtra("Q_array",Q_array);
+
             db.close();
             startActivity(i);
             finish();

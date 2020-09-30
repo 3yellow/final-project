@@ -175,8 +175,7 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
 
 
         Intent i=this.getIntent();
-        String nurseID=i.getStringExtra("nurse_name");
-
+        String nurseID=i.getStringExtra("nurseID");
         flag=searchData(eId);
         if (flag==2&&flag1!=1){
             textView7.setText("已有此資料");
@@ -198,12 +197,9 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
         else if (flag1==1){
             modify_patient(ename,eId,geender,button6.getText().toString(),btn_birth.getText().toString());
             DBS.close();
-
-
-            i.putExtra("nurseID",nurseID);
-
              i=new Intent(Newdata.this,Searchlogin.class);
-
+            i.putExtra("nurseID",nurseID);
+             i=new Intent(Newdata.this,Searchlogin.class);
             startActivity(i);
             finish();
         }
@@ -215,8 +211,6 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
             i=new Intent(Newdata.this,consent.class);
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",eId);
-
-
 
             startActivity(i);
             finish();

@@ -2,7 +2,9 @@ package com.example.newlogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,23 +16,27 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Queue;
 
 public class fronttest extends AppCompatActivity {
-
+    static final String Question="question"; //database table name
+    SQLiteDatabase db; //database object
     boolean result;//判斷答案對錯
-    SQLiteDatabase db;
-    int i=0;
-    int Q[];//控制哪幾題被選到
-    TextView Que = (TextView) findViewById(R.id.Question);
+    //static final String db_nurse="nurseDB"; //database name;
+    Cursor cu;
+    String q_id,nurseID,id,exam_id,health_education,patient_answer;
+    String Q_array[]=new String[5];
+    int score=0,count=0;
+    String[] Choi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fronttest);
-
-       // TextView Que = (TextView) findViewById(R.id.Question);
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫
+        TextView Que = (TextView) findViewById(R.id.Question);
         final TextView YAns = (TextView) findViewById(R.id.YourAns);
         final TextView Als = (TextView) findViewById(R.id.Analysis);
         final RadioGroup ans = (RadioGroup) findViewById(R.id.Ans);
@@ -74,22 +80,17 @@ public class fronttest extends AppCompatActivity {
         }
 
 
+        Intent intent=this.getIntent();
+        nurseID=intent.getStringExtra("nurseID");
+        id=intent.getStringExtra("id");
+        exam_id=intent.getStringExtra("exam_id");
+        health_education=intent.getStringExtra("health education");
+        score=intent.getIntExtra("score",0);
+        count=intent.getIntExtra("count",0);
+        int c=Integer.valueOf(count);;
+        Q_array=intent.getStringArrayExtra("Q_array");
+        q_id=Q_array[c];
 
-        //Que.setText("1.血液透析急性併發征不包括：");
-        /*final String[] Choi = {"A.發熱", "B.肌肉痙攣", "C.失衡綜合征", "D.透析性骨病", "D.透析性骨病"};
-
-        item1.setText("\t"+Choi[0]);
-        item2.setText("\t"+Choi[1]);
-        item3.setText("\t"+Choi[2]);
-        item4.setText("\t"+Choi[3]);
-        for (int i = 0; i < 4; i++) {
-            RadioButton tempButton = new RadioButton(this);
-            tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
-            tempButton.setText(Choi[i]);
-            tempButton.setTextSize(1,30);
-            ans.addView(tempButton, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        }
-        ans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -103,8 +104,71 @@ public class fronttest extends AppCompatActivity {
                     result = true;
                 else
                     result = false;
+
+        String sql = "SELECT * FROM Question WHERE question_id = '"+ q_id +"'"; //我在上一個傳給你的城市中有寫感生亂數，用那個亂數的改count，因為這個count 主要的功能是既屬第幾題
+        cu = db.rawQuery( sql,null );
+        if (!cu.moveToFirst()){
+            Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String content=cu.getString(1);
+            Que.setText(content);
+           //{"A.發熱", "B.肌肉痙攣", "C.失衡綜合征", "D.透析性骨病", "D.透析性骨病"};
+            Choi=new String[4];
+            for (int i = 0;i < 4 ; i++){
+                Choi[i]=cu.getString(i+3);//拿到存在資料庫中的選項
             }
-        });*/
+            for (int i = 0; i < 4; i++) {
+                RadioButton tempButton = new RadioButton(this);
+                tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
+                tempButton.setText(Choi[i]);
+                tempButton.setTextSize(1,30);
+                ans.addView(tempButton, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            }
+            ans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    // TODO Auto-generated method stub
+                    RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
+                    // 以下就可以对这个RadioButton进行处理了
+                    String a=cu.getString(2);//拿到資料庫中的答案
+                    patient_answer=tempButton.getText().toString();
+                    YAns.setText("您的答案：" + tempButton.getText());
+                    //YAns.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.VISIBLE);
+                    String str=tempButton.getText().toString();
+                    if (str.equals(a)){
+                        // Answer_db(str, a,count,int exam_id)
+                        result = true;
+                    }
+                    else {
+                        result = false;
+                    }
+                }
+
+            });
+        }
+    }
+    public void Answer_db(String patient_id,String patient_answer,int result,String question_id,String exam_id,String question_s1,String question_s2,String question_s3, String question_s4){
+        //result TEXT, patient_answer TEXT, question_id TEXT, exam_id TEXT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12)
+        //result INT, patient_answer INT, question_id INT, exam_id INT
+        ContentValues cv =new ContentValues(1);//10
+      //  cv.put("patient_id",patient_id);
+        cv.put("result",result);
+        cv.put("patient_answer",patient_answer);
+        cv.put("question_id",question_id);
+        cv.put("exam_id",exam_id);
+        cv.put("question_s1",question_s1);
+        cv.put("question_s2",question_s2);
+        cv.put("question_s3",question_s3);
+        cv.put("question_s4",question_s4);
+        db.insert("Answer", null, cv);
+        Cursor c = db.rawQuery("SELECT * FROM Answer",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(1) + "\\n" + c.getString(3) + "\\n" + c.getString(4) + "\\n" + c.getString(5) + "\\n" + c.getString(6) + "\\n";
+        }
     }
 
         /*Als.setText("正確答案："+Choi[4]+"\n"+
@@ -163,27 +227,74 @@ public class fronttest extends AppCompatActivity {
         normalDialog.show();
     }*/
         public void tofronttest2 (View v){
-            Cursor c;
-            if (i<5){
-                String s1=String.valueOf(Q[i]);
-                c= db.rawQuery("SELECT * FROM Question  WHERE question_id='"+s1+"'", null);
-                if(c.getCount()>0) {
-                    c.moveToFirst();
-                    String s=i+1+c.getString(1)+"\n"+c.getString(3)+"\n"+c.getString(4)+"\n"+c.getString(5)+"\n"+c.getString(6)+"\n";
-                    Que.setTextSize(30);
-                    Que.setText(s);//題目
-                    i++;
-                }
+
+            count++;
+            int true_or_false=-1;//判別題目有沒有做對 1:對 0:錯
+            if (result==true) {
+                true_or_false=1;
+                score += 20;
+                Toast.makeText(this, "right"+score, Toast.LENGTH_LONG).show();
             }
             else {
-                db.close();
-                Intent i = new Intent(fronttest.this, readpdf.class);
-                int flag=0;
-                flag=i.getIntExtra("flag",0);
-                i.putExtra("flag",flag);
+                Toast.makeText(this, "error" + score, Toast.LENGTH_LONG).show();
+                true_or_false=0;
+            }
+            if (count>=5) {
+                Answer_db(id,patient_answer, true_or_false,q_id,exam_id,Choi[0],Choi[1],Choi[2],Choi[3]);
+                modify_Exam(score,id,exam_id);
+                Intent intent=this.getIntent();
+                health_education=intent.getStringExtra("health education");
+               Intent i = new Intent(fronttest.this, choose_education.class);
+                i.putExtra("nurseID",nurseID);
+                i.putExtra("id",id);
+                i.putExtra("flag",99);//到MaunActivity時要判別 修改考卷
+                startActivity(i);
+                finish();
+            }
+            else {
+                Answer_db(id, patient_answer,true_or_false,q_id,exam_id,Choi[0],Choi[1],Choi[2],Choi[3]);
+                Intent i=new Intent(this,fronttest.class);
+                i.putExtra("count",count);
+                i.putExtra("score",score);
+                i.putExtra("nurseID",nurseID);
+                i.putExtra("id",id);
+                i.putExtra("exam_id",exam_id);
+                i.putExtra("Q_array",Q_array);
                 startActivity(i);
                 finish();
             }
         }
+
+    private void modify_Exam(int score,String patient_id,String exam_id){
+        //exam_id TEXT, exam_date DateTime, exam_score INT, patient_id TEXT, nurse_id TEXT
+        int exam_score;
+        String exam_date,nurseID;
+        Cursor c = db.rawQuery("SELECT * FROM Exam WHERE exam_id='"+exam_id+"'",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            exam_date=c.getString(1);
+            nurseID=c.getString(4);
+
+            ContentValues cv = new ContentValues(7);
+            cv.put("exam_score",score);
+            cv.put("exam_id",exam_id);
+            cv.put("exam_date",exam_date);
+            cv.put("patient_id",patient_id);
+            cv.put("nurse_id",nurseID);
+            //如果是修改
+            String whereClause = "exam_id = ?";
+            //  String whereArgs[] = {id};
+            String whereArgs[ ]={String.valueOf(exam_id)};
+            db.update("Exam", cv, whereClause, whereArgs);
+        }
+        c = db.rawQuery("SELECT * FROM Exam WHERE exam_id='"+exam_id+"'",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(0) + "\\n" + c.getString(1) + "\\n" + c.getString(2) + "\\n"+c.getString(3) + "\\n"+c.getString(4) + "\\n";
+            Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
+        }
+
     }
+
+}
 

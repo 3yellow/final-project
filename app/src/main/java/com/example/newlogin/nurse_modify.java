@@ -11,9 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-
 import android.view.KeyEvent;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -88,14 +86,11 @@ public class nurse_modify extends AppCompatActivity {
         return true;
     }
 
-
     public void back(View v){
         Intent i=new Intent(this,Backstage_main.class);
         startActivity(i);
         finish();
     }
-
-
     public void on(View v)//RadioGroup group, int checkedId
     {
         switch (work.getCheckedRadioButtonId()) {

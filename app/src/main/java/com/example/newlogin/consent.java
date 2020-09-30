@@ -7,16 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 
 public class consent extends AppCompatActivity {
+    String nurseID,id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consent);
+        Intent i=this.getIntent();
+        nurseID =i.getStringExtra("nurseID");
+        id=i.getStringExtra("id");
     }
     public void onclick(View v){
-        Intent i=this.getIntent();
-        String nurseID =i.getStringExtra("nurseID");
-        String id=i.getStringExtra("id");
-        i=new Intent(consent.this,signature.class);
+
+        Intent i=new Intent(consent.this,signature.class);
         i.putExtra("nurseID",nurseID);
         i.putExtra("id",id);
         startActivity(i);

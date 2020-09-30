@@ -117,26 +117,26 @@
                 android:text="\t\t\t\t\t變更資料  "
                 android:textSize="35dp" />
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="1000dp"
+            android:orientation="vertical">
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="400dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="1000dp"
-                android:orientation="vertical">
+
 
                 <TableLayout
                     android:id="@+id/tbl"
                     android:layout_width="999dp"
-                    android:layout_height="470dp"
+                    android:layout_height="400dp"
                     android:shrinkColumns="0"
                     android:stretchColumns="1">
 
                     <TableRow android:id="@+id/tbr"></TableRow>
                 </TableLayout>
-            </LinearLayout>
-        </ScrollView>
+
+        </ScrollView> </LinearLayout>
     </LinearLayout>
 </LinearLayout>
