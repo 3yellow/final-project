@@ -1,6 +1,5 @@
 package com.example.newlogin;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
@@ -10,14 +9,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Queue;
 
 public class fronttest extends AppCompatActivity {
     static final String Question="question"; //database table name
@@ -42,6 +43,42 @@ public class fronttest extends AppCompatActivity {
         final ScrollView scroll = (ScrollView) findViewById(R.id.roll);
         final Button next = (Button) findViewById(R.id.button12);
         Button dialog = (Button) findViewById(R.id.button);
+        RadioButton item1=(RadioButton)findViewById(R.id.radioButton1);
+        RadioButton item2=(RadioButton)findViewById(R.id.radioButton2);
+        RadioButton item3=(RadioButton)findViewById(R.id.radioButton3);
+        RadioButton item4=(RadioButton)findViewById(R.id.radioButton4);
+
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
+        Cursor c = db.rawQuery("SELECT * FROM Question ", null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            int j=c.getCount();
+            Q=new int [j];
+            for (int k=0;k<5;k++){
+                //隨機產生五個數字，用來抓題目
+                //題目id是1 2 3 4...
+                int x=0;
+                while (x==0){
+                    x=(int)(Math.random()*j+1);
+                    for (int b=0;b<k;b++){
+                        if (Q[b]==x){
+                            x=0;
+                        }
+                    }
+                    Q[k]=x;
+                }
+            }
+            c.close();
+            String s1=String.valueOf(Q[0]);
+            c = db.rawQuery("SELECT * FROM Question WHERE question_id='"+s1+"'", null);
+            if(c.getCount()>0) {
+                c.moveToFirst();
+                String s = "1"+c.getString(1) + "\n" + c.getString(3) + "\n" + c.getString(4) + "\n" + c.getString(5) + "\n" + c.getString(6) + "\n";
+                Que.setTextSize(30);
+                Que.setText(s);//題目
+            }
+        }
+
 
         Intent intent=this.getIntent();
         nurseID=intent.getStringExtra("nurseID");
@@ -55,6 +92,18 @@ public class fronttest extends AppCompatActivity {
         q_id=Q_array[c];
 
 
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // TODO Auto-generated method stub
+                RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
+                // 以下就可以对这个RadioButton进行处理了
+                YAns.setText("您的答案：" + tempButton.getText());
+                //YAns.setVisibility(View.VISIBLE);
+                next.setVisibility(View.VISIBLE);
+                if (tempButton.getText() == Choi[4])
+                    result = true;
+                else
+                    result = false;
 
         String sql = "SELECT * FROM Question WHERE question_id = '"+ q_id +"'"; //我在上一個傳給你的城市中有寫感生亂數，用那個亂數的改count，因為這個count 主要的功能是既屬第幾題
         cu = db.rawQuery( sql,null );

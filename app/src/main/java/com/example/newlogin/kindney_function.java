@@ -25,7 +25,7 @@ public class kindney_function extends AppCompatActivity {
         Intent i=this.getIntent();
         String nurseID=i.getStringExtra("nurseID");
         String id=i.getStringExtra("id");
-        i=new Intent(kindney_function.this,backtest.class);
+        i=new Intent(kindney_function.this,tbacktest.class);
         i.putExtra("nurseID",nurseID);
         i.putExtra("id",id);
         startActivity(i);
