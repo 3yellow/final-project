@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class choose_education extends AppCompatActivity {
     Cursor cu;
     String nurseID;
     String id;
+    Button kindney_function,kidney_reason;
     //String exam_id="kidney_reason"+id+count;
 
     @Override
@@ -39,6 +41,8 @@ public class choose_education extends AppCompatActivity {
         kindney_reason_grade=findViewById(R.id.What_is_chronic_kidney_disease_grade);
 
         TextView nurse=findViewById(R.id.tex_nurse_name);
+        kindney_function=findViewById(R.id.btn_1);
+        kidney_reason=findViewById(R.id.btn_2);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         Intent i=this.getIntent();
         nurseID=i.getStringExtra("nurseID");
@@ -58,6 +62,22 @@ public class choose_education extends AppCompatActivity {
         }
         show_kidney_reason( id,"kidney_reason");
         show_kindney_function( id,"kindney_function");
+        kindney_function.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String eduaction_name="kindney_function";
+                Intent i=new Intent( choose_education.this,Show_Grade.class);
+                //String nurseID=i.getStringExtra("nurseID");
+                //  String id=i.getStringExtra("eid");
+                i.putExtra("nurseID",nurseID);
+                i.putExtra("id",id);
+                i.putExtra("eduaction_name",eduaction_name);
+                // i.putExtra("Q_array",Q_array);
+                db.close();
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     public String[] choi_Q()//隨機產生5題題目
@@ -174,7 +194,6 @@ public class choose_education extends AppCompatActivity {
         }
         return true;
     }
-
     public  void  back(View v){
         Intent i=new Intent(choose_education.this,Searchlogin.class);
         i.putExtra("nurseID",nurseID);
@@ -214,12 +233,10 @@ public class choose_education extends AppCompatActivity {
             e2.printStackTrace();
         }
     }
-
-
     public void function(View v){
         String Q_array[]=new String[5];
         int count=0;//看有幾張考卷了
-        cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+"kidney_function"+id+"%'",null);
+        cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+"kindney_function"+id+"%'",null);
         if (cu.getCount()>0){
             //衛教+後側
             cu.moveToFirst();
@@ -234,6 +251,8 @@ public class choose_education extends AppCompatActivity {
             i.putExtra("id",id);
             i.putExtra("exam_id",exam_id);
             i.putExtra("Q_array",Q_array);
+            i.putExtra("health_education","壹．腎臟功能簡介.doc.pdf");
+
             db.close();
             startActivity(i);
             finish();
@@ -249,7 +268,7 @@ public class choose_education extends AppCompatActivity {
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",id);
             i.putExtra("exam_id",exam_id);
-            i.putExtra("health_education","kindney_function");
+            i.putExtra("health_education","壹．腎臟功能簡介.doc.pdf");
             i.putExtra("Q_array",Q_array);
 
             db.close();
@@ -257,7 +276,6 @@ public class choose_education extends AppCompatActivity {
             finish();
         }
     }
-
     public void reason(View v){
         String Q_array[]=new String[5];
         int count=0;//看有幾張考卷了
@@ -276,6 +294,7 @@ public class choose_education extends AppCompatActivity {
             i.putExtra("id",id);
             i.putExtra("exam_id",exam_id);
             i.putExtra("Q_array",Q_array);
+            i.putExtra("health_education","貳．腎衰竭的原因.doc.pdf");
             db.close();
             startActivity(i);
             finish();
@@ -291,7 +310,7 @@ public class choose_education extends AppCompatActivity {
             i.putExtra("nurseID",nurseID);
             i.putExtra("id",id);
             i.putExtra("exam_id",exam_id);
-            i.putExtra("health_education","kidney_reason");
+            i.putExtra("health_education","貳．腎衰竭的原因.doc.pdf");
             i.putExtra("Q_array",Q_array);
 
             db.close();
@@ -299,4 +318,5 @@ public class choose_education extends AppCompatActivity {
             finish();
         }
     }
+     
 }

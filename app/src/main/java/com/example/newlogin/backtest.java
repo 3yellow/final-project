@@ -3,9 +3,15 @@ package com.example.newlogin;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,71 +20,90 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class backtest extends AppCompatActivity {
 
+    Intent intent = new Intent();
     boolean result;//判斷答案對錯
+    SQLiteDatabase db; //database object
+    int choiceid;
+    RadioGroup mRG;
+
+    RadioButton item1,item2,item3,item4;
+    Cursor cu;
+    String q_id,nurseID,id,exam_id,health_education,patient_answer;
+    int score=0,count=0;
+    String Q_array[]=new String[5];
+    String right_choi;
+    String[] Choi;
+   // final String[] Choi = {"A.監測水中細菌量","B.測定管路中消毒液殘留量", "C.測定管路壓力", "D.不需要測定任何專案","B.測定管路中消毒液殘留量"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backtest);
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫
         TextView Que=(TextView)findViewById(R.id.Question);
-        final TextView YAns=(TextView)findViewById(R.id.YourAns);
         final TextView Als=(TextView)findViewById(R.id.Analysis);
-        final RadioGroup ans=(RadioGroup)findViewById(R.id.Ans);
-        final ScrollView scroll=(ScrollView)findViewById(R.id.roll);
-        final Button next=(Button)findViewById(R.id.button12);
-        Button dialog = (Button) findViewById(R.id.button);
+        final RadioGroup ans = (RadioGroup) findViewById(R.id.Ans);
+        mRG=(RadioGroup)findViewById(R.id.Mrg);
+        item1=(RadioButton)findViewById(R.id.icho1);
+        item2=(RadioButton)findViewById(R.id.icho2);
+        item3=(RadioButton)findViewById(R.id.icho3);
+        item4=(RadioButton)findViewById(R.id.icho4);
+        final Button check=(Button)findViewById(R.id.button19);
 
+        intent=this.getIntent();
+        nurseID=intent.getStringExtra("nurseID");
+        id=intent.getStringExtra("id");
+        exam_id=intent.getStringExtra("exam_id");
+        health_education=intent.getStringExtra("health education");
+        score=intent.getIntExtra("score",0);
+        count=intent.getIntExtra("count",0);
+        int c=Integer.valueOf(count);
+        Q_array=intent.getStringArrayExtra("Q_array");
+        q_id=Q_array[c];
 
-
-        Que.setText("1.血液透析急性并发征不包括：");
-        final String[] Choi={"A.发热","B.肌肉痉挛","C.失衡综合征","D.透析性骨病","D.透析性骨病"};
-
-        for(int i=0; i<4; i++)
-        {
-            RadioButton tempButton = new RadioButton(this);
-            tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
-            tempButton.setText(Choi[i]);
-            tempButton.setTextSize(1,30);
-            ans.addView(tempButton, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        String sql = "SELECT * FROM Question WHERE question_id = '"+ q_id +"'"; //我在上一個傳給你的城市中有寫感生亂數，用那個亂數的改count，因為這個count 主要的功能是既屬第幾題
+        cu = db.rawQuery( sql,null );
+        if (!cu.moveToFirst()){
+            Toast.makeText(getApplicationContext(), "查無此人", Toast.LENGTH_SHORT).show();
         }
-        ans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // TODO Auto-generated method stub
-                RadioButton tempButton = (RadioButton)findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
-                // 以下就可以对这个RadioButton进行处理了
-                YAns.setText("您的答案："+tempButton.getText());
-                if(tempButton.getText()==Choi[4])
-                    result=true;
-                else
-                    result=false;
+        else {
+            String content = cu.getString(1);
+            Que.setText(content);
+            Choi = new String[4];
+            for (int i = 0; i < 4; i++) {
+                Choi[i] = cu.getString(i + 3);//拿到存在資料庫中的選項
             }
-        });
+            item1.setText(Choi[0]);
+            item2.setText(Choi[1]);
+            item3.setText(Choi[2]);
+            item4.setText(Choi[3]);
 
-        Als.setText("正確答案："+Choi[4]+"\n"+
-                "急性并发症分為：\n"+
-                "    透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。\n" +
-                "\n"+
-                "    首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。\n" +
-                "\n"+
-                "    血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。\n" +
-                "    还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。");
+            mRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
-        dialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-                YAns.setVisibility(View.VISIBLE);
-                scroll.setVisibility(View.VISIBLE);
-                Als.setVisibility(View.VISIBLE);
-                next.setVisibility(View.VISIBLE);
-            }
-        });
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    RadioButton tempButton = (RadioButton) findViewById(checkedId);
+                    right_choi=cu.getString(2);
+                    String str=tempButton.getText().toString();
+                    if (str.equals(right_choi)) {
+                        choiceid = tempButton.getId();
+                        result = true;
+                        //  MyToast("正確答案："+tempButton.getText()+"，恭喜你，回答正確");
+                    }
+                    else {
+                        result = false;
+                        //   MyToast("回答錯誤！");
+                    }
+                }
+            });
 
+            right_choi=cu.getString(2);
+            String explain=cu.getString(7);
+            Als.setText("正確答案：" + right_choi + "\n" +explain);
+        }
     }
 
 
@@ -125,15 +150,128 @@ public class backtest extends AppCompatActivity {
         }
         return true;
     }
-    public void tobacktest2(View v){
-        Intent i=this.getIntent();
-        String nurseID=i.getStringExtra("nurseID");
-        String id=i.getStringExtra("id");
-         i=new Intent(backtest.this,backtest2.class);
-        i.putExtra("nurseID",nurseID);
-        i.putExtra("id",id);
-        startActivity(i);
-        finish();
+
+    public void CHECK(View v) {
+        TextView Als=(TextView)findViewById(R.id.Analysis);
+        Button next=(Button)findViewById(R.id.button17);
+        item1.setClickable(false);
+        item2.setClickable(false);
+        item3.setClickable(false);
+        item4.setClickable(false);
+
+         //RadioButton tempButton = (RadioButton) findViewById(checkedId);
+        if (result==true) {
+          // tempButton.setTextColor(Color.GREEN);
+            MyToast("恭喜你，回答正確！");
+        }
+        else{
+            //tempButton.setTextColor(Color.RED);
+            MyToast("回答錯誤！");
+        }
+
+        Als.setVisibility(View.VISIBLE);
+        next.setVisibility(View.VISIBLE);
+
+
+    }
+
+    private void MyToast(String str)
+    {
+        Toast mtoast = Toast.makeText(this,str, Toast.LENGTH_SHORT);
+        mtoast.setGravity(Gravity.TOP,0,400);
+        mtoast.show();
+    }
+    public void Answer_db(String patient_id,String patient_answer,int result,String question_id,String exam_id,String question_s1,String question_s2,String question_s3, String question_s4){
+        //result TEXT, patient_answer TEXT, question_id TEXT, exam_id TEXT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12)
+        //result INT, patient_answer INT, question_id INT, exam_id INT
+        ContentValues cv =new ContentValues(1);//10
+        //  cv.put("patient_id",patient_id);
+        cv.put("result",result);
+        cv.put("patient_answer",patient_answer);
+        cv.put("question_id",question_id);
+        cv.put("exam_id",exam_id);
+        cv.put("question_s1",question_s1);
+        cv.put("question_s2",question_s2);
+        cv.put("question_s3",question_s3);
+        cv.put("question_s4",question_s4);
+        db.insert("Answer", null, cv);
+        Cursor c = db.rawQuery("SELECT * FROM Answer",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(1) + "\\n" + c.getString(3) + "\\n" + c.getString(4) + "\\n" + c.getString(5) + "\\n" + c.getString(6) + "\\n";
+        }
+    }
+
+    public void tofronttest2 (View v){
+
+        count++;
+        int true_or_false=-1;//判別題目有沒有做對 1:對 0:錯
+        if (result==true) {
+            true_or_false=1;
+            score += 20;
+            Toast.makeText(this, "right"+score, Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "error" + score, Toast.LENGTH_LONG).show();
+            true_or_false=0;
+        }
+        if (count>=5) {
+            Answer_db(id,patient_answer, true_or_false,q_id,exam_id,Choi[0],Choi[1],Choi[2],Choi[3]);
+            modify_Exam(score,id,exam_id);
+            Intent intent=this.getIntent();
+            health_education=intent.getStringExtra("health education");
+            Intent i = new Intent(backtest.this, choose_education.class);
+            i.putExtra("health_education",health_education);
+            i.putExtra("nurseID",nurseID);
+            i.putExtra("id",id);
+            i.putExtra("flag",99);//到MaunActivity時要判別 修改考卷
+            startActivity(i);
+            finish();
+        }
+        else {
+            Answer_db(id, patient_answer,true_or_false,q_id,exam_id,Choi[0],Choi[1],Choi[2],Choi[3]);
+            Intent i=new Intent(this,backtest.class);
+            i.putExtra("count",count);
+            i.putExtra("score",score);
+            i.putExtra("health_education",health_education);
+            i.putExtra("nurseID",nurseID);
+            i.putExtra("id",id);
+            i.putExtra("exam_id",exam_id);
+            i.putExtra("Q_array",Q_array);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    private void modify_Exam(int score,String patient_id,String exam_id){
+        //exam_id TEXT, exam_date DateTime, exam_score INT, patient_id TEXT, nurse_id TEXT
+        int exam_score;
+        String exam_date,nurseID;
+        Cursor c = db.rawQuery("SELECT * FROM Exam WHERE exam_id='"+exam_id+"'",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            exam_date=c.getString(1);
+            nurseID=c.getString(4);
+
+            ContentValues cv = new ContentValues(7);
+            cv.put("exam_score",score);
+            cv.put("exam_id",exam_id);
+            cv.put("exam_date",exam_date);
+            cv.put("patient_id",patient_id);
+            cv.put("nurse_id",nurseID);
+            //如果是修改
+            String whereClause = "exam_id = ?";
+            //  String whereArgs[] = {id};
+            String whereArgs[ ]={String.valueOf(exam_id)};
+            db.update("Exam", cv, whereClause, whereArgs);
+        }
+        c = db.rawQuery("SELECT * FROM Exam WHERE exam_id='"+exam_id+"'",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(0) + "\\n" + c.getString(1) + "\\n" + c.getString(2) + "\\n"+c.getString(3) + "\\n"+c.getString(4) + "\\n";
+            Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
 
