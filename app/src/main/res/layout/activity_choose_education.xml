@@ -422,7 +422,7 @@
                     android:layout_width="400dp"
                     android:layout_height="62dp"
                     android:onClick="reason"
-                    android:text="   拾.甚有皮膚搔癢該如何處離   "
+                    android:text="   拾.甚有皮膚搔癢該如何處理   "
                     android:textSize="35dp" />
 
                 <TextView
