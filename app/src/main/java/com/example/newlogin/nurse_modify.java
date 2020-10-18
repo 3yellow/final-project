@@ -23,8 +23,7 @@ import android.widget.Toast;
 public class nurse_modify extends AppCompatActivity {
 
     RadioButton malee,femalee;
-    static final String db_nurse="nurseDB"; //database name;
-    static final String Nurse="nurse"; //database table name
+    boolean canSee;
     SQLiteDatabase db;
     String idd;
     EditText edt_id,edt_name,edt_pas1,edt_pas2;
@@ -75,6 +74,21 @@ public class nurse_modify extends AppCompatActivity {
 
     }
 
+    public void show_pas(View v){
+        //通过全局的一个变量的设置，这个就是判断控件里面的内容是不是能被看到
+        if (canSee == false) {
+            //如果是不能看到密码的情况下，
+            edt_pas1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            edt_pas2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            canSee = true;
+        } else {
+            //如果是能看到密码的状态下
+            edt_pas1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            edt_pas2.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            canSee = false;
+        }
+    }
+
     //不能返回
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -87,7 +101,7 @@ public class nurse_modify extends AppCompatActivity {
     }
 
     public void back(View v){
-        Intent i=new Intent(this,Backstage_main.class);
+        Intent i=new Intent(this,Menu.class);
         startActivity(i);
         finish();
     }
@@ -124,7 +138,7 @@ public class nurse_modify extends AppCompatActivity {
             textView7.setText("工作狀態還沒選");
         }
         else if(flag==0&iId){
-            pas1=pas1.toLowerCase();//讓密碼統一都是小寫
+          //  pas1=pas1.toLowerCase();//讓密碼統一都是小寫
             modify_nurse(edt_name.getText().toString(),eId,pas1,w_stause);
             String sql = "SELECT * FROM Nurse WHERE nurse_id = '"+ eId +"'";
             Cursor cu = db.rawQuery( sql,null );
@@ -199,7 +213,7 @@ public class nurse_modify extends AppCompatActivity {
         String whereClause = "nurse_id = ?";
         String whereArgs[] = {id};
         db.update("Nurse", cv, whereClause, whereArgs);
-        Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
 
 
     }

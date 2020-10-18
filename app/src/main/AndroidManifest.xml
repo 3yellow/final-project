@@ -9,13 +9,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".tbacktest5"></activity>
-        <activity android:name=".tbacktest4" />
-        <activity android:name=".tbacktest3" />
-        <activity android:name=".tbacktest2" />
-        <activity android:name=".tbacktest" />
-        <activity android:name=".backtestanalysis" />
-        <activity android:name=".choose_education" />
+
+        <activity android:name=".Show_Grade">
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+        </activity>
+        <activity android:name=".Grade">
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+        </activity>
+        <activity android:name=".tbacktest5"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+            />
+        <activity android:name=".tbacktest4"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+            />
+        <activity android:name=".tbacktest3"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".tbacktest2"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+            />
+        <activity android:name=".tbacktest"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+            />
+        <activity android:name=".backtestanalysis"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+            />
+        <activity android:name=".choose_education"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden"
+            />
         <activity
             android:name=".Backstage_main"
             android:screenOrientation="landscape"

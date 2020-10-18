@@ -18,15 +18,22 @@ public class kidney_reason extends AppCompatActivity {
     }
     public void onClick(View v){
         String Q_array[]=new String[5];
-        Intent i=this.getIntent();
-        String nurseID=i.getStringExtra("nurseID");
-        String id=i.getStringExtra("id");
-        Q_array=i.getStringArrayExtra("Q_array");
-        i=new Intent(kidney_reason.this,backtest.class);
-        i.putExtra("nurseID",nurseID);
-        i.putExtra("id",id);
-        i.putExtra("Q_array",Q_array);
-        startActivity(i);
+        Intent intent=this.getIntent();
+        String nurseID=intent.getStringExtra("nurseID");
+        String id=intent.getStringExtra("id");
+        String exam_id=intent.getStringExtra("exam_id");
+        String health_education=intent.getStringExtra("health education");
+        int score=intent.getIntExtra("score",0);
+        int count=intent.getIntExtra("count",0);
+        Q_array=intent.getStringArrayExtra("Q_array");
+        intent=new Intent(this,backtest.class);
+        intent.putExtra("count",count);
+        intent.putExtra("score",score);
+        intent.putExtra("nurseID",nurseID);
+        intent.putExtra("id",id);
+        intent.putExtra("exam_id",exam_id);
+        intent.putExtra("Q_array",Q_array);
+        startActivity(intent);
         finish();
     }
 }

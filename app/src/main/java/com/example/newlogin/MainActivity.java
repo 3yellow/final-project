@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         //getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);
-        cu = db.rawQuery("SELECT * FROM Question ",null);
-        if (cu.getCount()<0){
+        //cu = db.rawQuery("SELECT * FROM Question ",null);
+       // if (cu.getCount()<0){
+        /*
             createNurseTable();
             createPatientTable();
             createTopicTable();
@@ -97,7 +98,19 @@ public class MainActivity extends AppCompatActivity {
             An1="部分貴重的可以重複使用，但必須進行嚴格的消毒滅菌";
             explain="急性并发症分為：透析失衡综合征：主要发生于肌酐、尿素氮等毒素偏高明显患者。主要症状有恶心、呕吐、头痛、疲乏、烦躁不安等，严重者可有抽搐、震颤。首次使用综合征：主要是应用新透析器及管道所引起的。多发生在透析开始后几分钟至1小时左右，表现为呼吸困难，全身发热感，可突然心跳骤停。血栓的形成，有可能是因为抗凝不到位、长时间卧床，置管、管路、滤器等异物刺激血小板聚集。还可以发生透析中低血压、高血压、头痛、肌肉痉挛、心律失常等。";
             insertQuestion( "5", content, s1, s2, s3, s4, explain, "t1", An1);
-        }
+
+*/
+           // insertTopic("1","壹.腎臟功能簡介.doc.pdf");//這個之後要改成t1
+             //insertTopic("t2","貳.甚麼是慢性腎臟病.doc.pdf");
+            //insertTopic("t3","參.健康人如何保護自己健康.doc.pdf");
+            //insertTopic("t4","肆.腎衰竭的原因.doc.pdf");
+            //insertTopic("t5","伍.腎衰竭原因治療.doc.pdf");
+            //insertTopic("t6","陸.血液透析治療與照護.doc.pdf");
+            //insertTopic("t7","柒.何為血液透析.doc.pdf");
+            //insertTopic("t8","捌.動靜脈廔管的照顧.doc.pdf");
+            //insertTopic("t9","玖.腎友如何預防便祕.doc.pdf");
+            //insertTopic("t10","拾..doc.pdf");
+      //  }
 
          Account = (EditText) findViewById(R.id.editText);
          editText = (EditText) findViewById(R.id.editText2);
@@ -173,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
     public void choicepatient(View v) {
         //跳轉到病人畫面
         String str=Account.getText().toString().trim();
-        String pas=editText.getText().toString().trim().toLowerCase();
+        String pas=editText.getText().toString().trim();
         Cursor cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id='"+str+"'",null);
         if (str.trim().length()>0){
             if ("admin".equals(pas)){
@@ -210,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                         int flag_staue=cu.getInt(3);
                         if (password.equals(pas) && flag_staue==1){
                             intent.setClass(this, Searchlogin.class);
-
+                            intent.putExtra("pad",1); //修改狀態時 要分辨是哪一台電腦用的。
                             intent.putExtra("nurseID",str);
                             intent.putExtra("nurse",str);
                             // intent.putExtra("name", Account.getText().toString());
@@ -301,6 +314,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void insertTopic(String topic_id,String topic_name )
+    {
+        ContentValues cv =new ContentValues(1);//10
+        cv.put("topic_id",topic_id);
+        cv.put("topic_name",topic_name);
+
+        db.insert("Topic", null, cv);
+        Cursor c = db.rawQuery("SELECT * FROM Topic",null);
+        if(c.getCount()>0) {
+            c.moveToFirst();
+            String s = c.getString(0) + "\\n" + c.getString(1) +"\\n";
+        }
+    }
+
     public void back(View v) {
         String str1=Account.getText().toString().trim().toLowerCase();
         String pas=editText.getText().toString().trim().toLowerCase();
@@ -315,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
                         String password=cu.getString(2);
                         if (password.equals(pas) )//輸入正確帳號密碼
                         {
-                            Intent i = new Intent(MainActivity.this, Backstage_main.class);
+                            Intent i = new Intent(MainActivity.this, Menu.class);
                             startActivity(i);
                             finish();
                         }
@@ -377,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNurseTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Nurse (nurse_id TEXT NOT NULL, nurse_name TEXT NOT NULL, nurse_password TEXT NOT NULL, nurse_authority INT NOT NULL, PRIMARY KEY(nurse_id))";
+        String sql = "CREATE TABLE IF NOT EXISTS Nurse (nurse_id TEXT NOT NULL, nurse_name TEXT NOT NULL, nurse_password TEXT NOT NULL, nurse_authority INT NOT NULL,change_data INT,  PRIMARY KEY(nurse_id))";
         db.execSQL(sql);
         ContentValues contentValues = new ContentValues(1);
         Cursor cursor = db.rawQuery("SELECT * FROM Nurse", null);
@@ -395,42 +422,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createPatientTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Patient (patient_id TEXT NOT NULL, patient_name TEXT NOT NULL, patient_gender INT, patient_register DATE, patient_sign TEXT, patient_birth DATE , patient_incharge TEXT NOT NULL, PRIMARY KEY(patient_id), FOREIGN KEY(patient_incharge) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Patient (patient_id TEXT NOT NULL, patient_name TEXT NOT NULL, patient_gender INT, patient_register DATE, patient_sign TEXT, patient_birth DATE , patient_incharge TEXT NOT NULL,change_data INT,  PRIMARY KEY(patient_id), FOREIGN KEY(patient_incharge) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
-        ContentValues contentValues = new ContentValues(1);
-        Cursor cursor = db.rawQuery("SELECT * FROM Patient", null);
-        if (!cursor.moveToFirst()) {
-            contentValues.put("patient_id", "B123456789");
-            contentValues.put("patient_name", "BB");
-            contentValues.put("patient_gender", "1");
-            contentValues.put("patient_register", 20200404);
-            contentValues.put("patient_incharge", "admin");
-            db.insert("Patient", null, contentValues);
-        }
-        Cursor cu = db.rawQuery("SELECT * FROM Patient",null);
-        if(cu.getCount()>0) {
-            cu.moveToFirst();
-        }
-
-    }
-
-    private void insertTopic(String topic_id,String topic_name )
-    {
-        ContentValues cv =new ContentValues(1);//10
-        cv.put("topic_id",topic_id);
-        cv.put("topic_name",topic_name);
-
-        db.insert("Topic", null, cv);
-        Cursor c = db.rawQuery("SELECT * FROM Topic",null);
-        if(c.getCount()>0) {
-            c.moveToFirst();
-            String s = c.getString(0) + "\\n" + c.getString(1) +"\\n";
-        }
     }
 
     private void createTopicTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Topic (topic_id TEXT, topic_name TEXT, PRIMARY KEY(topic_id))";
+        String sql = "CREATE TABLE IF NOT EXISTS Topic (topic_id TEXT, topic_name TEXT,change_data INT,  PRIMARY KEY(topic_id))";
         db.execSQL(sql);
         ContentValues contentValues = new ContentValues(1);
         Cursor cursor = db.rawQuery("SELECT * FROM Topic", null);
@@ -448,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createStudyTable()//閱讀紀錄
     {
-        String sql = "CREATE TABLE IF NOT EXISTS Study (study_id TEXT, study_date DateTime, topic_id TEXT, patient_id TEXT, nurse_id TEXT, PRIMARY KEY(study_id), FOREIGN KEY (topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Study (study_id TEXT, study_date DateTime, topic_id TEXT, patient_id TEXT, nurse_id TEXT,change_data INT,  PRIMARY KEY(study_id), FOREIGN KEY (topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
@@ -456,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
     private void createQuestionTable()
     {
         //String question_id,String content,String s1,String s2,String s3,String s4,String explain, String topic_id,String An
-        String sql = "CREATE TABLE IF NOT EXISTS Question (question_id TEXT, question_content TEXT, question_answer TEXT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12), question_explain CHAR(40), exam_id TEXT, topic_id TEXT, PRIMARY KEY(question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Question (question_id TEXT, question_content TEXT, question_answer TEXT, question_s1 CHAR(12), question_s2 CHAR(12), question_s3 CHAR(12), question_s4 CHAR(12), question_explain CHAR(40), exam_id TEXT, topic_id TEXT,change_data INT,  PRIMARY KEY(question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(topic_id) REFERENCES Topic(topic_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
         ContentValues contentValues = new ContentValues(1);
@@ -527,13 +525,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createExamTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Exam (exam_id TEXT, exam_date DateTime, exam_score INT, patient_id TEXT, nurse_id TEXT, PRIMARY KEY(exam_id), FOREIGN KEY(patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Exam (exam_id TEXT, exam_date DateTime, exam_score INT, patient_id TEXT, nurse_id TEXT,change_data INT,  PRIMARY KEY(exam_id), FOREIGN KEY(patient_id) REFERENCES Patient(patient_id) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(nurse_id) REFERENCES Nurse(nurse_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }
 
     private void createAnswerTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS Answer (result INT, patient_answer INT, question_id INT, exam_id INT, PRIMARY KEY(exam_id, question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id)ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(question_id) REFERENCES Question(question_id) ON DELETE SET NULL ON UPDATE CASCADE)";
+        String sql = "CREATE TABLE IF NOT EXISTS Answer (result INT, patient_answer INT, question_id INT, exam_id INT,change_data INT,  PRIMARY KEY(exam_id, question_id), FOREIGN KEY(exam_id) REFERENCES Exam(exam_id)ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(question_id) REFERENCES Question(question_id) ON DELETE SET NULL ON UPDATE CASCADE)";
         db.execSQL(sql);
         db.execSQL("PRAGMA foreign_keys=ON;");
     }

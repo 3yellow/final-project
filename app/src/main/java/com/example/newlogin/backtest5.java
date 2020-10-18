@@ -3,8 +3,11 @@ package com.example.newlogin;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +19,18 @@ import android.widget.TextView;
 
 public class backtest5 extends AppCompatActivity {
 
+    SQLiteDatabase db; //database object
     boolean result;//判斷答案對錯
+    Cursor cu;
+    String q_id,nurseID,id,exam_id,health_education,patient_answer;
+    String Q_array[]=new String[5];
+    int score=0,count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backtest5);
+        db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫
         TextView Que=(TextView)findViewById(R.id.Question);
         final TextView YAns=(TextView)findViewById(R.id.YourAns);
         final TextView Als=(TextView)findViewById(R.id.Analysis);
@@ -29,6 +38,17 @@ public class backtest5 extends AppCompatActivity {
         final ScrollView scroll=(ScrollView)findViewById(R.id.roll);
         final Button next=(Button)findViewById(R.id.button12);
         Button dialog = (Button) findViewById(R.id.button);
+
+        Intent intent=this.getIntent();
+        nurseID=intent.getStringExtra("nurseID");
+        id=intent.getStringExtra("id");
+        exam_id=intent.getStringExtra("exam_id");
+        health_education=intent.getStringExtra("health education");
+        score=intent.getIntExtra("score",0);
+        count=intent.getIntExtra("count",0);
+        int c=Integer.valueOf(count);;
+        Q_array=intent.getStringArrayExtra("Q_array");
+        q_id=Q_array[c];
 
 
 

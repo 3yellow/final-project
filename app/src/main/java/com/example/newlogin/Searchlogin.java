@@ -41,6 +41,7 @@ public class Searchlogin extends AppCompatActivity {
     String namee=null;
     String idd=null;
     String agee=null;
+    int pad=0;
     TableLayout layout2;
     TableRow row;
     SQLiteDatabase db;
@@ -58,11 +59,13 @@ public class Searchlogin extends AppCompatActivity {
         TextView user=(TextView)findViewById(R.id.textView);
         Intent i=this.getIntent();
         nurseID=i.getStringExtra("nurseID");
+        pad=i.getIntExtra("pad",-1);
         Cursor cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id='"+nurseID+"' ",null);
         if(cu.getCount()>0) {
             cu.moveToFirst();
             String nurse_name=cu.getString(1);
-            user.setText(nurse_name+" _登入中...");
+            user.setText(nurse_name+"登入");
+            user.setTextSize(28);
         }
 
 
@@ -163,6 +166,7 @@ public class Searchlogin extends AppCompatActivity {
                                 Intent i = new Intent(Searchlogin.this, choose_education.class);
                                 i.putExtra("flag",0);//要前側
                                 i.putExtra("nurseID",nurseID);
+                                i.putExtra("pad",pad);
                                 i.putExtra("id",id_tmp);
                                 db.close();
                                 startActivity(i);
@@ -179,6 +183,7 @@ public class Searchlogin extends AppCompatActivity {
                                 intent.putExtra("id",id_tmp);
                                 intent.putExtra("nurseID",nurseID);
                                 intent.putExtra("flag",flag);
+                                intent.putExtra("pad",pad);
                                 // intent.putExtra("id", id_tmp);
                                 // intent.putExtra("flag", flag);
                                 db.close();
@@ -281,9 +286,9 @@ public class Searchlogin extends AppCompatActivity {
                 //  final ScrollView sc=new ScrollView(this);
                 // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
                 r.setLayoutParams(new TableRow.LayoutParams(1520,80));
-                button.setLayoutParams(new TableRow.LayoutParams(684,80));
+                button.setLayoutParams(new TableRow.LayoutParams(824,80));
 
-                btn_modify.setLayoutParams(new TableRow.LayoutParams(120,80));
+                btn_modify.setLayoutParams(new TableRow.LayoutParams(60,80));
                 btn_modify.setId(i);
                 button.setId(i);
                 r.setId(i);
@@ -305,6 +310,7 @@ public class Searchlogin extends AppCompatActivity {
                         Intent i=new Intent(Searchlogin.this,choose_education.class);
                         i.putExtra("flag",0);//要前側
                         i.putExtra("nurseID",nurseID);
+                        i.putExtra("pad",pad);
                         i.putExtra("id",id_tmp);
                         db.close();
                         startActivity(i);
@@ -320,6 +326,7 @@ public class Searchlogin extends AppCompatActivity {
                         Intent intent=new Intent(Searchlogin.this,Newdata.class);
                         intent.putExtra("id",id_tmp);
                         intent.putExtra("nurseID",nurseID);
+                        intent.putExtra("pad",pad);
                         intent.putExtra("flag",flag);
                         db.close();
                         startActivity(intent);
@@ -334,6 +341,7 @@ public class Searchlogin extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(this,Newdata.class);
         intent.putExtra("nurseID",nurseID);
+        intent.putExtra("pad",pad);
         startActivity(intent);
         finish();
     }

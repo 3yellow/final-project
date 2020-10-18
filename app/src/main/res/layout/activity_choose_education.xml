@@ -20,14 +20,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_width="1020dp"
+            android:layout_height="99dp"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/imageButton2"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="#00000000"
                 android:onClick="back"
@@ -42,19 +42,25 @@
 
             <TextView
                 android:id="@+id/tex_patient_name"
-                android:layout_width="wrap_content"
+                android:layout_width="455dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="50sp"
+                android:layout_marginLeft="10dp"
                 android:text="姓名"
-                android:textSize="33sp" />
+                android:textSize="35sp" />
 
             <TextView
                 android:id="@+id/tex_nurse_name"
-                android:layout_width="wrap_content"
+                android:layout_width="455dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="500dp"
-                android:onClick="onclick"
                 android:text="登入中"
+                android:textSize="33sp" />
+            <Button
+                android:id="@+id/Sign_out"
+                android:layout_width="99dp"
+                android:layout_height="wrap_content"
+                android:onClick="onclick"
+                android:background="@drawable/shape"
+                android:text="登出"
                 android:textSize="30sp" />
         </TableRow>
 
@@ -74,7 +80,7 @@
             <TextView
                 android:layout_width="433dp"
                 android:layout_height="62dp"
-                android:text="衛教主題   "
+                android:text="衛教章節   "
                 android:textSize="35dp" />
 
             <TextView
@@ -91,6 +97,11 @@
         </TableRow>
 
     </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:orientation="horizontal"></LinearLayout>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -110,7 +121,6 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/kindney_function"
                     android:layout_width="400dp"
                     android:layout_height="62dp"
                     android:onClick="function"
@@ -129,12 +139,13 @@
                     android:layout_width="150dp"
                     android:layout_height="62dp"
                     android:textSize="35dp" />
+
                 <Button
+                    android:id="@+id/kindney_function"
                     android:layout_width="99dp"
                     android:layout_height="62dp"
                     android:text="展開"
-                    android:textSize="35dp"
-                   />
+                    android:textSize="35dp" />
             </TableRow>
 
             <TableRow
@@ -143,7 +154,6 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/What_is_chronic_kidney_disease"
                     android:layout_width="400dp"
                     android:layout_height="62dp"
                     android:onClick="reason"
@@ -162,12 +172,13 @@
                     android:layout_width="200dp"
                     android:layout_height="62dp"
                     android:textSize="35dp" />
+
                 <Button
+                    android:id="@+id/What_is_chronic_kidney_disease"
                     android:layout_width="99dp"
                     android:layout_height="62dp"
                     android:text="展開"
-                    android:textSize="35dp"
-                    />
+                    android:textSize="35dp" />
             </TableRow>
 
             <TableRow
@@ -345,7 +356,7 @@
                     android:layout_width="400dp"
                     android:layout_height="62dp"
                     android:onClick="reason"
-                    android:text="   捌.動靜脈驢廔管照護   "
+                    android:text="   捌.動靜脈廔管的照顧  "
                     android:textSize="35dp" />
 
                 <TextView

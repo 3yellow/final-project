@@ -276,12 +276,17 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     }
 
     private void addData(String name,String id ,int gender,String date,String birth_date,String nurseID) {
+        int pad=0,change_data=0;
+        Intent i=this.getIntent();
+        pad=i.getIntExtra("pad",-1);
+        change_data=pad+1;
         ContentValues cv=new ContentValues(1);
         cv.put("patient_id",id);
         cv.put("patient_name",name);
         cv.put("patient_gender",gender);
         cv.put("patient_register",date);
         cv.put("patient_birth",birth_date);
+        cv.put("change_data",change_data);
 
         //cv.put("nurse_id", nurseID);
         cv.put("patient_incharge",nurseID);//目前沒有護理師的資料，護理師的資料是從登入那抓取id，一直傳
@@ -298,19 +303,28 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     }
 
     private void modify_patient(String name,String id ,int gender,String date,String birth_date ){
+        int pad=0,change_data=0;
+        Intent i=this.getIntent();
+        pad=i.getIntExtra("pad",pad);
+        change_data=pad+2;
         ContentValues cv = new ContentValues(7);
         cv.put("patient_id", id);
         cv.put("patient_name", name);
         cv.put("patient_gender", gender);
         cv.put("patient_register", date);
         cv.put("patient_birth", birth_date);
+        cv.put("change_data",change_data);
 
 
         //如果是修改
         String whereClause = "patient_id = ?";
         String whereArgs[] = {id};
         DBS.update("Patient", cv, whereClause, whereArgs);
-        Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(), "Modify Success!", Toast.LENGTH_SHORT).show();
+        Cursor cu = DBS.rawQuery("SELECT * FROM Patient",null);
+        if(cu.getCount()>0) {
+            cu.moveToFirst();
+        }
     }
 
     public void nowTime(int flag_data,String id_tmp,int flag)//取得當日日期並且顯示在按鈕上
@@ -357,11 +371,9 @@ public class Newdata extends AppCompatActivity implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (sex.getCheckedRadioButtonId()){
             case R.id.male://
-                Toast.makeText(this,"男",Toast.LENGTH_LONG).show();
                 geender=1;//"男"
                 break;
             case R.id.female:
-                Toast.makeText(this,"女",Toast.LENGTH_LONG).show();
                 geender=2;//"女"
                 break;
         }
