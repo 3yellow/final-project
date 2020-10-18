@@ -99,7 +99,7 @@ public class choose_education extends AppCompatActivity {
         int [] array;
         String []Q_array=new String[5];
         int count=0,total_Q=0;
-        cu = db.rawQuery("SELECT * FROM Question ",null);
+        cu = db.rawQuery("SELECT * FROM Question WHERE topic_id",null);
         if (cu.getCount()>0){
             cu.moveToFirst();
             total_Q=cu.getCount();
@@ -351,7 +351,7 @@ public class choose_education extends AppCompatActivity {
         //衛教+後側
         cu.moveToFirst();
         count=cu.getCount();
-        String exam_id="kidney_reason"+id+count;//考卷id=衛教資料名+病友id+第幾筆
+        String exam_id="t2_"+id+"_"+count;//考卷id=衛教資料名+病友id+第幾筆
        // Q_array=choi_Q();
         insertExam(exam_id ,nurseID, id);
         Intent i=new Intent( this,kidney_reason.class);
@@ -362,6 +362,7 @@ public class choose_education extends AppCompatActivity {
         i.putExtra("id",id);
         i.putExtra("exam_id",exam_id);
         i.putExtra("Q_array",Q_array);
+        i.putExtra("topic_id","t2");
         db.close();
         startActivity(i);
         finish();
@@ -369,7 +370,7 @@ public class choose_education extends AppCompatActivity {
 
     public void go_fronttest_kidney_reason(String[] Q_array,int count){
         //前側
-        String exam_id="kidney_reason"+id+count;
+        String exam_id="t2"+id+"_"+count;
        // Q_array=choi_Q();
         insertExam(exam_id ,nurseID, id);
         Intent i=new Intent( this,fronttest.class);
@@ -379,7 +380,7 @@ public class choose_education extends AppCompatActivity {
         i.putExtra("id",id);
         i.putExtra("pad",pad);
         i.putExtra("exam_id",exam_id);
-        i.putExtra("health_education","kidney_reason");
+        i.putExtra("topic_id","t2");
         i.putExtra("Q_array",Q_array);
 
         db.close();
@@ -391,7 +392,7 @@ public class choose_education extends AppCompatActivity {
         //衛教+後側
         cu.moveToFirst();
         count=cu.getCount();
-        String exam_id="kindney_function"+id+count;//考卷id=衛教資料名+病友id+第幾筆
+        String exam_id="t1_"+id+"_"+count;//考卷id=topic_id+病友id+第幾筆
         // Q_array=choi_Q();
         insertExam(exam_id ,nurseID, id);
         Intent i=new Intent( this,kindney_function.class);
@@ -401,6 +402,7 @@ public class choose_education extends AppCompatActivity {
         i.putExtra("id",id);
         i.putExtra("pad",pad);
         i.putExtra("exam_id",exam_id);
+        i.putExtra("topic_id","t1");
         i.putExtra("Q_array",Q_array);
         db.close();
         startActivity(i);
@@ -409,7 +411,7 @@ public class choose_education extends AppCompatActivity {
 
     public void go_fronttest_kindney_function(String[] Q_array,int count){
         //前側
-        String exam_id="kindney_function"+id+count;
+        String exam_id="t1"+id+"_"+count;
         // Q_array=choi_Q();
         insertExam(exam_id ,nurseID, id);
         Intent i=new Intent( this,fronttest.class);
@@ -419,7 +421,7 @@ public class choose_education extends AppCompatActivity {
         i.putExtra("id",id);
         i.putExtra("pad",pad);
         i.putExtra("exam_id",exam_id);
-        i.putExtra("health_education","kindney_function");
+        i.putExtra("topic_id","t1");
         i.putExtra("Q_array",Q_array);
 
         db.close();
