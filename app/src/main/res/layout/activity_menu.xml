@@ -15,21 +15,7 @@
             android:layout_width="92dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="4dp"
-                android:background="#00000000"
-                android:onClick="back"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.035"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.032"
-                app:srcCompat="@drawable/backkey" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -100,12 +86,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <Button
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center|right|center_horizontal"
                 android:onClick="onclick"
+                android:background="@drawable/shape"
                 android:text="登出"
                 android:textAllCaps="false"
                 android:textColorHint="#DBD5D5"
@@ -128,7 +115,7 @@
             <TextView
                 android:layout_width="684dp"
                 android:layout_height="58dp"
-                android:text="   姓名\t\t\t\t\t\t\t\t身分證\t\t\t\t\t\t\t\目前狀態"
+                android:text="   \t\t姓名\t\t\t\t\t\t\t\t\t身分證\t\t\t\t\t\t\t目前狀態"
                 android:textSize="35dp" />
 
             <TextView

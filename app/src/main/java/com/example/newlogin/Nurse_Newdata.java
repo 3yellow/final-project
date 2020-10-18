@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +24,7 @@ public class Nurse_Newdata extends AppCompatActivity {
     static final String Nurse="nurse"; //database table name
     SQLiteDatabase db;
     String createTable;
-
+    boolean canSee;
     EditText edt_id,edt_name,edt_pas1,edt_pas2;
     TextView textView7;
     int flag;
@@ -35,6 +38,24 @@ public class Nurse_Newdata extends AppCompatActivity {
         edt_pas1=findViewById(R.id.edt_pas1);
         edt_pas2=findViewById(R.id.edt_pas2);
         textView7=findViewById(R.id.textView7);
+        ImageButton button = (ImageButton) findViewById(R.id.change);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //通过全局的一个变量的设置，这个就是判断控件里面的内容是不是能被看到
+                if (canSee == false) {
+                    //如果是不能看到密码的情况下，
+                    edt_pas1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    edt_pas2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    canSee = true;
+                } else {
+                    //如果是能看到密码的状态下
+                    edt_pas1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    edt_pas2.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    canSee = false;
+                }
+            }
+        });
     }
     public void back(View v){
         Intent i=new Intent(this,Menu.class);
@@ -44,6 +65,7 @@ public class Nurse_Newdata extends AppCompatActivity {
     public void onclick(View v){
         Boolean iId;
         String pas1,eId;
+        String name=edt_name.getText().toString();
         pas1=edt_pas1.getText().toString();
         flag=pas1.compareTo(edt_pas2.getText().toString());
 
@@ -61,10 +83,9 @@ public class Nurse_Newdata extends AppCompatActivity {
             //判別是不是空
             textView7.setText("密碼必須數入");
         }
-
         else if(flag==0&&flag_2!=2 ){
-            pas1=pas1.toLowerCase();//讓密碼統一都是小寫
-            addData(edt_name.getText().toString(),eId,pas1,1);
+            //pas1=pas1.toLowerCase();//讓密碼統一都是小寫
+            addData(name,eId,pas1,1);
             db.close();
             Intent i=new Intent(this,Menu.class);
             startActivity(i);
@@ -84,6 +105,21 @@ public class Nurse_Newdata extends AppCompatActivity {
         return true;
     }
 
+    public void show_pas(View v){
+        //通过全局的一个变量的设置，这个就是判断控件里面的内容是不是能被看到
+        if (canSee == false) {
+            //如果是不能看到密码的情况下，
+            edt_pas1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            edt_pas2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            canSee = true;
+        }
+        else {
+            //如果是能看到密码的状态下
+            edt_pas1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            edt_pas2.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            canSee = false;
+        }
+    }
 
     private int searchData(String str1,int flag) //判別是否已經有此資料了
     {

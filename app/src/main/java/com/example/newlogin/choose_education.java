@@ -27,10 +27,11 @@ public class choose_education extends AppCompatActivity {
     static final String Patient="patient"; //database table name
     TextView kindney_reason_date,kindney_reason_grade;
     TextView kindney_function_date,kindney_function_grade;
+    Button kindney_function,What_is_chronic_kidney_disease;
     Cursor cu;
     String nurseID;
+    int pad=0;
     String id;
-    Button kindney_function,kidney_reason;
     //String exam_id="kidney_reason"+id+count;
 
     @Override
@@ -40,17 +41,19 @@ public class choose_education extends AppCompatActivity {
         kindney_reason_date=findViewById(R.id.What_is_chronic_kidney_disease_date);
         kindney_reason_grade=findViewById(R.id.What_is_chronic_kidney_disease_grade);
 
+        kindney_function=findViewById(R.id.kindney_function);
+        What_is_chronic_kidney_disease=findViewById(R.id.What_is_chronic_kidney_disease);
+
         TextView nurse=findViewById(R.id.tex_nurse_name);
-        //kindney_function=findViewById(R.id.btn_1);
-        //kidney_reason=findViewById(R.id.btn_2);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         Intent i=this.getIntent();
         nurseID=i.getStringExtra("nurseID");
+        pad=i.getIntExtra("pad",-1);
         cu = db.rawQuery("SELECT * FROM Nurse WHERE nurse_id='"+nurseID+"' ",null);
         if(cu.getCount()>0) {
             cu.moveToFirst();
             String nurse_name=cu.getString(1);
-            nurse.setText(nurse_name+" _登入中...");
+            nurse.setText(nurse_name+" 登入");
         }
         TextView patient = findViewById(R.id.tex_patient_name);
         id=i.getStringExtra("id");
@@ -62,19 +65,30 @@ public class choose_education extends AppCompatActivity {
         }
         show_kidney_reason( id,"kidney_reason");
         show_kindney_function( id,"kindney_function");
+
         kindney_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String eduaction_name="kindney_function";
-                Intent i=new Intent( choose_education.this,Show_Grade.class);
-                //String nurseID=i.getStringExtra("nurseID");
-                //  String id=i.getStringExtra("eid");
-                i.putExtra("nurseID",nurseID);
-                i.putExtra("id",id);
-                i.putExtra("eduaction_name",eduaction_name);
-                // i.putExtra("Q_array",Q_array);
-                db.close();
-                startActivity(i);
+                //hendl action here eg
+                Intent intent=new Intent(choose_education.this,Grade.class);
+                intent.putExtra("nurseID",nurseID);
+                intent.putExtra("id",id);
+                intent.putExtra("ed_name_chinese","壹.腎臟估能簡介");
+                intent.putExtra("ed_name_ec","kindney_function");
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        What_is_chronic_kidney_disease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(choose_education.this,Grade.class);
+                intent.putExtra("nurseID",nurseID);
+                intent.putExtra("id",id);
+                intent.putExtra("ed_name_chinese","貳.甚麼是慢性腎臟病");
+                intent.putExtra("ed_name_ec","kidney_reason");
+                startActivity(intent);
                 finish();
             }
         });
@@ -131,11 +145,9 @@ public class choose_education extends AppCompatActivity {
             kindney_function_date.setText("  "+date);
             kindney_function_grade.setText(" "+grade);
         }
-        else {
-            kindney_function_date.setText(" EORROR");
-            kindney_function_grade.setText(" EORROR");
-        }
+
     }
+
     public void show_kidney_reason(String id,String s_p){
         //patient_name LIKE '"+s_p+"%'";
         //String exam_id="kidney_reason"+id+count;
@@ -156,15 +168,13 @@ public class choose_education extends AppCompatActivity {
             kindney_reason_date.setText("  "+date);
             kindney_reason_grade.setText(" "+grade);
         }
-        else {
-            kindney_reason_date.setText(" ERROR!!");
-            kindney_reason_grade.setText(" ERROR!!");
-        }
+
     }
 
     private void insertExam(String exam_id ,String nurse_id,  String patient_id){
-      //  exam_id TEXT, exam_date DateTime, exam_score INT,question_id_1 TEXT,question_id_2 TEXT,question_id_3 TEXT,question_id_4 TEXT,question_id_5 TEXT, patient_id TEXT, nurse_id TEXT
+        //  exam_id TEXT, exam_date DateTime, exam_score INT,question_id_1 TEXT,question_id_2 TEXT,question_id_3 TEXT,question_id_4 TEXT,question_id_5 TEXT, patient_id TEXT, nurse_id TEXT
         // ==格式化
+        int change_data=pad+1;
         SimpleDateFormat nowdate = new java.text.SimpleDateFormat("yyyy-MM-dd");
         //==GMT標準時間往後加八小時
         nowdate.setTimeZone(TimeZone.getTimeZone("GMT+8"));
@@ -176,12 +186,16 @@ public class choose_education extends AppCompatActivity {
         cv.put("exam_score",-1);
         cv.put("patient_id",patient_id);
         cv.put("nurse_id",nurse_id);
+        cv.put("change_data",change_data);
+
         db.insert("Exam", null, cv);
-        Toast.makeText(getApplicationContext(), "成功注冊", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(), "成功注冊", Toast.LENGTH_SHORT).show();
         Cursor c = db.rawQuery("SELECT * FROM Exam",null);
         if(c.getCount()>0) {
             c.moveToFirst();
-            String s = c.getString(0) + "\\n" + c.getString(1) + "\\n" + c.getString(2) + "\\n"+c.getString(3) + "\\n"+c.getString(4) + "\\n";
+
+
+            String s = c.getString(0) + "\n" + c.getString(1) + "\n" + c.getString(2) + "\n"+c.getString(3) + "\n"+c.getString(4) + "\n";
         }
     }
 
@@ -194,12 +208,14 @@ public class choose_education extends AppCompatActivity {
         }
         return true;
     }
+
     public  void  back(View v){
         Intent i=new Intent(choose_education.this,Searchlogin.class);
         i.putExtra("nurseID",nurseID);
         startActivity(i);
         finish();
     }
+
     public void onclick(View v){
         AlertDialog dialog=new AlertDialog.Builder(choose_education.this)
                 .setTitle("確定要登出?")
@@ -233,90 +249,181 @@ public class choose_education extends AppCompatActivity {
             e2.printStackTrace();
         }
     }
+
     public void function(View v){
         String Q_array[]=new String[5];
+        Q_array=choi_Q();
         int count=0;//看有幾張考卷了
         cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+"kindney_function"+id+"%'",null);
-        if (cu.getCount()>0){
-            //衛教+後側
+        if (cu.getCount()==1){
             cu.moveToFirst();
             count=cu.getCount();
-            String exam_id="kindney_function"+id+count;//考卷id=衛教資料名+病友id+第幾筆
-            Q_array=choi_Q();
-            insertExam(exam_id ,nurseID, id);
-            Intent i=new Intent( this,kidney_reason.class);
-            //String nurseID=i.getStringExtra("nurseID");
-            //  String id=i.getStringExtra("eid");
-            i.putExtra("nurseID",nurseID);
-            i.putExtra("id",id);
-            i.putExtra("exam_id",exam_id);
-            i.putExtra("Q_array",Q_array);
-            i.putExtra("health_education","壹．腎臟功能簡介.doc.pdf");
-
-            db.close();
-            startActivity(i);
-            finish();
+            if (cu.getInt(2)==-1){
+                go_fronttest_kindney_function(Q_array,count-1);
+            }
+            else {
+                go_backtest_kindney_function(count,Q_array);
+            }
+        }
+        else if (cu.getCount()>1){
+            //衛教+後側
+            int flag=0;
+            count=cu.getCount();
+            int c=count-1;
+            String exam_id="kindney_function"+id+c;
+            flag=judgment_f_or_b(exam_id);
+            if (flag==-1){
+                //去做上次沒做完的後側
+                go_backtest_kindney_function(count-1,Q_array);
+            }
+            else if(flag==2){
+                go_backtest_kindney_function(count,Q_array);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "查無此資料", Toast.LENGTH_SHORT).show();
+            }
         }
         else {
             //前側
-            String exam_id="kindney_function"+id+count;
-            Q_array=choi_Q();
-            insertExam(exam_id ,nurseID, id);
-            Intent i=new Intent( this,fronttest.class);
-            //String nurseID=i.getStringExtra("nurseID");
-            // String id=i.getStringExtra("eid");
-            i.putExtra("nurseID",nurseID);
-            i.putExtra("id",id);
-            i.putExtra("exam_id",exam_id);
-            i.putExtra("health_education","壹．腎臟功能簡介.doc.pdf");
-            i.putExtra("Q_array",Q_array);
-
-            db.close();
-            startActivity(i);
-            finish();
+            go_fronttest_kindney_function(Q_array,count);
         }
     }
+
     public void reason(View v){
         String Q_array[]=new String[5];
+        Q_array=choi_Q();
         int count=0;//看有幾張考卷了
         cu = db.rawQuery("SELECT * FROM Exam WHERE exam_id LIKE '"+"kidney_reason"+id+"%'",null);
-        if (cu.getCount()>0){
-            //衛教+後側
+        if (cu.getCount()==1){
             cu.moveToFirst();
             count=cu.getCount();
-            String exam_id="kidney_reason"+id+count;//考卷id=衛教資料名+病友id+第幾筆
-            Q_array=choi_Q();
-            insertExam(exam_id ,nurseID, id);
-            Intent i=new Intent( this,kidney_reason.class);
-            //String nurseID=i.getStringExtra("nurseID");
-            //  String id=i.getStringExtra("eid");
-            i.putExtra("nurseID",nurseID);
-            i.putExtra("id",id);
-            i.putExtra("exam_id",exam_id);
-            i.putExtra("Q_array",Q_array);
-            i.putExtra("health_education","貳．腎衰竭的原因.doc.pdf");
-            db.close();
-            startActivity(i);
-            finish();
+            if (cu.getInt(2)==-1){
+                go_fronttest_kidney_reason(Q_array,count-1);
+            }
+            else {
+                go_backtest_kidney_reason(count,Q_array);
+            }
         }
+        else if (cu.getCount()>1){
+            //衛教+後側
+            int flag=0;
+            count=cu.getCount();
+            int c=count-1;
+            String exam_id="kidney_reason"+id+c;
+            flag=judgment_f_or_b(exam_id);
+                if (flag==-1){
+                    go_backtest_kidney_reason(count-1,Q_array);
+                }
+                else if(flag==2){
+                    go_backtest_kidney_reason(count,Q_array);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "查無此資料", Toast.LENGTH_SHORT).show();
+                }
+            }
         else {
             //前側
-            String exam_id="kidney_reason"+id+count;
-            Q_array=choi_Q();
-            insertExam(exam_id ,nurseID, id);
-            Intent i=new Intent( this,fronttest.class);
-            //String nurseID=i.getStringExtra("nurseID");
-            // String id=i.getStringExtra("eid");
-            i.putExtra("nurseID",nurseID);
-            i.putExtra("id",id);
-            i.putExtra("exam_id",exam_id);
-            i.putExtra("health_education","貳．腎衰竭的原因.doc.pdf");
-            i.putExtra("Q_array",Q_array);
-
-            db.close();
-            startActivity(i);
-            finish();
+            go_fronttest_kidney_reason(Q_array,count);
         }
     }
-     
+
+    public int  judgment_f_or_b(String exam_id) {
+        int flag=0;//flag=-1 去前一個側驗 flag=2 去做目前得測 flag=-99 找不到資料
+        Cursor cur = db.rawQuery("SELECT * FROM Exam WHERE exam_id = '"+ exam_id +"'",null);
+        if (cur.getCount()>0){
+            cur.moveToFirst();
+            //count=cur.getCount();
+            if (cur.getInt(2)==-1){
+               flag=-1;
+            }
+            else {
+                 flag=2;
+            }
+        }
+        else{
+            flag=-99;
+            Toast.makeText(getApplicationContext(), "查無此資料", Toast.LENGTH_SHORT).show();
+        }
+        return flag;
+    }
+
+    public void go_backtest_kidney_reason(int count,String[] Q_array){
+        //衛教+後側
+        cu.moveToFirst();
+        count=cu.getCount();
+        String exam_id="kidney_reason"+id+count;//考卷id=衛教資料名+病友id+第幾筆
+       // Q_array=choi_Q();
+        insertExam(exam_id ,nurseID, id);
+        Intent i=new Intent( this,kidney_reason.class);
+        //String nurseID=i.getStringExtra("nurseID");
+        //  String id=i.getStringExtra("eid");
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("pad",pad);
+        i.putExtra("id",id);
+        i.putExtra("exam_id",exam_id);
+        i.putExtra("Q_array",Q_array);
+        db.close();
+        startActivity(i);
+        finish();
+    }
+
+    public void go_fronttest_kidney_reason(String[] Q_array,int count){
+        //前側
+        String exam_id="kidney_reason"+id+count;
+       // Q_array=choi_Q();
+        insertExam(exam_id ,nurseID, id);
+        Intent i=new Intent( this,fronttest.class);
+        //String nurseID=i.getStringExtra("nurseID");
+        // String id=i.getStringExtra("eid");
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
+        i.putExtra("pad",pad);
+        i.putExtra("exam_id",exam_id);
+        i.putExtra("health_education","kidney_reason");
+        i.putExtra("Q_array",Q_array);
+
+        db.close();
+        startActivity(i);
+        finish();
+    }
+    //kindney_function
+    public void go_backtest_kindney_function(int count,String[] Q_array){
+        //衛教+後側
+        cu.moveToFirst();
+        count=cu.getCount();
+        String exam_id="kindney_function"+id+count;//考卷id=衛教資料名+病友id+第幾筆
+        // Q_array=choi_Q();
+        insertExam(exam_id ,nurseID, id);
+        Intent i=new Intent( this,kindney_function.class);
+        //String nurseID=i.getStringExtra("nurseID");
+        //  String id=i.getStringExtra("eid");
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
+        i.putExtra("pad",pad);
+        i.putExtra("exam_id",exam_id);
+        i.putExtra("Q_array",Q_array);
+        db.close();
+        startActivity(i);
+        finish();
+    }
+
+    public void go_fronttest_kindney_function(String[] Q_array,int count){
+        //前側
+        String exam_id="kindney_function"+id+count;
+        // Q_array=choi_Q();
+        insertExam(exam_id ,nurseID, id);
+        Intent i=new Intent( this,fronttest.class);
+        //String nurseID=i.getStringExtra("nurseID");
+        // String id=i.getStringExtra("eid");
+        i.putExtra("nurseID",nurseID);
+        i.putExtra("id",id);
+        i.putExtra("pad",pad);
+        i.putExtra("exam_id",exam_id);
+        i.putExtra("health_education","kindney_function");
+        i.putExtra("Q_array",Q_array);
+
+        db.close();
+        startActivity(i);
+        finish();
+    }
 }

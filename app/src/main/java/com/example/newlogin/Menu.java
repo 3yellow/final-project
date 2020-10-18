@@ -126,7 +126,7 @@ public class Menu extends AppCompatActivity {
                     staue="離職";
 
                 }
-                String text=cu.getString(1)+"\t\t"+cu.getString((0))+"\t\t\t"+staue;
+                String text=cu.getString(1)+"\t\t\t\t"+cu.getString((0))+"\t\t\t"+staue;
                 id_array.add(cu.getString(0));//這是要判斷用來存陣列的，要讓修改去抓的，存id;
                 namee=cu.getString(0);
                 idd=cu.getString(1);
@@ -137,9 +137,9 @@ public class Menu extends AppCompatActivity {
                 //  final ScrollView sc=new ScrollView(this);
                 // sc.setLayoutParams(new LinearLayout.LayoutParams(560,540));
                 r.setLayoutParams(new TableRow.LayoutParams(1520,80));
-                button.setLayoutParams(new TableRow.LayoutParams(684,80));
+                button.setLayoutParams(new TableRow.LayoutParams(824,80));
 
-                btn_modify.setLayoutParams(new TableRow.LayoutParams(120,80));
+                btn_modify.setLayoutParams(new TableRow.LayoutParams(60,80));
                 btn_modify.setId(i);
                 button.setId(i);
                 r.setId(i);
@@ -347,9 +347,5 @@ public class Menu extends AppCompatActivity {
             e2.printStackTrace();
         }
     }
-    public void back(View v){
-        Intent i=new Intent(this,Backstage_main.class);
-        startActivity(i);
-        finish();
-    }
+
 }
