@@ -53,7 +53,7 @@ public class fronttest extends AppCompatActivity {
         if(c.getCount()>0) {
             c.moveToFirst();
             int j=c.getCount();
-            Q=new int [j];
+            /*Q=new int [j];
             for (int k=0;k<5;k++){
                 //隨機產生五個數字，用來抓題目
                 //題目id是1 2 3 4...
@@ -76,7 +76,7 @@ public class fronttest extends AppCompatActivity {
                 String s = "1"+c.getString(1) + "\n" + c.getString(3) + "\n" + c.getString(4) + "\n" + c.getString(5) + "\n" + c.getString(6) + "\n";
                 Que.setTextSize(30);
                 Que.setText(s);//題目
-            }
+            }*/
         }
 
 
@@ -87,12 +87,12 @@ public class fronttest extends AppCompatActivity {
         health_education=intent.getStringExtra("health education");
         score=intent.getIntExtra("score",0);
         count=intent.getIntExtra("count",0);
-        int c=Integer.valueOf(count);;
+        //int c=Integer.valueOf(count);;
         Q_array=intent.getStringArrayExtra("Q_array");
-        q_id=Q_array[c];
+        //q_id=Q_array[c];
 
 
-            @Override
+            /*@Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // TODO Auto-generated method stub
                 RadioButton tempButton = (RadioButton) findViewById(checkedId); // 通过RadioGroup的findViewById方法，找到ID为checkedID的RadioButton
@@ -103,7 +103,7 @@ public class fronttest extends AppCompatActivity {
                 if (tempButton.getText() == Choi[4])
                     result = true;
                 else
-                    result = false;
+                    result = false;*/
 
         String sql = "SELECT * FROM Question WHERE question_id = '"+ q_id +"'"; //我在上一個傳給你的城市中有寫感生亂數，用那個亂數的改count，因為這個count 主要的功能是既屬第幾題
         cu = db.rawQuery( sql,null );
@@ -118,13 +118,13 @@ public class fronttest extends AppCompatActivity {
             for (int i = 0;i < 4 ; i++){
                 Choi[i]=cu.getString(i+3);//拿到存在資料庫中的選項
             }
-            for (int i = 0; i < 4; i++) {
+            /*for (int i = 0; i < 4; i++) {
                 RadioButton tempButton = new RadioButton(this);
                 tempButton.setPadding(40, 0, 0, 0);                 // 设置文字距离按钮四周的距离
                 tempButton.setText(Choi[i]);
                 tempButton.setTextSize(1,30);
                 ans.addView(tempButton, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            }
+            }*/
             ans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
                 @Override

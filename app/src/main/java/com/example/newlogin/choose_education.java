@@ -41,8 +41,8 @@ public class choose_education extends AppCompatActivity {
         kindney_reason_grade=findViewById(R.id.What_is_chronic_kidney_disease_grade);
 
         TextView nurse=findViewById(R.id.tex_nurse_name);
-        kindney_function=findViewById(R.id.btn_1);
-        kidney_reason=findViewById(R.id.btn_2);
+        //kindney_function=findViewById(R.id.btn_1);
+        //kidney_reason=findViewById(R.id.btn_2);
         db = openOrCreateDatabase("DBS", Context.MODE_PRIVATE, null);//創建資料庫  "dbs"
         Intent i=this.getIntent();
         nurseID=i.getStringExtra("nurseID");
