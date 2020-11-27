@@ -209,6 +209,7 @@ public class nurse_modify extends AppCompatActivity {
         cv.put("nurse_name", name);
         cv.put("nurse_password", pas);
         cv.put("nurse_authority", staue);
+        cv.put("change_data", 2);
         //如果是修改
         String whereClause = "nurse_id = ?";
         String whereArgs[] = {id};

@@ -139,6 +139,7 @@ public class Nurse_Newdata extends AppCompatActivity {
         cv.put("nurse_id",id);
         cv.put("nurse_password",pas);
         cv.put("nurse_authority",staue);//1:表示有正常 0:保釋停權
+        cv.put("change_data",1);
         db.insert(Nurse,null,cv);
     }
 
